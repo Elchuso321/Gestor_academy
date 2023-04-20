@@ -2,16 +2,40 @@ version: '3'
 
 services:
   db:
-    image: postgres:13-alpine
+    container_name: '${APP_NAME}-db'
+    image: postgres
     restart: always
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - db_data:/var/lib/postgresql/data/
+      - ./data/:/var/lib/postgresql/data/
     ports:
       - "${DB_PORT}:5432"
- 
-volumes:
-  db_data:
+  client:
+    container_name: '${APP_NAME}-client'
+    build: ./docker/react
+    restart: always
+    volumes:
+      - ./fronted:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'
+  server:
+    container_name: '${APP_NAME}-server'
+    build: ./docker/django
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_HOST: '${APP_NAME}-db'
+      POSTGRES_PORT: ${DB_PORT}    
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+   

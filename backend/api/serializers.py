@@ -1,6 +1,7 @@
 
 from rest_framework import serializers
 from api.models import Profesor
+
 class ProfesorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Profesor

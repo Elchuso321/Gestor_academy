@@ -8,7 +8,7 @@ router=routers.DefaultRouter()
 router.register(r'profesor',ProfesorViewSet)
 # from .views import AlumnoView
 urlpatterns = [
-    # path('companies/',AlumnoView.as_view(),name='alumno_views'),
     path('',include(router.urls))
+    # path('companies/',AlumnoView.as_view(),name='alumno_views'),
 
 ]

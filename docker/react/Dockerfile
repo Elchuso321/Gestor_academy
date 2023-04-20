@@ -1,24 +1,13 @@
-# Usa la imagen de Node.js 16 como base
-FROM node:16
+FROM 	node
 
-# Establece el directorio de trabajo en /usr/src/app/front
-WORKDIR /usr/src/app/front
+LABEL 	"IvanDeLaPoza" "5593312@alu.murciaeduca.es"
+	
+EXPOSE 	5173
 
-# Copia el archivo package.json a la imagen
-COPY package.json .
+WORKDIR	/app
 
-# Instala las dependencias
-RUN npm install
+COPY 	. .
 
-# Copia todo el contenido del directorio actual al directorio de trabajo
-COPY . .
+RUN yarn install
 
-# Compila la aplicación
-RUN npm run build
-
-# Expone el puerto 3000
-EXPOSE 3000
-
-# Configura el comando predeterminado que se ejecutará cuando se inicie el contenedor
-CMD ["npm", "start"]
-
+ENTRYPOINT [ "yarn", "dev", "--host"]
