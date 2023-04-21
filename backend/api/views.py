@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.views import View
 from .models import  Profesor
+from .models import Alumno,Asignatura,Horario,Evento
 # ,Alumno,Asignatura
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -12,6 +13,11 @@ from api.serializers import ProfesorSerializer
 class ProfesorViewSet(viewsets.ModelViewSet):
     queryset=Profesor.objects.all()
     serializer_class=ProfesorSerializer
+
+class AlumnoViewSet(viewsets.ModelViewSet):
+    queryset=Alumno.objects.all()
+    serializer_class=ProfesorSerializer
+
 
     
 # class AlumnoView(View):

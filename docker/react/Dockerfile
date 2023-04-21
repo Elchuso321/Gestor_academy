@@ -1,13 +1,17 @@
-FROM 	node
+FROM node
 
-LABEL 	"IvanDeLaPoza" "5593312@alu.murciaeduca.es"
+LABEL 	"GinesSaez" "2029469@alu.murciaeduca.es"
 	
 EXPOSE 	5173
 
 WORKDIR	/app
 
 COPY 	. .
-
 RUN yarn install
+
+RUN yarn add react-router-dom
+
+
+
 
 ENTRYPOINT [ "yarn", "dev", "--host"]

@@ -14,7 +14,7 @@ from django.db import models
 class Alumno(models.Model):
     nombre = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    correo_electronico = models.EmailField(null=True)
+    email = models.EmailField(null=True)
 
 
 class Asignatura(models.Model):

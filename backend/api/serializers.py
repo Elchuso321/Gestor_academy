@@ -5,4 +5,9 @@ from api.models import Profesor
 class ProfesorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Profesor
-        fields=['nombre','apellidos']
+        fields=['nombre','apellidos','email']
+
+class ProfesorSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model=Profesor
+        fields=['nombre','apellidos','email']
