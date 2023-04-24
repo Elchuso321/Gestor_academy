@@ -1,6 +1,9 @@
 .env.example
 .env
+makefile.example
+makeffile.example
 data
 backend/static
 backend/media
 backend/core/migrations
+comandos

@@ -7,9 +7,12 @@ EXPOSE 	5173
 WORKDIR	/app
 
 COPY 	. .
+#yarn cache clean && \
 RUN yarn install
 
-RUN yarn add react-router-dom
+RUN yarn add react-router-dom && \
+    yarn add react-icons && \
+    yarn add @fortawesome/react-fontawesome
 
 
 

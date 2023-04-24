@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom/client'
 // Componentes
 
 import {BrowserRouter} from 'react-router-dom'
-import { Login } from './componenetes/Login'
+
 // import './index.css';
-// import { Inicio, InicioRoute } from './componenetes/InicioRoute';
+import { InicioRoute } from './componenetes/Basico/InicioRoute';
 ReactDOM.createRoot(document.getElementById('root')).render(
   //<React.StrictMode>
   <BrowserRouter>

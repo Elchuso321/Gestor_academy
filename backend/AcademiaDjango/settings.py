@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'corsheaders',
+    'django_extensions',
+    
 ]
 #  pip install djangorestframework
 #  pip install django-cors-headers
