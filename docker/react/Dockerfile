@@ -9,8 +9,7 @@ WORKDIR    /app
 COPY     . .
 
 
-RUN yarn cache clean && \
-    yarn install
+RUN yarn install
 
 #RUN yarn add react-router-dom && \
 #    yarn add react-icons && \

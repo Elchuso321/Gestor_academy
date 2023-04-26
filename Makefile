@@ -20,3 +20,5 @@ bash-server:
 	docker exec -it ${APP_NAME}-server /bin/bash
 bash-database:
 	docker exec -it ${APP_NAME}-db /bin/bash
+bash-php:
+	docker exec -it ${APP_NAME}-phpmyadmin /bin/bash

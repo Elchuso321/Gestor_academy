@@ -1,9 +1,14 @@
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
+class Academia(models.Model):
+    nombre=models.CharField(max_length=50)
+    def __str__(self):
+        return f'{self.nombre}'
 class Asignatura(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField()
+    academia=models.ForeignKey(Academia, on_delete=models.CASCADE,null=True)
     def __str__(self):
         return f'{self.nombre}'
 class Profesor(models.Model):
@@ -52,18 +57,3 @@ class Horario(models.Model):
     def __str__(self):
         return f'{self.asignatura}'
 
-
-# class ProfesorAsignatura(models.Model):
-#     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
-#     asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return f'{self.profesor} - {self.asignatura}'
-# class AlumnoAsignatura(models.Model):
-#     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-#     asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return f'{self.alumno} - {self.asignatura}'
-class Academia(models.Model):
-    nombre=models.CharField(max_length=50)
-    def __str__(self):
-        return f'{self.nombre}'

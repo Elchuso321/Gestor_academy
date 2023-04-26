@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_extensions',
-    
 ]
 #  pip install djangorestframework
 #  pip install django-cors-headers
@@ -85,14 +84,24 @@ WSGI_APPLICATION = 'AcademiaDjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': config('POSTGRES_HOST'),
+#         'PORT': config('POSTGRES_PORT'),
+#         'USER': config('POSTGRES_USER'),
+#         'PASSWORD': config('POSTGRES_PASSWORD'),
+#         'NAME': config('POSTGRES_DB'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': config('POSTGRES_HOST'),
-        'PORT': config('POSTGRES_PORT'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'NAME': config('POSTGRES_DB'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': config('MYSQL_HOST'),
+        'PORT': config('MYSQL_PORT'), 
+        'USER': config('MYSQL_USER'),
+        'PASSWORD': config('MYSQL_PASSWORD'),
+        'NAME': config('MYSQL_DATABASE'),
     }
 }
 
