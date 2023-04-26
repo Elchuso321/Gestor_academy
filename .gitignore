@@ -7,3 +7,4 @@ backend/static
 backend/media
 backend/core/migrations
 comandos
+frontend/node_modules

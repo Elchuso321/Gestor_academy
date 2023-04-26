@@ -18,7 +18,7 @@ services:
     build: ./docker/react
     restart: always
     volumes:
-      - ./fronted:/app
+      - ./frontend:/app
       - /app/node_modules
     ports:
       - '5173:5173'
@@ -31,7 +31,8 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_HOST: '${APP_NAME}-db'
-      POSTGRES_PORT: ${DB_PORT}    
+      POSTGRES_PORT: ${DB_PORT}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}    
     volumes:
       - ./backend:/usr/src/app
     ports:

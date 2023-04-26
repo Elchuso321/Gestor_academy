@@ -1,20 +1,26 @@
 FROM node
 
-LABEL 	"GinesSaez" "2029469@alu.murciaeduca.es"
-	
-EXPOSE 	5173
+LABEL     "GinesSaez" "2029469@alu.murciaeduca.es"
 
-WORKDIR	/app
+EXPOSE     5173
 
-COPY 	. .
-#yarn cache clean && \
-RUN yarn install
+WORKDIR    /app
 
-RUN yarn add react-router-dom && \
-    yarn add react-icons && \
-    yarn add @fortawesome/react-fontawesome
+COPY     . .
+
+
+RUN yarn cache clean && \
+    yarn install
+
+#RUN yarn add react-router-dom && \
+#    yarn add react-icons && \
+#    yarn add @fortawesome/react-fontawesome && \
+#    yarn global add react-big-calendar moment && \
+#    yarn add axios 
 
 
 
 
 ENTRYPOINT [ "yarn", "dev", "--host"]
+
+#yarn cache clean && \

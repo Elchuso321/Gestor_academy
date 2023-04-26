@@ -16,7 +16,9 @@ pip install --no-cache-dir -r requirements.txt && \
 pip install djangorestframework && \
 pip install django-cors-headers && \
 pip install psycopg2 && \
-pip install python-decouple
+pip install python-decouple && \
+pip install djangorestframework-simplejwt
+
 
 
 
