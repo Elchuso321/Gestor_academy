@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { NavbarProfesor } from './NavbarProfesor'
+import { LoginForm } from '../conexion/login/LoginComponente'
 // import SignUp from '../register'
 
 export const HomeProfesor=()=>{
@@ -11,7 +12,7 @@ export const HomeProfesor=()=>{
         </div>
         <div>
         <h4>hola</h4>
-        {/* <SignUp/> */}
+         <LoginForm/> 
         </div>
 
 

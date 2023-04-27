@@ -14,6 +14,7 @@ import ImageAndText from '../Generico/Image&Text'
 import CarouselComponent from '../Generico/Carrousel'
 import { NavbarAlumnos } from './NavbarAlumno'
 import { Tabla } from '../Generico/Tabla'
+import { LogOut } from '../conexion/logout/logout'
 // import { MiCalendario } from '../Generico/CalendarioMuestra'
 export const HomeAlumno=()=>{
 
@@ -47,6 +48,7 @@ export const HomeAlumno=()=>{
         {/* <Tabla props={diccionario}/> */}
         {/* <MiCalendario/> */}
         </div>
+        <LogOut/>
 
 
         </>

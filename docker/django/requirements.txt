@@ -10,3 +10,6 @@ python-decouple
 django_extensions
 djangorestframework-simplejwt
 mysqlclient
+django-allauth
+django-rest-auth
+

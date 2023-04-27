@@ -16,7 +16,7 @@ export const NavbarAlumnos = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
             <Nav>
-                <Nav.Link exact as={Link} to="/" style={{color: 'blue'}}>
+                <Nav.Link as={Link} to="/" style={{color: 'blue'}}>
                   Inicio
                 </Nav.Link>
                 <Nav.Link as={Link} to="/alumnos" style={{color: 'blue'}}>

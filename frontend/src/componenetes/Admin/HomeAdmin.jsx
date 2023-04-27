@@ -1,7 +1,6 @@
-
-
 import React from 'react'
 import { NavbarAdmin } from './NavbarAdmin'
+import { RegisterForm } from '../conexion/register/RegisterComponente'
 
 export const HomeAdmin=()=>{
     return(
@@ -11,6 +10,7 @@ export const HomeAdmin=()=>{
         </div>
         <div>
         <h4>hola</h4>
+        <RegisterForm/>
         </div>
 
 
