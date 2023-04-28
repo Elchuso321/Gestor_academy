@@ -15,6 +15,7 @@ import CarouselComponent from '../Generico/Carrousel'
 import { NavbarAlumnos } from './NavbarAlumno'
 import { Tabla } from '../Generico/Tabla'
 import { LogOut } from '../conexion/logout/logout'
+import { DatosAlumno } from '../conexion/datos/AlumnoDatos'
 // import { MiCalendario } from '../Generico/CalendarioMuestra'
 export const HomeAlumno=()=>{
 
@@ -45,10 +46,11 @@ export const HomeAlumno=()=>{
         </div>
         <div>
         <h4>hola</h4>
+        <DatosAlumno/>
         {/* <Tabla props={diccionario}/> */}
         {/* <MiCalendario/> */}
         </div>
-        <LogOut/>
+        {/* <LogOut/> */}
 
 
         </>

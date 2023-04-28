@@ -16,7 +16,7 @@ class AlumnoUserWritePermisions(BasePermission):
 ##########FIN DE PERMISOS ####
 # Esta es para un elemento en particular y crear
 class AlumnoList(generics.ListCreateAPIView):
-    # permission_classes=[AllowAny]
+    permission_classes=[AllowAny]
     queryset=Alumno.objects.all()
     # tambien se puede elegir solo un elemento de ese elemtnot
     serializer_class=AlumnoSerializer
@@ -25,11 +25,12 @@ class AlumnoList(generics.ListCreateAPIView):
 
 # si pongo RetrieveAPIViews en lugar de RetrieveDestroyAPIViews no lo puede destruir solo ver
 # despues de lo que pongas despues de generics. es lo que tiene permitido hacer esta funcion:  Retrieve es ver ,Update es modificar y Destroy es borrar
+# AlumnoUserWritePermisions
 class AlumnoDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes=[AlumnoUserWritePermisions]
+    permission_classes=[AllowAny]
     queryset=Alumno.objects.all()
     # tambien se puede elegir solo un elemento de ese elemtnot
     serializer_class=AlumnoSerializer
     pass
 
-
+# le he 

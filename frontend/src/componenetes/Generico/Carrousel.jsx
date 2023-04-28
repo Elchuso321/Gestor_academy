@@ -24,21 +24,25 @@ const images = [
 
 const CarouselComponent = () => {
   return (
-    <Carousel>
-      {images.map((image, index) => (
-        <Carousel.Item key={index}>
-          <img
-            className="d-block w-100"
-            src={image.src}
-            alt={image.alt}
-          />
-          <Carousel.Caption>
-            <h3>{image.title}</h3>
-            <p>{image.description}</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      ))}
-    </Carousel>
+    // <div className="d-flex align-items-center justify-content-center vh-100">
+    //   <div className="container col-md-10">
+      <Carousel>
+        {images.map((image, index) => (
+          <Carousel.Item key={index}>
+            <img
+              className="d-block w-100"
+              src={image.src}
+              alt={image.alt}
+            />
+            <Carousel.Caption>
+              <h3>{image.title}</h3>
+              <p>{image.description}</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+  //   </div>
+  // </div>
   );
 };
 

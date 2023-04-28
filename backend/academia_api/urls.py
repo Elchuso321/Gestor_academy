@@ -9,8 +9,8 @@ app_name = 'blog_api'
 
 urlpatterns = [
     # para ver un elemento de la lista
-    path('<int:pk>',AlumnoDetail.as_view(),name="detailcreate"),
+    path('alumnos/<int:pk>/',AlumnoDetail.as_view(),name="detailcreate"),
     # para ver todos los elementos de la lista
-    path('',AlumnoList.as_view(),name="listcreate"),
+    path('alumnos/',AlumnoList.as_view(),name="listcreate"),
 
 ]

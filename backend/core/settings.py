@@ -141,7 +141,7 @@ REST_FRAMEWORK={
 CORS_ORIGIN_ALLOW_ALL = True
 
 # CORS_ALLOWED_ORIGINS=[
-#     "https://localhost:5173/"
+#     "https:127.0.0.1:5173"
 # ]
 
 
