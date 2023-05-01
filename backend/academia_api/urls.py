@@ -1,16 +1,16 @@
-from django.contrib import admin
-from django.urls import path,include
-from django.views.generic import TemplateView
-###########
-from .views import AlumnoDetail,AlumnoList
+from django.urls import path
+from . import views
+from .views import MyTokenObtainPairView
 
-app_name = 'blog_api'
-
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+    TokenObtainPairView,
+)
 
 urlpatterns = [
-    # para ver un elemento de la lista
-    path('alumnos/<int:pk>/',AlumnoDetail.as_view(),name="detailcreate"),
-    # para ver todos los elementos de la lista
-    path('alumnos/',AlumnoList.as_view(),name="listcreate"),
+    path('', views.getRoutes),
+    path('notes/', views.getNotes),
 
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

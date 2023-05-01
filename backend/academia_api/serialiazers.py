@@ -1,12 +1,8 @@
+from rest_framework.serializers import ModelSerializer
+from academia.models import Academia
 
-from rest_framework import serializers
-from academia.models import Alumno
 
-
-class AlumnoSerializer(serializers.ModelSerializer):
+class AcademiaSerializer(ModelSerializer):
     class Meta:
-        model=Alumno
-        fields=("usuario","nombre","apellidos","email","asignaturas")
-
-
-        
+        model = Academia
+        fields = '__all__'

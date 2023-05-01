@@ -1,36 +1,79 @@
-from rest_framework import generics
-from academia.models import Alumno
-from .serialiazers import AlumnoSerializer
-#####PERMISOS
-from rest_framework.permissions import IsAdminUser,IsAuthenticated,AllowAny,DjangoModelPermissionsOrAnonReadOnly,BasePermission,SAFE_METHODS
-# DjangoModelPermissionsOrAnonReadOnly=es para los permisos que tiene ese usuario en nuestra base de datos
-class AlumnoUserWritePermisions(BasePermission):
-    message='Editing alumnos is restricted to the admin only'
-    def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS:
-            return True
-        return obj.user == request.user
+from django.http import JsonResponse
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+from academia_api.serialiazers import AcademiaSerializer
+from academia.models import Academia
 
 
 
-##########FIN DE PERMISOS ####
-# Esta es para un elemento en particular y crear
-class AlumnoList(generics.ListCreateAPIView):
-    permission_classes=[AllowAny]
-    queryset=Alumno.objects.all()
-    # tambien se puede elegir solo un elemento de ese elemtnot
-    serializer_class=AlumnoSerializer
-    pass
-# Este es oara la lista entera o para borrar
 
-# si pongo RetrieveAPIViews en lugar de RetrieveDestroyAPIViews no lo puede destruir solo ver
-# despues de lo que pongas despues de generics. es lo que tiene permitido hacer esta funcion:  Retrieve es ver ,Update es modificar y Destroy es borrar
-# AlumnoUserWritePermisions
-class AlumnoDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes=[AllowAny]
-    queryset=Alumno.objects.all()
-    # tambien se puede elegir solo un elemento de ese elemtnot
-    serializer_class=AlumnoSerializer
-    pass
 
-# le he 
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        email = attrs.get("email")
+        password = attrs.get("password")
+
+        if email and password:
+            user = authenticate(
+                request=self.context.get("request"),
+                username=email,
+                password=password,
+            )
+            if not user:
+                msg = _("No se pudo autenticar con las credenciales proporcionadas.")
+                raise serializers.ValidationError(msg, code="authorization")
+        else:
+            msg = _("Las credenciales de autenticación no fueron proporcionadas.")
+            raise serializers.ValidationError(msg, code="authorization")
+
+        refresh = self.get_token(user)
+        data = {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }
+        return data
+
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def get_token(cls, user):
+#         token = super().get_token(user)
+#         # Add custom claims
+#         token['username'] = user.username
+#         # ...
+
+#         return token
+
+
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+@api_view(['GET'])
+def getRoutes(request):
+    routes = [
+        '/api/token',
+        '/api/token/refresh',
+    ]
+    return Response(routes)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getNotes(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    academia=Academia.objects.all()
+    serializer = AcademiaSerializer(academia, many=True)
+    return Response(serializer.data)
