@@ -12,6 +12,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - ./data/:/var/lib/mysql/
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1s
+      retries: 60
     ports:
       - "${DB_PORT}:3306"
   client:
@@ -19,8 +23,8 @@ services:
     build: ./docker/react
     restart: always
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - './frontend/src/:/app/src'
+      - './frontend/index.html:/app/index.html'
     ports:
       - '5173:5173'
   server:
@@ -33,20 +37,27 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
-      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}    
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_CORREO_PASSW: ${DJANGO_CORREO_PASSW}
+      DJANGO_CORREO: ${DJANGO_CORREO}    
     volumes:
       - ./backend:/usr/src/app
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   phpmyadmin:
     container_name: '${APP_NAME}-phpmyadmin'
     image: phpmyadmin/phpmyadmin
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       PMA_HOST: ${DB_HOSTDB}
       PMA_PORT: ${DB_PORT}
       PMA_ARBITRARY: 1
     ports:
       - '8080:80'
+
 

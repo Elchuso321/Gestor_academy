@@ -1,8 +1,9 @@
 // import React from 'react'
 
 import {Link, NavLink} from "react-router-dom"
+import { NavbarBasic } from "./NavbarBasic";
 
-import { Navbar1 } from "./NavbarBasic";
+// import { Navbar1 } from "./NavbarBasic";
 
 // export const Inicio=()=>{
 //     return(
@@ -49,7 +50,7 @@ export const Inicio=()=>{
           <link rel="alternate" type="text/xml+oembed" href="https://oxford-academy.es/wp-json/oembed/1.0/embed?url=https%3A%2F%2Foxford-academy.es%2F&format=xml" />
           <style type="text/css" dangerouslySetInnerHTML={{__html: "\n\t\t\t\t#main-content .widgettitle {\n\t\t\t\t\tfont-size: 14px!important;\n\t\t\t\t\tfont-weight: 700!important;\n\t\t\t\t\tcolor: #ffd200!important;\n\t\t\t\t\tbackground: #151515!important;\n\t\t\t\t\ttext-transform: uppercase!important;\n\t\t\t\t}\n\t\t\t\t#main-content .et_pb_widget li.cat-item a:before {\n\t\t\t\t\tborder-color: #ffd200!important;\n\t\t\t\t}\t\t\n\t\t\t\t\t\t\t\n\t\t\t" }} />
           <style type="text/css" dangerouslySetInnerHTML={{__html: " \t\t\t.free-du-blog-1 .free-blog-related-posts .et_pb_post {\n\t\t\t\tborder-radius: 15px!important;\n\t\t\t}\n\t\t\t\t\t\n\t\t.free-blog-post-header-custom .free-du-blog-1 .free-blog-post-header-content {\n\t\t\tpadding-top: 42px!important;\n\t\t\tpadding-bottom: 100px!important;\n\t\t\tmax-width: 700px!important;\n\t\t}\n\t\t.free-blog-post-header-custom .free-du-blog-1 .free-blog-post-header-content .entry-title {\n\t\t\ttext-transform: none!important;\n\t\t\tfont-weight: 700!important;\n\t\t}\n\t\t.free-blog-post-header-custom .free-du-blog-1 .free-blog-post-header-content .post-meta {\n\t\t\ttext-transform: none!important;\n\t\t}\n\t\t.free-blog-post-header-custom .free-du-blog-1 .free-blog-post-header-featured {\n\t\t\tfilter: blur(0px)!important;\n\t\t\t-webkit-filter: blur(0px)!important;\n\t\t}\n\t\t.free-blog-post-header-custom .free-du-blog-1 .free-blog-post-header-featured-scale {\n\t\t\ttransform: scale(1.1)!important;\n\t\t}\n\t\t\n\t\t@media screen and (min-width: 622px) {\n\t\t\t.free-blog-post-header-custom .free-du-blog-1 .free-blog-post-header-content .entry-title {\n\t\t\t\tfont-size: 38px!important;\n\t\t\t}\n\t\t}\n\t\t\n\t\t\n\t\t\t\t.free-blog-post-featured-image-custom .free-du-blog-1 .free-blog-post-featured>* {\n\t\t\tmargin-top: -0px!important;\n\t\t\tborder: 0px solid #FFF!important;\n\t\t}\n\t\t\n\t\t\t\t\n\t" }} /> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><link rel="shortcut icon" href="https://oxford-academy.es/wp-content/uploads/2018/05/oxford.jpg" /><link rel="stylesheet" id="et-divi-customizer-global-cached-inline-styles" href="https://oxford-academy.es/wp-content/cache/et/global/et-divi-customizer-global-16791949648407.min.css" onerror="et_core_page_resource_fallback(this, true)" onload="et_core_page_resource_fallback(this)" />
-          <Navbar1/>
+          {/* <NavbarBasic/> */}
           <div id="page-container">
             <header id="main-header" data-height-onload={70}>
               <div className="container clearfix et_menu_container">

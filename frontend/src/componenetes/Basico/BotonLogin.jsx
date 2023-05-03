@@ -1,7 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import LoginPage from '../Ultimo/LoginPage';
+import AuthContext from '../Ultimo/AuthContext';
 // import { Redirect } from 'react-router-dom';
+// import React, {useContext} from 'react'
+// import AuthContext from './AuthContext'
+
 export const LoginBotonBasic = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -11,6 +16,9 @@ export const LoginBotonBasic = () => {
     console.log("ESTOY AQUI")
     //   como redirigir
 }
+  let {loginUser,email,passw,setEmail,setPassw} = useContext(AuthContext)
+  const changeEmail=(e)=> setEmail(e.target.value)
+  const changePassw=(e)=> setPassw(e.target.value)
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
@@ -22,7 +30,19 @@ export const LoginBotonBasic = () => {
           <Modal.Title>Iniciar sesión</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={onSumbitLogin}>
+        
+          <form onSubmit={loginUser}>
+            <div className="form-group">
+              <label htmlFor="email">Correo electrónico</label>
+              <input onChange={(e)=>changeEmail(e)} value={email} type="email" name="username" className="form-control" id="email" placeholder="Ingresa tu correo electrónico" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Contraseña</label>
+              <input onChange={(e)=>changePassw(e)} type="password" value={passw} name="password" className="form-control" id="password" placeholder="Ingresa tu contraseña" />
+            </div>
+          </form>
+          
+          {/* <form onSubmit={onSumbitLogin}>
             <div className="form-group">
               <label htmlFor="email">Correo electrónico</label>
               <input type="email" className="form-control" id="email" placeholder="Ingresa tu correo electrónico" />
@@ -31,13 +51,13 @@ export const LoginBotonBasic = () => {
               <label htmlFor="password">Contraseña</label>
               <input type="password" className="form-control" id="password" placeholder="Ingresa tu contraseña" />
             </div>
-          </form>
+          </form> */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={onSumbitLogin}>
+          <Button variant="primary" onClick={loginUser}>
             Iniciar sesión
           </Button>
         </Modal.Footer>

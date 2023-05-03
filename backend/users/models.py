@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager,Group
 
 
 class CustomAccountManager(BaseUserManager):
@@ -45,7 +45,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     # Aqui lo ponemos a falso para que se cambie cuando le llegue un correo al payo
     is_active = models.BooleanField(default=True)
-
+    groups = models.ManyToManyField(Group)
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'email'

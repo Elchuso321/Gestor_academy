@@ -11,24 +11,45 @@ export const AuthProvider = ({children}) => {
     let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
-
+    let [email,setEmail]=useState("")
+    let [passw,setPassw]=useState("")
     const navigate = useNavigate()
-
-    let loginUser = async (e )=> {
+        
+    let loginUser = async (e)=> {
         e.preventDefault()
+        console.log("HOLA")
         let response = await fetch('http://127.0.0.1:8000/api/token/', {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({'email':e.target.username.value, 'password':e.target.password.value})
+            // body:JSON.stringify({'email':e.target.username.value, 'password':e.target.password.value})
+            body:JSON.stringify({'email':email, 'password':passw})
         })
         let data = await response.json()
-
+        // if(response )
         if(response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
+            
+            let decodedToken = jwt_decode(data.access)
+            console.log(decodedToken)
+            console.log("SALTO")
+            console.log(decodedToken.group)
+            if (decodedToken.group === 'Alumno') {
+                console.log("soy de alumno")
+                // navigate('/admin')
+            } else if (decodedToken.group === 'Profesor') {
+                console.log("soy de profe")
+                // navigate('/user')
+            } else if (decodedToken.group === 'Admin') {
+                console.log("soy admin")
+                // navigate('/user')
+            } else {
+                alert('Unknown group!')
+            }
+
             navigate('/')
         }else{
             alert('Something went wrong!')
@@ -62,8 +83,7 @@ export const AuthProvider = ({children}) => {
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
         }else{
-            alert('Something went wrong!')
-            // logoutUser()
+            //  logoutUser()
         }
 
         if(loading){
@@ -76,6 +96,10 @@ export const AuthProvider = ({children}) => {
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
+        email:email,
+        setEmail:setEmail,
+        passw:passw,
+        setPassw:setPassw,
     }
 
 

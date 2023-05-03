@@ -1,25 +1,25 @@
-FROM node
+FROM 	node
 
-LABEL     "GinesSaez" "2029469@alu.murciaeduca.es"
+LABEL 	"GinesSaez" "2029469@alu.murciaeduca.es"
+	
+EXPOSE 	5173
 
-EXPOSE     5173
+WORKDIR	/
 
-WORKDIR    /app
+RUN yarn create vite app --template react
 
-COPY     . .
+WORKDIR	/app
 
+COPY 	./package.json .
 
-RUN yarn install
+RUN yarn
 
-#RUN yarn add react-router-dom && \
-#    yarn add react-icons && \
-#    yarn add @fortawesome/react-fontawesome && \
-#    yarn global add react-big-calendar moment && \
-#    yarn add axios 
-
+ENTRYPOINT [ "yarn", "dev", "--host" ]
 
 
 
-ENTRYPOINT [ "yarn", "dev", "--host"]
 
+
+#    yarn global add react-big-calendar moment
 #yarn cache clean && \
+

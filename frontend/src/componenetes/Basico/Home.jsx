@@ -1,14 +1,16 @@
 import React from 'react'
-import { Navbar1 } from './NavbarBasic'
+// import { Navbar } from './NavbarBasic'
 import ImageAndText from '../Generico/Image&Text'
 import CarouselComponent from '../Generico/Carrousel'
 // import { FooterBasic } from './Footer'
 import { Footer } from './FooterBasic'
+import { NavbarBasic } from './NavbarBasic'
 
 export const Home=()=>{
     return(
         <>
-        <Navbar1/>
+        {/* <Navbar1/> */}
+        <NavbarBasic/>
         <div>
             <CarouselComponent />
         </div>

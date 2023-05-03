@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { LoginBotonBasic } from "./BotonLogin";
 
-export const Navbar1 = () => {
+export const NavbarBasic = () => {
     return (
         <>
           <Navbar expand="md" variant="light" bg="white" sticky="top" className="fluid">
@@ -31,8 +31,7 @@ export const Navbar1 = () => {
                 </Nav.Link>
               </Nav>
               <Nav>
-                <LoginBotonBasic/>
-                
+                <LoginBotonBasic/>                
               </Nav>
             </Navbar.Collapse>
           </Navbar>
