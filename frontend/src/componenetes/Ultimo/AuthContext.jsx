@@ -1,7 +1,8 @@
 import { createContext, useState, useEffect } from 'react'
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
-
+import HomePage from './HomePage';
+import { Home } from '../Basico/Home';
 const AuthContext = createContext()
 
 export default AuthContext;
@@ -14,7 +15,7 @@ export const AuthProvider = ({children}) => {
     let [email,setEmail]=useState("")
     let [passw,setPassw]=useState("")
     const navigate = useNavigate()
-        
+    const [showModal, setShowModal] = useState(false); 
     let loginUser = async (e)=> {
         e.preventDefault()
         console.log("HOLA")
@@ -36,20 +37,21 @@ export const AuthProvider = ({children}) => {
             let decodedToken = jwt_decode(data.access)
             console.log(decodedToken)
             console.log("SALTO")
+            setShowModal(false);
             console.log(decodedToken.group)
-            if (decodedToken.group === 'Alumno') {
+            if (decodedToken.group === 'Alumnos') {
                 console.log("soy de alumno")
-                // navigate('/admin')
+                // return <Navigate to="/"/>
+                navigate('/alumno/')
             } else if (decodedToken.group === 'Profesor') {
                 console.log("soy de profe")
-                // navigate('/user')
+                navigate('/profesor/')
             } else if (decodedToken.group === 'Admin') {
                 console.log("soy admin")
                 // navigate('/user')
             } else {
                 alert('Unknown group!')
             }
-
             navigate('/')
         }else{
             alert('Something went wrong!')
@@ -100,6 +102,8 @@ export const AuthProvider = ({children}) => {
         setEmail:setEmail,
         passw:passw,
         setPassw:setPassw,
+        showModal:showModal, 
+        setShowModal:setShowModal,
     }
 
 

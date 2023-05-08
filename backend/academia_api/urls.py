@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from academia_api.views import MyTokenObtainPairView,CustomTokenObtainPairView
 
+
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenObtainPairView,
@@ -9,7 +10,9 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('', views.getRoutes),
-    path('notes/', views.getNotes),
+
+    path('academias/', views.getAcademias),
+    
     # esto lo cambia
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

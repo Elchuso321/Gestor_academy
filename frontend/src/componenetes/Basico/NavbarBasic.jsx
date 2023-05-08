@@ -12,7 +12,7 @@ export const NavbarBasic = () => {
           <Navbar expand="md" variant="light" bg="white" sticky="top" className="fluid">
             <Navbar.Brand href="#">
             {/* https://oxford-academy.es/wp-content/uploads/2018/05/oxford.jpg */}
-                <img src="" alt="Oxford Academy" id="logo" className="navbar-brand" style={{maxHeight: '100%', margin: '0px 15px', padding: '0px'}} />
+                <img src="https://oxford-academy.es/wp-content/uploads/2018/05/oxford.jpg" alt="Oxford Academy" id="logo" className="navbar-brand" style={{maxHeight: '100%', margin: '0px 15px', padding: '0px'}} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">

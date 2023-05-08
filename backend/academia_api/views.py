@@ -5,32 +5,24 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-
 from academia_api.serialiazers import AcademiaSerializer
 from academia.models import Academia
 from users.models import NewUser
-
-
-
-
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-
 from rest_framework_simplejwt.views import TokenObtainPairView
-
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
-    def get_token(cls, NewUser):
-        token = super().get_token(NewUser)
-        token['group'] = NewUser.groups.first().name
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['group'] = user.groups.first().name
         return token
 
 
@@ -90,7 +82,7 @@ def getRoutes(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def getNotes(request):
+def getAcademias(request):
     user = request.user
     # esta parte no la entiendo
     # academia = user.academia_set.all()

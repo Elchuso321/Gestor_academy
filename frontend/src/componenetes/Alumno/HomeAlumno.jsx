@@ -41,12 +41,13 @@ export const HomeAlumno=()=>{
       ];
     return(
         <>
+
         <div>
             <NavbarAlumnos/>
         </div>
         <div>
-        <h4>hola</h4>
-        <DatosAlumno/>
+        <h4>ALUMNO</h4>
+        {/* <DatosAlumno/> */}
         {/* <Tabla props={diccionario}/> */}
         {/* <MiCalendario/> */}
         </div>

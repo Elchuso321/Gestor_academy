@@ -6,7 +6,7 @@ const HomePage = () => {
     let {authTokens, logoutUser} = useContext(AuthContext)
 
     let getNotes = async() =>{
-        let response = await fetch('http://127.0.0.1:8000/api/notes/', {
+        let response = await fetch('http://127.0.0.1:8000/api/academias/', {
             method:'GET',
             headers:{
                 'Content-Type':'application/json',

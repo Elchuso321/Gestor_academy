@@ -11,8 +11,8 @@ export const HomeProfesor=()=>{
             <NavbarProfesor/>
         </div>
         <div>
-        <h4>hola</h4>
-         <LoginForm/> 
+        <h4>PROFESOR</h4>
+         {/* <LoginForm/>  */}
         </div>
 
 

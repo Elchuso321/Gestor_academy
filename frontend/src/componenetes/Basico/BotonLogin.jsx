@@ -8,15 +8,14 @@ import AuthContext from '../Ultimo/AuthContext';
 // import AuthContext from './AuthContext'
 
 export const LoginBotonBasic = () => {
-  const [showModal, setShowModal] = useState(false);
-
+  
+  let {loginUser,email,passw,setEmail,setPassw,showModal,setShowModal} = useContext(AuthContext)
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
   const onSumbitLogin=()=>{
     console.log("ESTOY AQUI")
     //   como redirigir
 }
-  let {loginUser,email,passw,setEmail,setPassw} = useContext(AuthContext)
   const changeEmail=(e)=> setEmail(e.target.value)
   const changePassw=(e)=> setPassw(e.target.value)
   return (

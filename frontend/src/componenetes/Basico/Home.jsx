@@ -6,12 +6,23 @@ import CarouselComponent from '../Generico/Carrousel'
 import { Footer } from './FooterBasic'
 import { NavbarBasic } from './NavbarBasic'
 
+import { useNavigate } from 'react-router-dom'
+
+
+
 export const Home=()=>{
+    const navigate1=useNavigate();
+    const onClick1=()=>{
+        navigate1('/alumno/')
+        console.log('click')
+    }
+
     return(
         <>
         {/* <Navbar1/> */}
         <NavbarBasic/>
         <div>
+            <button onClick={onClick1} >Hola</button>
             <CarouselComponent />
         </div>
         <div>

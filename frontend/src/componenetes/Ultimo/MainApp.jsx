@@ -7,6 +7,7 @@ import Header from './Headers'
 import { RegisterForm } from '../conexion/register/RegisterComponente'
 import { NavbarBasic } from '../Basico/NavbarBasic'
 import { Home } from '../Basico/Home'
+import { MainAlumno } from '../Alumno/MainAlumno'
 
 export const App=()=> {
   return (
@@ -18,8 +19,9 @@ export const App=()=> {
           <Routes>
           {/* element={HomePage} */}
             <Route element={<Home />} path="/"/>
+            <Route element={<MainAlumno />} path="/alumno"/>
             <Route element={<LoginPage />} path="/login"/>
-            <Route element={<RegisterForm/>} path="/register"/>
+            {/* <Route element={<MainProfesor/>} path="/profesor"/> */}
           </Routes>
         </AuthProvider>
       </Router>
