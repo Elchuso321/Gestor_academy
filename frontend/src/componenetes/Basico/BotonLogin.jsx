@@ -1,23 +1,75 @@
-
-import React, { useState,useContext } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import LoginPage from '../Ultimo/LoginPage';
 import AuthContext from '../Ultimo/AuthContext';
-// import { Redirect } from 'react-router-dom';
-// import React, {useContext} from 'react'
-// import AuthContext from './AuthContext'
+import jwt_decode from "jwt-decode";
+import React, { useState,useEffect,useContext } from 'react';
+import {useNavigate} from 'react-router-dom'
+
 
 export const LoginBotonBasic = () => {
-  
-  let {loginUser,email,passw,setEmail,setPassw,showModal,setShowModal} = useContext(AuthContext)
+  const navigate = useNavigate()
+  let {authTokens,setAuthTokens,setUser} = useContext(AuthContext)
+  const [showModal, setShowModal] = useState(false); 
+
   const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
-  const onSumbitLogin=()=>{
-    console.log("ESTOY AQUI")
-    //   como redirigir
-}
+  const handleShow = () => {
+    console.log("Me meto en la funcion handleShow")
+    if(authTokens){
+        console.log("authToken_Login:",authTokens)
+        let decodedToken = jwt_decode(authTokens.access)
+        console.log(decodedToken.group)
+        if (decodedToken.group === 'Alumnos') {
+          navigate("/alumno/")
+              
+        } else if (decodedToken.group === 'Profesores') {
+          navigate("/profesor/")
+          
+        } else if (decodedToken.group === 'Admin') {
+          console.log("admin")
+          navigate('/admin/')
+        }
+      }else{
+    setShowModal(true);
+    console.log("Muestro el modal")
+  }}
+  let [email,setEmail]=useState("")
+  let [passw,setPassw]=useState("")
   const changeEmail=(e)=> setEmail(e.target.value)
   const changePassw=(e)=> setPassw(e.target.value)
+
+  let loginUser = async (e)=> {
+    e.preventDefault()
+    let response = await fetch('http://127.0.0.1:8000/api/token/', {
+      method:'POST',
+      headers:{
+          'Content-Type':'application/json'
+      },
+      body:JSON.stringify({'email':email, 'password':passw})
+    })
+    let data = await response.json()
+    if(response.status === 200){
+        setAuthTokens(data)
+        setUser(jwt_decode(data.access))
+        localStorage.setItem('authTokens', JSON.stringify(data))
+        let decodedToken = jwt_decode(data.access)
+        setShowModal(false);
+
+        if (decodedToken.group === 'Alumnos') { 
+          // console.log(decodedToken.username)
+          navigate("/alumno/")
+            
+        } else if (decodedToken.group === 'Profesores') {
+          navigate("/profesor/")
+          
+        } else if (decodedToken.group === 'Admin') {
+          navigate('/admin/')
+        } else {
+            alert('Unknown group!')
+        } 
+    }else{
+        alert('Something went wrong!')
+    }
+}
+
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
@@ -29,7 +81,7 @@ export const LoginBotonBasic = () => {
           <Modal.Title>Iniciar sesión</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        
+          {/* <form onSubmit={loginUser}> */}
           <form onSubmit={loginUser}>
             <div className="form-group">
               <label htmlFor="email">Correo electrónico</label>
@@ -39,27 +91,18 @@ export const LoginBotonBasic = () => {
               <label htmlFor="password">Contraseña</label>
               <input onChange={(e)=>changePassw(e)} type="password" value={passw} name="password" className="form-control" id="password" placeholder="Ingresa tu contraseña" />
             </div>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button variant="primary" type="sumbit">
+                Iniciar sesión
+              </Button>
+            </Modal.Footer>
           </form>
           
-          {/* <form onSubmit={onSumbitLogin}>
-            <div className="form-group">
-              <label htmlFor="email">Correo electrónico</label>
-              <input type="email" className="form-control" id="email" placeholder="Ingresa tu correo electrónico" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Contraseña</label>
-              <input type="password" className="form-control" id="password" placeholder="Ingresa tu contraseña" />
-            </div>
-          </form> */}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={loginUser}>
-            Iniciar sesión
-          </Button>
-        </Modal.Footer>
+        
       </Modal>
     </>
   );

@@ -3,73 +3,44 @@ import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
 import HomePage from './HomePage';
 import { Home } from '../Basico/Home';
+
 const AuthContext = createContext()
 
 export default AuthContext;
 
-
 export const AuthProvider = ({children}) => {
-    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
-    let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
+    // let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    // let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
+
+    const [user, setUser] = useState(()=>localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')):null)
+    
+    const [authTokens, setAuthTokens] = useState(()=>localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')):null)
+    // useEffect(()=>{
+    //     if(authTokens){
+    //         console.log("lo estoy pasando a null que es vacio")
+    //         localStorage.setItem("authTokens",JSON.stringify(authTokens))
+    //     }else{
+    //             // localStorage.setItem("authTokens",null)
+    //         localStorage.removeItem('authTokens')
+    //     }
+    //     console.log("localStorageModificado:",authTokens)
+    // },[authTokens])
+
     let [loading, setLoading] = useState(true)
-    let [email,setEmail]=useState("")
-    let [passw,setPassw]=useState("")
     const navigate = useNavigate()
-    const [showModal, setShowModal] = useState(false); 
-    let loginUser = async (e)=> {
-        e.preventDefault()
-        console.log("HOLA")
-        let response = await fetch('http://127.0.0.1:8000/api/token/', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            // body:JSON.stringify({'email':e.target.username.value, 'password':e.target.password.value})
-            body:JSON.stringify({'email':email, 'password':passw})
-        })
-        let data = await response.json()
-        // if(response )
-        if(response.status === 200){
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))
-            
-            let decodedToken = jwt_decode(data.access)
-            console.log(decodedToken)
-            console.log("SALTO")
-            setShowModal(false);
-            console.log(decodedToken.group)
-            if (decodedToken.group === 'Alumnos') {
-                console.log("soy de alumno")
-                // return <Navigate to="/"/>
-                navigate('/alumno/')
-            } else if (decodedToken.group === 'Profesor') {
-                console.log("soy de profe")
-                navigate('/profesor/')
-            } else if (decodedToken.group === 'Admin') {
-                console.log("soy admin")
-                // navigate('/user')
-            } else {
-                alert('Unknown group!')
-            }
-            navigate('/')
-        }else{
-            alert('Something went wrong!')
-        }
-    }
-
-
+    
     let logoutUser = () => {
         setAuthTokens(null)
         setUser(null)
-        localStorage.removeItem('authTokens')
+        // localStorage.removeItem('authTokens')
         // esto para redirigir en caso de que no este logeado
-        navigate('/login')
+        // navigate('/')
     }
 
 
     let updateToken = async ()=> {
         console.log("UPDATE TOKEN!")
+        // if(authTokens){
         let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
             method:'POST',
             headers:{
@@ -83,7 +54,7 @@ export const AuthProvider = ({children}) => {
         if (response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))
+            // localStorage.setItem('authTokens', JSON.stringify(data))
         }else{
             //  logoutUser()
         }
@@ -92,18 +63,14 @@ export const AuthProvider = ({children}) => {
             setLoading(false)
         }
     }
-
+    // }
     let contextData = {
         user:user,
         authTokens:authTokens,
-        loginUser:loginUser,
         logoutUser:logoutUser,
-        email:email,
-        setEmail:setEmail,
-        passw:passw,
-        setPassw:setPassw,
-        showModal:showModal, 
-        setShowModal:setShowModal,
+        setAuthTokens:setAuthTokens,
+        user:user, 
+        setUser:setUser,
     }
 
 

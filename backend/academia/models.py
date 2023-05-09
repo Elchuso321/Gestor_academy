@@ -50,9 +50,7 @@ class Alumno(models.Model):
     # primer_apellido = models.CharField(max_length=50)
     # segundo_apellido = models.CharField(max_length=50)
     # email = models.EmailField(null=True)
-    # curso=models.ManyToManyField(Curso)
-    evento=models.ManyToManyField(Evento)
-    
+    # curso=models.Ma@api_view(['GET'])
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
 class Profesor(models.Model):

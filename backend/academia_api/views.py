@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from academia_api.serialiazers import AcademiaSerializer
-from academia.models import Academia
+from academia_api.serialiazers import AcademiaSerializer,CursoSerializer,EventoSerializer,AlumnoSerializer,ProfesorSerializer,BoletinSerializer
+from academia.models import Academia,Curso,Evento,Alumno,Profesor,Boletin
 from users.models import NewUser
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
@@ -23,6 +23,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
         token['group'] = user.groups.first().name
+        # token['name']=user.nombre
         return token
 
 
@@ -80,6 +81,7 @@ def getRoutes(request):
     ]
     return Response(routes)
 
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def getAcademias(request):
@@ -89,3 +91,64 @@ def getAcademias(request):
     academia=Academia.objects.all()
     serializer = AcademiaSerializer(academia, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getCurso(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    curso=Curso.objects.all()
+    serializer = CursoSerializer(curso, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getEvento(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    evento=Evento.objects.all()
+    serializer = EventoSerializer(evento, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getAlumno(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    alumno=Evento.objects.all()
+    serializer = AlumnoSerializer(alumno, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getProfesor(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    profesor=Profesor.objects.all()
+    serializer = ProfesorSerializer(profesor, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getBoletin(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    boletin=Boletin.objects.all()
+    serializer = BoletinSerializer(boletin, many=True)
+    return Response(serializer.data)
+
+
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def get(request):
+#     user = request.user
+#     # esta parte no la entiendo
+#     # academia = user.academia_set.all()
+#     academia=.objects.all()
+#     serializer = Serializer(academia, many=True)
+#     return Response(serializer.data)

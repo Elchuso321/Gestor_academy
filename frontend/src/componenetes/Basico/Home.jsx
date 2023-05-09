@@ -1,28 +1,21 @@
-import React from 'react'
-// import { Navbar } from './NavbarBasic'
 import ImageAndText from '../Generico/Image&Text'
 import CarouselComponent from '../Generico/Carrousel'
-// import { FooterBasic } from './Footer'
 import { Footer } from './FooterBasic'
 import { NavbarBasic } from './NavbarBasic'
-
-import { useNavigate } from 'react-router-dom'
-
-
+import jwt_decode from "jwt-decode";
+import React, { useEffect,useContext } from 'react';
+import {useNavigate} from 'react-router-dom'
+import AuthContext from '../Ultimo/AuthContext';
 
 export const Home=()=>{
-    const navigate1=useNavigate();
-    const onClick1=()=>{
-        navigate1('/alumno/')
-        console.log('click')
-    }
-
+    const navigate = useNavigate()
+    let {authTokens} = useContext(AuthContext)
+    
     return(
         <>
         {/* <Navbar1/> */}
         <NavbarBasic/>
         <div>
-            <button onClick={onClick1} >Hola</button>
             <CarouselComponent />
         </div>
         <div>
