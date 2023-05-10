@@ -9,6 +9,8 @@ import { HomeAdmin } from '../Admin/HomeAdmin'
 import jwt_decode from "jwt-decode";
 import { Nosotros } from '../Basico/Nosotros';
 import { Contacto } from '../Basico/Contacto';
+import { MainAdmin } from '../Admin/MainAdmin';
+import { MainProfesor } from '../Profesor/MainProfesor';
 
 export const App=()=> {
   return (
@@ -16,14 +18,13 @@ export const App=()=> {
       <Router>
         <AuthProvider>
           
-          {/* <NavbarBasic/> */}
-          {/* <Header/> */}
+          
           <Routes>
-          {/* element={HomePage} */}
+         
             <Route element={<Home />} path="/"/>
             <Route element={<MainAlumno />} path="/alumno/*"/>
-            <Route element={< HomeProfesor/>} path="/profesor/*"/>
-            <Route element={< HomeAdmin/>} path="/admin/*"/>
+            <Route element={< MainProfesor/>} path="/profesor/*"/>
+            <Route element={< MainAdmin/>} path="/admin/*"/>
             <Route element={< Nosotros/>} path="/nosotros"/>
             <Route element={< Contacto/>} path="/contacto"/>
 

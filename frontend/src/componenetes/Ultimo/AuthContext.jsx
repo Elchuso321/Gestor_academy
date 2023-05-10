@@ -15,16 +15,18 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(()=>localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')):null)
     
     const [authTokens, setAuthTokens] = useState(()=>localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')):null)
-    // useEffect(()=>{
-    //     if(authTokens){
-    //         console.log("lo estoy pasando a null que es vacio")
-    //         localStorage.setItem("authTokens",JSON.stringify(authTokens))
-    //     }else{
-    //             // localStorage.setItem("authTokens",null)
-    //         localStorage.removeItem('authTokens')
-    //     }
-    //     console.log("localStorageModificado:",authTokens)
-    // },[authTokens])
+    useEffect(()=>{
+        if(authTokens){
+            console.log("lo estoy pasando a null que es vacio")
+            localStorage.setItem("authTokens",JSON.stringify(authTokens))
+        }else{
+                // localStorage.setItem("authTokens",null)
+            localStorage.removeItem('authTokens')
+
+            // navigate("/")
+        }
+        console.log("localStorageModificado:",authTokens)
+    },[authTokens])
 
     let [loading, setLoading] = useState(true)
     const navigate = useNavigate()
@@ -39,8 +41,10 @@ export const AuthProvider = ({children}) => {
 
 
     let updateToken = async ()=> {
+        
         console.log("UPDATE TOKEN!")
         // if(authTokens){
+        
         let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
             method:'POST',
             headers:{
@@ -80,7 +84,7 @@ export const AuthProvider = ({children}) => {
             updateToken()
         }
 
-        let fourMinutes = 1000 * 60 * 4
+        let fourMinutes = 1000 * 60 * 10
 
         let interval =  setInterval(()=> {
             if(authTokens){

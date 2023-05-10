@@ -11,6 +11,14 @@ class Academia(models.Model):
     def __str__(self):
         return f'{self.nombre}'
 
+class Aula(models.Model):
+    nombre=models.CharField(max_length=50)
+    academia=academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='aula')
+    def __str__(self):
+        return f'{self.nombre}-{self.academia}'
+    class Meta:
+        unique_together = ('nombre', 'academia')
+
 class Curso(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField()
@@ -41,16 +49,18 @@ class Evento(models.Model):
     hora_fin = models.TimeField()
     curso = models.ForeignKey(Curso, null=True,on_delete=models.CASCADE,related_name='eventos')
     profesor=models.ForeignKey('Profesor', null=True,on_delete=models.SET_NULL,related_name='eventos')
+    aula=models.ForeignKey(Aula, null=True,on_delete=models.SET_NULL,related_name='eventos')
     def __str__(self):
         return f'{self.nombre}'
-    
+    class Meta:
+        unique_together = ('dia_semana', 'hora_inicio', 'aula')
 class Alumno(models.Model):
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)    
     # nombre = models.CharField(max_length=50)
     # primer_apellido = models.CharField(max_length=50)
     # segundo_apellido = models.CharField(max_length=50)
     # email = models.EmailField(null=True)
-    # curso=models.Ma@api_view(['GET'])
+    curso=models.ManyToManyField(Evento,related_name='eventos')
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
 class Profesor(models.Model):
@@ -83,4 +93,5 @@ class Boletin(models.Model):
 
     def __str__(self):
         return f'{self.curso}-{self.alumno}-{self.trimestre}'
-    
+    class Meta:
+        unique_together = ('curso', 'trimestre', 'alumno')

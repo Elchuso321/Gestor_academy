@@ -7,15 +7,16 @@ import {useNavigate} from 'react-router-dom'
 
 export const LoginBotonBasic = () => {
   const navigate = useNavigate()
-  let {authTokens,setAuthTokens,setUser} = useContext(AuthContext)
+  let {setAuthTokens,setUser} = useContext(AuthContext)
   const [showModal, setShowModal] = useState(false); 
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => {
     console.log("Me meto en la funcion handleShow")
-    if(authTokens){
-        console.log("authToken_Login:",authTokens)
-        let decodedToken = jwt_decode(authTokens.access)
+    let authTokensStorage=JSON.parse(localStorage.getItem('authTokens'))
+    if(authTokensStorage){
+        console.log("authToken_Login:",authTokensStorage)
+        let decodedToken = jwt_decode(authTokensStorage.access)
         console.log(decodedToken.group)
         if (decodedToken.group === 'Alumnos') {
           navigate("/alumno/")
@@ -26,11 +27,15 @@ export const LoginBotonBasic = () => {
         } else if (decodedToken.group === 'Admin') {
           console.log("admin")
           navigate('/admin/')
+        }else{
+          location.reload();
         }
       }else{
     setShowModal(true);
     console.log("Muestro el modal")
   }}
+
+
   let [email,setEmail]=useState("")
   let [passw,setPassw]=useState("")
   const changeEmail=(e)=> setEmail(e.target.value)

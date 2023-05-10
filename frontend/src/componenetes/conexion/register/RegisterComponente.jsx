@@ -19,13 +19,20 @@ export const RegisterForm = () => {
 				email: email,
 				user_name: username,
 				password: password,
+                nombre:username,
+                primer_apellido:"saez",
+                groups:[3,],
 			})
+            // groups :1 es profesor,2 es alumno y 3 es admin
+            // CUIDADO
 			.then((res) => {
                 console.log("te ha fallado")
 				// history.push('/login');
 				console.log(res);
 				console.log(res.data);
-			});
+            }).catch((err) => {
+                console.log(err.response.data);
+            });
 	};
     
 

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from academia_api.serialiazers import AcademiaSerializer,CursoSerializer,EventoSerializer,AlumnoSerializer,ProfesorSerializer,BoletinSerializer
+from academia_api.serialiazers import AcademiaSerializer,CursoSerializer,EventoSerializer,AlumnoSerializer,ProfesorSerializer,BoletinSerializer,GroupSerializer
 from academia.models import Academia,Curso,Evento,Alumno,Profesor,Boletin
 from users.models import NewUser
 from django.contrib.auth import authenticate
@@ -18,6 +18,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from django.contrib.auth.models import Group
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -118,7 +119,7 @@ def getAlumno(request):
     user = request.user
     # esta parte no la entiendo
     # academia = user.academia_set.all()
-    alumno=Evento.objects.all()
+    alumno=Alumno.objects.all()
     serializer = AlumnoSerializer(alumno, many=True)
     return Response(serializer.data)
 
@@ -141,6 +142,18 @@ def getBoletin(request):
     boletin=Boletin.objects.all()
     serializer = BoletinSerializer(boletin, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getGroups(request):
+    user = request.user
+    # esta parte no la entiendo
+    # academia = user.academia_set.all()
+    grupo=Group.objects.all()
+    serializer = GroupSerializer(grupo, many=True)
+    return Response(serializer.data)
+
+
 
 
 # @api_view(['GET'])

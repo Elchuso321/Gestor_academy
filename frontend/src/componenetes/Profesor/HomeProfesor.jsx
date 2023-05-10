@@ -1,5 +1,5 @@
 import { NavbarProfesor } from './NavbarProfesor'
-import { LoginForm } from '../conexion/login/LoginComponente'
+
 // import SignUp from '../register'
 import jwt_decode from "jwt-decode";
 import React, { useEffect,useContext } from 'react';
@@ -29,7 +29,7 @@ export const HomeProfesor=()=>{
         </div>
         <div>
         <h4>PROFESOR</h4>
-         {/* <LoginForm/>  */}
+        
         </div>
 
 

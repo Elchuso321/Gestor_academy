@@ -11,14 +11,15 @@ urlpatterns = [
     path('', views.getRoutes),
 
     path('academias/', views.getAcademias),
-    path('curso/', views.getCurso),
-    path('evento/', views.getEvento),
-    path('alumno/', views.getAlumno),
-    path('profesor/', views.getProfesor),
-    path('boletin/', views.getBoletin),
+    path('cursos/', views.getCurso),
+    path('eventos/', views.getEvento),
+    path('alumnos/', views.getAlumno),
+    path('profesores/', views.getProfesor),
+    path('boletines/', views.getBoletin),
+    path('groups/', views.getGroups),
+    
+    # path('eventos/', views.getEventos),
 
-    
-    
     # esto lo cambia
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

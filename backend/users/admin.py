@@ -13,7 +13,7 @@ class UserAdminConfig(UserAdmin):
     ordering = ('-fecha_registro',)
     list_display = ('email', 'id', 'user_name', 'nombre','primer_apellido','segundo_apellido', 'is_active', 'is_staff', 'groups_list')
     fieldsets = (
-        (None, {'fields': ('email', 'user_name', 'nombre',)}),
+        (None, {'fields': ('email', 'user_name', 'nombre','primer_apellido','segundo_apellido')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
         ('Groups', {'fields': ('groups',)}),
     )

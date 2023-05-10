@@ -11,13 +11,14 @@ export const NavbarAlumnos = () => {
   let {setAuthTokens,setUser} = useContext(AuthContext)
   const navigate=useNavigate()
   let logoutUser = () => {
-    
-    setAuthTokens(null)
-    setUser(null)
+    setAuthTokens("")
+    setUser("")
     console.log("setAuthTokens y user a null")
-    localStorage.removeItem('authTokens')
-    // esto para redirigir en caso de que no este logeado
-    navigate('/')
+    // localStorage.removeItem('authTokens')
+    // setTimeout(navigate('/'), 10000);
+
+    
+    
 }
 
     return (
@@ -32,15 +33,16 @@ export const NavbarAlumnos = () => {
                 <Nav.Link as={Link} to="/" style={{color: 'blue'}}>
                   Inicio
                 </Nav.Link>
-                <Nav.Link as={Link} to="/alumnos" style={{color: 'blue'}}>
+                <Nav.Link as={Link} to="/alumno" style={{color: 'blue'}}>
                   Alumnos
                 </Nav.Link>
-                <Nav.Link as={Link} to="/profesores" style={{color: 'blue'}}>
-                  Profesores
+                <Nav.Link as={Link} to="/alumno/muestra" style={{color: 'blue'}}>
+                  Muestra
                 </Nav.Link>
-                <Nav.Link as={Link} to="/admin" style={{color: 'blue'}}>
+                
+                {/* <Nav.Link as={Link} to="/admin" style={{color: 'blue'}}>
                   Admin
-                </Nav.Link>
+                </Nav.Link> */}
               </Nav>
               <Nav>
                 Alumno:<strong>Nombre</strong>
