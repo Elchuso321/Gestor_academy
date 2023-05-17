@@ -4,10 +4,10 @@ from django.contrib.auth.models import Group
 from rest_framework import serializers
 
 
-from users.models import NewUser
+from users.models import User
 class UserSerializer(ModelSerializer):
     class Meta:
-        model = NewUser
+        model = User
         fields = '__all__'
 
 class GroupSerializer(ModelSerializer):
@@ -54,10 +54,10 @@ class BoletinSerializer(ModelSerializer):
         return instance.alumno.usuario.nombre
 
 class EventoPropioSerializer(ModelSerializer):
-    usuario
+    
     evento=serializers.SerializerMethodField()
     class Meta:
         model = Evento
         fields = '__all__'
     def get_alumno(self, instance):
-        return self.requesr.user..usuario.nombre
+        return self.requesr.user.usuario.nombre

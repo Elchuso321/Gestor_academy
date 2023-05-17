@@ -19,7 +19,6 @@ export const MostrarProfesores=()=>{
         if(response.status === 200){
             console.log("profesores:",data)
             setNotes(data)
-            
 
         }else if(response.statusText === 'Unauthorized'){
             console.log("fallo")

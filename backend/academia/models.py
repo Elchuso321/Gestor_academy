@@ -2,10 +2,6 @@ from django.conf import settings
 from django.db import models
 import datetime
 
-# hay dos opciones:
-#     Curso=>poner horario many to many
-#     evento=>poner id de asigntura onetoone o foreing key
-
 class Academia(models.Model):
     nombre=models.CharField(max_length=50)
     def __str__(self):
@@ -30,7 +26,15 @@ class Curso(models.Model):
     def __str__(self):
         return f'{self.nombre}'
 
-
+class Profesor(models.Model):
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # nombre = models.CharField(max_length=50)
+    # apellidos = models.CharField(max_length=50)
+    # email = models.EmailField(null=True)
+    # evento=models.ManyToManyField(Evento)
+    def __str__(self):
+        return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
+   
 class Evento(models.Model):
     DIA_CHOICES = [
         ('L', 'Lunes'),
@@ -54,6 +58,7 @@ class Evento(models.Model):
         return f'{self.nombre}'
     class Meta:
         unique_together = ('dia_semana', 'hora_inicio', 'aula')
+
 class Alumno(models.Model):
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)    
     # nombre = models.CharField(max_length=50)
@@ -63,15 +68,6 @@ class Alumno(models.Model):
     curso=models.ManyToManyField(Evento,related_name='eventos')
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
-class Profesor(models.Model):
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # nombre = models.CharField(max_length=50)
-    # apellidos = models.CharField(max_length=50)
-    # email = models.EmailField(null=True)
-    # evento=models.ManyToManyField(Evento)
-    def __str__(self):
-        return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
-   
 class Boletin(models.Model):
     DIA_CHOICES = [
         ('1', '1er Trimestre'),

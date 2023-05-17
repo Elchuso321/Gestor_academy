@@ -12,4 +12,5 @@ djangorestframework-simplejwt
 mysqlclient
 django-allauth
 django-rest-auth
+drf-yasg
 

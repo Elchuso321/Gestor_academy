@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import React, { useEffect,useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import AuthContext from '../Ultimo/AuthContext';
+import { ArbolDeFotos } from '../Generico/ArbolImagen';
 
 export const Nosotros=()=>{
     const navigate = useNavigate()
@@ -16,6 +17,7 @@ export const Nosotros=()=>{
         <NavbarBasic/>
         <div>
           <h2>Nosotros</h2>
+          <ArbolDeFotos/>
         </div>
         <Footer/>
 

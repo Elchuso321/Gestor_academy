@@ -17,16 +17,16 @@ export const RegisterForm = () => {
 		axiosInstance
 			.post(`user/register/`, {
 				email: email,
-				user_name: username,
+				username: username,
 				password: password,
-                nombre:username,
-                primer_apellido:"saez",
+                // nombre:username,
+                // primer_apellido:"saez",
                 groups:[3,],
 			})
             // groups :1 es profesor,2 es alumno y 3 es admin
             // CUIDADO
 			.then((res) => {
-                console.log("te ha fallado")
+                console.log("Funciona")
 				// history.push('/login');
 				console.log(res);
 				console.log(res.data);
