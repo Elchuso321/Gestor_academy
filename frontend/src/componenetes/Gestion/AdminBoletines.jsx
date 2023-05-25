@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import React, { useState,useEffect,useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import  {NavbarAdminAcademia} from "../Admin/NavbarAdmin_Academia"
+import { BotonCrearAcademia } from '../Datos/CrearAcademia';
 
 
 export const AdminBoletines = () => {
@@ -11,7 +12,7 @@ export const AdminBoletines = () => {
   return (
     <>
         <NavbarAdminAcademia/>
-
+        <BotonCrearAcademia/>
     </>
   );
 };

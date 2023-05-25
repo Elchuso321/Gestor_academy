@@ -14,6 +14,8 @@ export const Home=()=>{
     return(
         <>
         {/* <Navbar1/> */}
+        <div style={{ backgroundColor: '#21618C' }}>
+            
         <NavbarBasic/>
         <div>
             <CarouselComponent />
@@ -27,7 +29,8 @@ export const Home=()=>{
             />
         </div>
         <Footer/>
-
+        </div>
+        
         </>
     )
 }

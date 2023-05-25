@@ -6,7 +6,10 @@ from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-
+from academia_api.serialiazers import ProfesorSerializer
+from rest_framework.serializers import ModelSerializer
+from .models import User
+from academia.models import Profesor
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -30,6 +33,99 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+    
+# class UserSerializer(ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'email', 'nombre', 'primer_apellido', 'segundo_apellido', 'is_verified', 'is_active', 'is_staff', 'created_at', 'updated_at', 'auth_provider']
+
+# class RegisterSerializer(serializers.ModelSerializer):
+#     password = serializers.CharField(
+#         max_length=68, min_length=6, write_only=True)
+    
+#     default_error_messages = {
+#         'username': 'The username should only contain alphanumeric characters'}
+
+#     profesor = ProfesorSerializer(required=False)
+
+#     class Meta:
+#         model = User
+#         fields = ['email', 'username', 'password', 'nombre', 'primer_apellido', 'segundo_apellido']
+
+#     def validate(self, attrs):
+#         email = attrs.get('email', '')
+#         username = attrs.get('username', '')
+        
+#         if not username.isalnum():
+#             raise serializers.ValidationError(
+#                 self.default_error_messages)
+#         return attrs
+
+#     def create(self, validated_data):
+#         password = validated_data.pop('password', None)
+#         profesor_data = validated_data.pop('profesor', None)
+
+#         user = User.objects.create(**validated_data)
+#         if password is not None:
+#             user.set_password(password)
+#             user.save()
+
+#         if profesor_data is not None:
+#             Profesor.objects.create(usuario=user, **profesor_data)
+
+#         return user
+    
+    # def create(self, validated_data):
+    #     password = validated_data.pop('password', None)
+    #     profesor_data = validated_data.pop('profesor', None)
+
+    #     user = User.objects.create(**validated_data)
+    #     print("\n\n\n\n\n\n\n\n\n\n AQUI \n\n\n\n")
+    #     profe=Profesor.objects.create(usuario=user)
+    #     profe.save()
+    #     if password is not None:
+    #         user.set_password(password)
+    #         user.save()
+    #         # 
+            
+
+    #     # if profesor_data is not None:
+
+    #     return user
+    
+
+class RegisterSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(
+    #     max_length=68, min_length=6, write_only=True)
+    
+    default_error_messages = {
+        'username': 'The username should only contain alphanumeric characters'}
+
+    class Meta:
+        model = User
+        fields = ['email', 'username' , 'password', 'nombre', 'primer_apellido', 'segundo_apellido','groups']
+        # fields = ['email', 'username', 'password']
+
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+        username = attrs.get('username', '')
+        
+        if not username.isalnum():
+            raise serializers.ValidationError(
+                self.default_error_messages)
+        return attrs
+
+    def create(self, validated_data):
+        groups_data = validated_data.pop('groups')
+        user = User.objects.create_user(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+
+        # Asigna los grupos al usuario utilizando el método set()
+        user.groups.set(groups_data)
+
+        return user
+        # return User.objects.create_user(**validated_data)
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):

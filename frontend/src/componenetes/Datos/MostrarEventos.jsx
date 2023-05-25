@@ -33,7 +33,7 @@ export const MostrarEventos=()=>{
 
     return (
         <div>
-
+            <br /><br /><br /><br /><br /><br /><br /><br />
             <h3>Eventos</h3>
             <ul>
                 {notes.map(note => (

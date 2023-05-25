@@ -15,6 +15,7 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(()=>localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')):null)
     
     const [authTokens, setAuthTokens] = useState(()=>localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')):null)
+    console.log('revi',authTokens)
     useEffect(()=>{
         if(authTokens){
             console.log("lo estoy pasando a null que es vacio")
@@ -52,20 +53,20 @@ export const AuthProvider = ({children}) => {
             },
             body:JSON.stringify({'refresh':authTokens?.refresh})
         })
-
         let data = await response.json()
         
+        console.log("DATA CARLOS:", data)
         if (response.status === 200){
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
-            // localStorage.setItem('authTokens', JSON.stringify(data))
+            localStorage.setItem('authTokens', JSON.stringify(data))
         }else{
-            //  logoutUser()
+             logoutUser()
         }
 
-        if(loading){
-            setLoading(false)
-        }
+        // if(loadng){
+        //     setLoading(false)
+        // }
     }
     // }
     let contextData = {
@@ -79,11 +80,12 @@ export const AuthProvider = ({children}) => {
 
     useEffect(()=> {
 
-        if(loading){
-            updateToken()
-        }
+        
+        
+        
 
-        let fourMinutes = 1000 * 60 * 10
+        let fourMinutes =  1000 * 60 * 10
+        // 1000 * 60 * 10
 
         let interval =  setInterval(()=> {
             if(authTokens){
@@ -96,7 +98,7 @@ export const AuthProvider = ({children}) => {
 
     return(
         <AuthContext.Provider value={contextData} >
-            {loading ? null : children}
+            { children}
         </AuthContext.Provider>
     )
 }

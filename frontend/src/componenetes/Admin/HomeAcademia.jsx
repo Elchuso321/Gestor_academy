@@ -7,19 +7,27 @@ export const HomeAcademia=()=>{
   const navigate = useNavigate()
 
   const handleClickProfesores=()=>{
-    navigate("/admin/academia/profesores")  }
+    navigate("/admin/academia/profesores")  
+  }
   const handleClickAlumnos=()=>{
-    navigate("/admin/academia/alumnos")  }
+    navigate("/admin/academia/alumnos")  
+  }
   const handleClickClases=()=>{
-    navigate("/admin/academia/clases")  }
+    navigate("/admin/academia/clases")  
+  }
   const handleClickBoletines=()=>{
-    navigate("/admin/academia/boletines")  }
+    navigate("/admin/academia/boletines")  
+  }
   const handleClickPagos=()=>{
-    navigate("/admin/academia/pagos")  }
+    navigate("/admin/academia/pagos")  
+  }
+  const handleClickAulas=()=>{
+    navigate("/admin/academia/aulas")  
+  }
+  const handleClickEventos=()=>{
+    navigate("/admin/academia/eventos")  
+  }
   
-    const handleClickTodo=()=>{
-    navigate("")  }
-
     return(
         <>
   <NavbarAdminAcademia/>
@@ -28,11 +36,13 @@ export const HomeAcademia=()=>{
   <div className="row justify-content-center">
     <div className="col-12 col-md-10">
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickProfesores} texto="Profesores" />
-        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickAlumnos} texto="Alumnos" />
-        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickClases} texto="Clases" />
-        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickBoletines} texto="Boletines" />
-        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickPagos} texto="Pagos" />
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickProfesores} texto="Profesores" disposicion="4" />
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickAlumnos} texto="Alumnos" disposicion="4"/>
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickClases} texto="Clases" disposicion="4"/>
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickBoletines} texto="Boletines" disposicion="4"/>
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickPagos} texto="Pagos" disposicion="4"/>
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickAulas} texto="Aulas" disposicion="4"/>
+        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickEventos} texto="Eventos" disposicion="4"/>
       </div>
     </div>
   </div>

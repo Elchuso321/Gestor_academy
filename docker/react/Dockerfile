@@ -10,9 +10,11 @@ RUN yarn create vite app --template react
 
 WORKDIR	/app
 
-COPY 	./package.json .
+COPY ./package.json .
 
+#RUN yarn cache clean
 RUN yarn
+RUN npm install react-burger-menu --save
 
 ENTRYPOINT [ "yarn", "dev", "--host" ]
 

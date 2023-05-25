@@ -8,7 +8,8 @@ import { AdminBoletines } from '../Gestion/AdminBoletines';
 import { AdminProfesores } from '../Gestion/AdminProfesores';
 import { AdminPagos } from '../Gestion/AdminPagos';
 import { AdminClases } from '../Gestion/AdminClases';
-
+import { AdminAulas } from '../Gestion/AdminAulas';
+import { AdminEventos } from '../Gestion/AdminEventos';
 export const MainAdmin=()=> {
   return (
     <div className="App">
@@ -25,8 +26,9 @@ export const MainAdmin=()=> {
             <Route element={< AdminClases/>} path="/academia/clases"/>
             <Route element={< AdminPagos/>} path="/academia/pagos"/>
             <Route element={< AdminProfesores/>} path="/academia/profesores"/>
+            <Route element={< AdminAulas/>} path="/academia/aulas"/>
+            <Route element={< AdminEventos/>} path="/academia/eventos"/>
             
-
             
             {/* <Route element={< />} path="/login"/>
             <Route element={</>} path="/register"/> */}

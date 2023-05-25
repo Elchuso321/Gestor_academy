@@ -21,17 +21,19 @@ class Curso(models.Model):
     academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='cursos')
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     ingles=models.BooleanField(default=True,help_text="Marcar si la curso no es de apoyo")
-    # horario = models.ManyToManyField(Evento,  ='horarios')
+    imagen = models.ImageField(upload_to='cursos/', null=True, blank=True)
+    
 
     def __str__(self):
         return f'{self.nombre}'
 
-class Profesor(models.Model):
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # nombre = models.CharField(max_length=50)
     # apellidos = models.CharField(max_length=50)
     # email = models.EmailField(null=True)
     # evento=models.ManyToManyField(Evento)
+class Profesor(models.Model):
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    descripcion = models.TextField(null=True,)
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
    

@@ -1,5 +1,5 @@
 import { NavbarAdminAcademia } from './NavbarAdmin_Academia'
-import { RegisterForm } from '../conexion/register/RegisterComponente'
+import { RegisterFormProfe } from '../conexion/register/RegisterComponenteProfe'
 import jwt_decode from "jwt-decode";
 import React, { useContext, useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom'
@@ -7,6 +7,7 @@ import AuthContext from '../Ultimo/AuthContext';
 import ColorSquareComponent from './componentes/BotonesAcademiaSelect';
 import { Menu1 } from './MenuPrueba';
 import { NavbarAdminHome } from './NavBarAdmin_Home';
+import { BotonCrearAcademia } from '../Datos/CrearAcademia';
 
 
 
@@ -55,13 +56,37 @@ export const HomeAdmin=()=>{
       background: 'rgba(0, 0, 0, 0.3)'
     }
   }
-  
-  
+  let {authTokens} = useContext(AuthContext)
+  let getNotes = async() =>{
+    console.log("Hola")
+    let response = await fetch('http://127.0.0.1:8000/api/academias/', {
+        method:'GET',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':'Bearer ' + String(authTokens.access)
+        }
+    })
+    let data = await response.json()
+   
+    if(response.status === 200){
+        console.log("academias:",data)
+        setButtons(data)
+        
+
+    }else if(response.statusText === 'Unauthorized'){
+        console.log("fallo")
+        // logoutUser()
+    }
+    
+}
+
+
   
   const [buttons, setButtons] = useState([]);  
   
     const navigate = useNavigate()
-    let {authTokens} = useContext(AuthContext)
+   
+   
     useEffect(() => {
     console.log(authTokens)
     if(authTokens){
@@ -69,10 +94,7 @@ export const HomeAdmin=()=>{
         if (decodedToken.group !== 'Admin') {
           navigate("/")
         }else{
-          fetch('http://127.0.0.1:8000/api/academias/')
-          .then(response => response.json())
-          .then(data => setButtons(data))
-          .catch(error => console.log(error));
+          getNotes()
         }
     }else{
         navigate("/")
@@ -109,7 +131,7 @@ export const HomeAdmin=()=>{
         <>
         <NavbarAdminHome/>
         <br /> <br /> <br /> 
-
+        <BotonCrearAcademia/>
         {/* <ButtonAcademiaSelect/> */}
         <div className="container">
       <div className="row">

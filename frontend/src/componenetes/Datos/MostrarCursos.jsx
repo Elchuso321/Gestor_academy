@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react'
 import AuthContext from '../Ultimo/AuthContext'
 
+
+
 export const MostrarCursos=()=>{
     let [notes, setNotes] = useState([])
     let {authTokens, logoutUser} = useContext(AuthContext)
@@ -33,7 +35,9 @@ export const MostrarCursos=()=>{
 
     return (
         <div>
-
+            <br /><br /><br /><br /><br /><br /><br />
+            <h2>HOLA</h2>
+            
             <h3>Curso</h3>
             <ul>
                 {notes.map(note => (

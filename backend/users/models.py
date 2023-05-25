@@ -3,29 +3,41 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin)
-
 from django.db import models
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 
+
+    # nombre,primer_apellido,segundo_apellido
 class UserManager(BaseUserManager):
-
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, password=None,nombre=None,primer_apellido=None,segundo_apellido=None ):
+        # ,groups=None
+        # print("\n\n\n" ,groups," \n\n\n")
+        # group = Group.objects.get(id=groups[0])
         if username is None:
             raise TypeError('Users should have a username')
         if email is None:
-            raise TypeError('Users should have a Email')
-
-        user = self.model(username=username, email=self.normalize_email(email))
+            raise TypeError('Email should have a email')
+        if nombre is None:
+            raise TypeError('nombre should have a nombre')
+        if primer_apellido is None:
+            raise TypeError('primer_apellido should have a primer_apellido')
+        if segundo_apellido is None:
+            raise TypeError('segundo_apellido should have a segundo_apellido')
+        user = self.model(username=username, email=self.normalize_email(email),nombre=nombre,primer_apellido=primer_apellido,segundo_apellido=segundo_apellido)
+        # ,groups=groups
+        # user.groups.add(groups)
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username, email, password=None):
+    def create_superuser(self, username, email, password):
         if password is None:
             raise TypeError('Password should not be none')
 
-        user = self.create_user(username, email, password)
+        user = self.create_user(username, email, password,nombre="super",primer_apellido="apellido_super",segundo_apellido="apellido2_super")
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -65,78 +77,3 @@ class User(AbstractBaseUser, PermissionsMixin):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from django.db import models
-# from django.utils import timezone
-# from django.utils.translation import gettext_lazy as _
-# from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager,Group
-
-
-# class CustomAccountManager(BaseUserManager):
-
-#     def create_superuser(self, email, user_name, nombre, password, **other_fields):
-
-#         other_fields.setdefault('is_staff', True)
-#         other_fields.setdefault('is_superuser', True)
-#         other_fields.setdefault('is_active', True)
-
-#         if other_fields.get('is_staff') is not True:
-#             raise ValueError(
-#                 'Superuser must be assigned to is_staff=True.')
-#         if other_fields.get('is_superuser') is not True:
-#             raise ValueError(
-#                 'Superuser must be assigned to is_superuser=True.')
-
-#         return self.create_user(email, user_name, nombre, password, **other_fields)
-
-#     def create_user(self, email, user_name, nombre, password, **other_fields):
-
-#         if not email:
-#             raise ValueError(_('You must provide an email address'))
-
-#         email = self.normalize_email(email)
-#         user = self.model(email=email, user_name=user_name,
-#                           nombre=nombre, **other_fields)
-#         user.set_password(password)
-#         user.save()
-#         return user
-
-
-# class NewUser(AbstractBaseUser, PermissionsMixin):
-    
-#     email = models.EmailField(_('email address'), unique=True)
-#     user_name = models.CharField(max_length=150, unique=True)
-    # nombre = models.CharField(max_length=50)
-    # primer_apellido = models.CharField(max_length=50)
-    # segundo_apellido = models.CharField(max_length=50,null=True,blank=True)
-#     fecha_registro = models.DateTimeField(default=timezone.now)
-#     is_staff = models.BooleanField(default=False)
-#     # Aqui lo ponemos a falso para que se cambie cuando le llegue un correo al payo
-    
-#     is_active = models.BooleanField(default=True)
-#     groups = models.ManyToManyField(Group)
-#     objects = CustomAccountManager()
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS = ['user_name', 'nombre']
-
-#     def __str__(self):
-#         return self.user_name

@@ -5,7 +5,7 @@ import { Carousel } from "react-bootstrap";
 export const CarouselComponent = () => {
   const images = [
     {
-      src: "https://via.placeholder.com/800x500",
+      src: "https://oxford-academy.es/wp-content/uploads/2018/03/instalaciones.jpg",
       alt: "First slide",
       title: "First slide label",
       description: "Nulla vitae elit libero, a pharetra augue mollis interdum.",

@@ -34,7 +34,7 @@ export const MostrarAlumnos=()=>{
     return (
         <div>
            
-
+            <br /><br /><br /><br />
             <h3>Alumno</h3>
             <ul>
                 {notes.map(note => (

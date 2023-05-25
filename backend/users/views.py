@@ -21,7 +21,7 @@ from .utils import Util
 from django.shortcuts import redirect
 from django.http import HttpResponsePermanentRedirect
 import os
-
+from rest_framework.permissions import IsAuthenticated,AllowAny
 
 class CustomRedirect(HttpResponsePermanentRedirect):
 
@@ -29,7 +29,7 @@ class CustomRedirect(HttpResponsePermanentRedirect):
 
 
 class RegisterView(generics.GenericAPIView):
-
+    permissions_classes=[AllowAny]
     serializer_class = RegisterSerializer
     # renderer_classes = (UserRenderer,)
 
@@ -51,6 +51,7 @@ class RegisterView(generics.GenericAPIView):
 
         Util.send_email(data)
         return Response(user_data, status=status.HTTP_201_CREATED)
+    
 class VerifyEmail(generics.GenericAPIView):
     def get(self,request):
         token=request.GET.get('token')

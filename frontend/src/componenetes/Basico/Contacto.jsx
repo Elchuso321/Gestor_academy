@@ -13,12 +13,13 @@ export const Contacto=()=>{
    
     return(
         <>
+        <div style={{ backgroundColor: '#21618C' }}>
         <NavbarBasic/>
         <div>
            <h2>Contacto</h2>
         </div>
         <Footer/>
-
+        </div>
         </>
     )
 }

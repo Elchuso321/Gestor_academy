@@ -54,6 +54,7 @@ export const LoginBotonBasic = () => {
     let data = await response.json()
     if(response.status === 200){
         setAuthTokens(data)
+        console.log('login',data)
         setUser(jwt_decode(data.access))
         localStorage.setItem('authTokens', JSON.stringify(data))
         let decodedToken = jwt_decode(data.access)
