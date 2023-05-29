@@ -4,6 +4,8 @@ import AuthContext from '../../Ultimo/AuthContext';
 import { Form, Button } from 'react-bootstrap';
 
 
+const URL_API = import.meta.env.VITE_API_URL
+
 export const RegisterFormAlumno = ({ mostrar }) => {
   const { authTokens, logoutUser } = useContext(AuthContext);
 
@@ -37,7 +39,7 @@ export const RegisterFormAlumno = ({ mostrar }) => {
   
   const fetchCursos = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/cursos/', {
+            const response = await fetch(`${URL_API}/api/cursos/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -25,6 +25,8 @@ services:
     volumes:
       - './frontend/src/:/app/src'
       - './frontend/index.html:/app/index.html'
+    environment:
+      VITE_API_URL: '${API_URL}'
     ports:
       - '5173:5173'
   server:
@@ -32,14 +34,18 @@ services:
     build: ./docker/django
     restart: always
     environment:
-      MYSQL_HOST: '${APP_NAME}-db'
-      MYSQL_PORT: ${DB_PORT}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      DB_HOST: '${APP_NAME}-db'
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_NAME}
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_CORREO_PASSW: ${DJANGO_CORREO_PASSW}
-      DJANGO_CORREO: ${DJANGO_CORREO}    
+      DJANGO_CORREO: ${DJANGO_CORREO}
+      HOST_SERVER: ${HOST_SERVER}
+      HOST_CLIENTE: ${HOST_CLIENTE}
+      HOST_CORREO: ${HOST_CORREO}
+      DB_ENGINE: ${DB_ENGINE}   
     volumes:
       - ./backend:/usr/src/app
     ports:
