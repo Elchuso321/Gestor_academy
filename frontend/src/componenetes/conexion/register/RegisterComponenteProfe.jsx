@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { axiosInstance } from '../axios';
 import './estilos/estiloFormCrearProfesor.css';
 
-export const RegisterFormProfe = ({ mostrar }) => {
+export const RegisterFormProfe = ({ mostrar=true }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [primerApellido, setPrimerApellido] = useState('');
   const [segundoApellido, setSegundoApellido] = useState('');
-
+  const [academia, setAcademia] = useState("");
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handlePrimerApellidoChange = (event) => setPrimerApellido(event.target.value);
   const handleSegundoApellidoChange = (event) => setSegundoApellido(event.target.value);
-
+  // console.log(academia)
+  useEffect(() => {
+    setAcademia(localStorage.getItem("academia"));
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("academia",academia);
     // 1-Admin
     // 2-Profesor
     // 3-Alumno
@@ -28,6 +32,7 @@ export const RegisterFormProfe = ({ mostrar }) => {
         nombre: username,
         primer_apellido: primerApellido,
         segundo_apellido: segundoApellido,
+        academia:academia,
         groups:[2],
       })
       .then((res) => {
@@ -35,8 +40,10 @@ export const RegisterFormProfe = ({ mostrar }) => {
         console.log(res.data);
 
         // Luego de crear el usuario, llamar a la función para crear el profesor
-        createProfesor(res.data.nombre);
+        createProfesor(res.data.username);
         console.log("HOLA", res.data.nombre);
+        // asignoAcademia(res.data.id)
+        
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -56,7 +63,23 @@ export const RegisterFormProfe = ({ mostrar }) => {
       .catch((err) => {
         console.log(err.response.data);
       });
-  };
+    }
+      const asignoAcademia = (userId) => {
+        console.log("user", userId);
+        axiosInstance
+          .post(`asignar/academia/`, {
+            usuario: userId,
+            academia:academia
+          })
+          .then((res) => {
+            console.log("Profesor creado");
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err.response.data);
+          });
+  
+}
 
   return (
     <>
@@ -85,7 +108,7 @@ export const RegisterFormProfe = ({ mostrar }) => {
         </div>
         <button type="submit" className="btn btn-primary">Registrar</button>
       </form>
-      <button className="btn btn-primary" onClick={mostrar}>Mostrar Lista</button>
+   
 </div>
 </>
 );

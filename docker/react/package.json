@@ -17,7 +17,11 @@
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "moment": "^2.29.4",
+    "pusher-js": "^8.0.2",
+    "styled-components": "^6.0.0-rc.3",
+    "react-paginate": "^8.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
@@ -26,3 +30,4 @@
     "vite": "^4.2.0"
   }
 }
+

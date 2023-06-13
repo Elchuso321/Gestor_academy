@@ -9,9 +9,11 @@ import { Menu1 } from './MenuPrueba';
 import { NavbarAdminHome } from './NavBarAdmin_Home';
 import { BotonCrearAcademia } from '../Datos/CrearAcademia';
 
+const URL_API = import.meta.env.VITE_API_URL
 
 
 export const HomeAdmin=()=>{
+  const enlace=URL_API;
   var styles = {
     bmBurgerButton: {
       position: 'fixed',
@@ -59,7 +61,7 @@ export const HomeAdmin=()=>{
   let {authTokens} = useContext(AuthContext)
   let getNotes = async() =>{
     console.log("Hola")
-    let response = await fetch('http://127.0.0.1:8000/api/academias/', {
+    let response = await fetch(`${URL_API}/api/academias/`, {
         method:'GET',
         headers:{
             'Content-Type':'application/json',
@@ -80,12 +82,9 @@ export const HomeAdmin=()=>{
     
 }
 
-
-  
   const [buttons, setButtons] = useState([]);  
   
     const navigate = useNavigate()
-   
    
     useEffect(() => {
     console.log(authTokens)
@@ -99,13 +98,19 @@ export const HomeAdmin=()=>{
     }else{
         navigate("/")
     }
-        
+
 	},[])
-  
-  const handleClickAcademia=()=>{
+  const handleClickAcademiaTodo=(button)=>{
+    console.log("Academia:",button)
     localStorage.setItem('academia', JSON.stringify("Todo"))
     navigate("/admin/academia")
   }
+  const handleClickAcademia=(button)=>{
+    console.log("Academia:",button)
+    localStorage.setItem('academia', JSON.stringify(button))
+    navigate("/admin/academia")
+  }
+  
   // --
   const handleClickGestionPagina=()=>{
     navigate("/addmin/gestionPagina")
@@ -121,7 +126,7 @@ export const HomeAdmin=()=>{
 
     return buttons.map((button, index) => (
         
-        <ColorSquareComponent key={index} color="#5CB3FC" handleClick={handleClickAcademia} texto={button.nombre} />
+        <ColorSquareComponent key={index} color="#5CB3FC" handleClick={()=>handleClickAcademia(button.id)} texto={button.nombre} />
 
     ));
   };
@@ -140,7 +145,7 @@ export const HomeAdmin=()=>{
           {renderButtons()}
         
           <ColorSquareComponent  color="#5CB3FC" handleClick={handleClickGestionPagina} texto="Gestionar pagina" />
-          <ColorSquareComponent  color="#5CB3FC" handleClick={handleClickAcademia} texto="Todo" />
+          <ColorSquareComponent  color="#5CB3FC" handleClick={handleClickAcademiaTodo} texto="Todo" />
         
           </div>
         </div>
@@ -158,50 +163,3 @@ export const HomeAdmin=()=>{
     )
 }
 
-
-// import React, { useEffect, useState } from 'react';
-
-// export const ButtonAcademiaSelect = () => {
-  // const [buttons, setButtons] = useState([]);
-
-  // useEffect(() => {
-  //   // Realiza la llamada Fetch para obtener los datos de los botones
-  //   fetch('http://127.0.0.1:8000/api/academias/')
-  //     .then(response => response.json())
-  //     .then(data => setButtons(data))
-  //     .catch(error => console.log(error));
-  // }, []);
-
-  // const renderButtons = () => {
-  //   const buttonCount = buttons.length;
-
-  //   if (buttonCount === 0) {
-  //     return <p>No hay academias disponibles.</p>;
-  //   }
-
-  //   const columns = buttonCount > 2 ? 'col-md-6' : `col-md-${12 / buttonCount}`;
-
-  //   return buttons.map((button, index) => (
-  //     <div key={index} className={columns}>
-  //       <button className="btn btn-primary btn-lg btn-block">{button.nombre}</button>
-  //     </div>
-      
-
-  //   ));
-  // };
-
-//   return (
-//     <div className="container">
-//       <div className="row">
-//         {renderButtons()}
-//         <div className="container">
-//       <div className="row">
-//         <div className="col text-center">
-//           <button className="btn btn-primary btn-lg">Mi botón</button>
-//         </div>
-//       </div>
-//     </div>
-//       </div>
-//     </div>
-//   );
-// };

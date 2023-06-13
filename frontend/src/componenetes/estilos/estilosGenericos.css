@@ -1,0 +1,19 @@
+body {
+    background-color: #f5f5f5; /* Beige muy claro */
+  }
+  .custom-table {
+    background-color: #f5f5f5;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    border: 1px solid #ccc;
+  }
+  .paginationActive {
+    background-color: #f2f2f200;
+  color: #fff;
+  font-weight: bold;
+  }

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import HomePage from './HomePage';
 import { Home } from '../Basico/Home';
 
+const URL_API = import.meta.env.VITE_API_URL
+
 const AuthContext = createContext()
 
 export default AuthContext;
@@ -46,7 +48,7 @@ export const AuthProvider = ({children}) => {
         console.log("UPDATE TOKEN!")
         // if(authTokens){
         
-        let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+        let response = await fetch(`${URL_API}/api/token/refresh/`, {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'

@@ -14,6 +14,7 @@ COPY ./package.json .
 
 #RUN yarn cache clean
 RUN yarn
+
 RUN npm install react-burger-menu --save
 
 ENTRYPOINT [ "yarn", "dev", "--host" ]

@@ -21,7 +21,7 @@ class Curso(models.Model):
     academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='cursos')
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     ingles=models.BooleanField(default=True,help_text="Marcar si la curso no es de apoyo")
-    imagen = models.ImageField(upload_to='cursos/', null=True, blank=True)
+    imagen = models.ImageField(upload_to='cursos/', default='cursos/Libro-de-dibujo.jpg',null=True, blank=True)
     
 
     def __str__(self):
@@ -31,9 +31,13 @@ class Curso(models.Model):
     # apellidos = models.CharField(max_length=50)
     # email = models.EmailField(null=True)
     # evento=models.ManyToManyField(Evento)
+    
 class Profesor(models.Model):
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     descripcion = models.TextField(null=True,)
+    telefono = models.CharField(max_length=9,null=True)
+    foto_perfil=models.ImageField(upload_to='profesores/',default='profesores/profesor.jpeg' ,null=True, blank=True)
+
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
    
@@ -62,12 +66,16 @@ class Evento(models.Model):
         unique_together = ('dia_semana', 'hora_inicio', 'aula')
 
 class Alumno(models.Model):
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)    
-    # nombre = models.CharField(max_length=50)
-    # primer_apellido = models.CharField(max_length=50)
-    # segundo_apellido = models.CharField(max_length=50)
-    # email = models.EmailField(null=True)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nombre_padre = models.CharField(max_length=50,null=True,blank=True)
+    nombre_madre = models.CharField(max_length=50,null=True,blank=True)
+    descripcion=models.TextField(null=True,blank=True)
+    telefono_padre = models.CharField(max_length=9,null=True,blank=True)
+    telefono_madre = models.CharField(max_length=9,null=True,blank=True)
+    fecha_nacimiento = models.DateField(null=True)
+    foto_perfil=models.ImageField(upload_to='alumnos/', default='alumnos/alumno.jpeg',null=True, blank=True)
     curso=models.ManyToManyField(Evento,related_name='eventos')
+    # academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='alumnos')
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'
 class Boletin(models.Model):

@@ -1,23 +1,23 @@
 version: '3'
 
 services:
-  db:
-    container_name: '${APP_NAME}-db'
-    image: mysql
-    restart: always
-    environment:
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    volumes:
-      - ./data/:/var/lib/mysql/
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 1s
-      retries: 60
-    ports:
-      - "${DB_PORT}:3306"
+  # db:
+  #   container_name: '${APP_NAME}-db'
+  #   image: mysql
+  #   restart: always
+  #   environment:
+  #     MYSQL_USER: ${DB_USER}
+  #     MYSQL_PASSWORD: ${DB_PASSWORD}
+  #     MYSQL_DATABASE: ${DB_NAME}
+  #     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+  #   volumes:
+  #     - ./data/:/var/lib/mysql/
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+  #     interval: 1s
+  #     retries: 60
+  #   ports:
+  #     - "${DB_PORT}:3306"
   client:
     container_name: '${APP_NAME}-client'
     build: ./docker/react
@@ -34,7 +34,7 @@ services:
     build: ./docker/django
     restart: always
     environment:
-      DB_HOST: '${APP_NAME}-db'
+      DB_HOST: '${DB_HOST}'
       DB_PORT: ${DB_PORT}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
@@ -45,25 +45,29 @@ services:
       HOST_SERVER: ${HOST_SERVER}
       HOST_CLIENTE: ${HOST_CLIENTE}
       HOST_CORREO: ${HOST_CORREO}
-      DB_ENGINE: ${DB_ENGINE}   
+      DB_ENGINE: ${DB_ENGINE}
+      APP_ID: ${APP_ID}
+      KEY: ${KEY}
+      SECRET: ${SECRET} 
+      CLUSTER: ${CLUSTER}    
     volumes:
       - ./backend:/usr/src/app
     ports:
       - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-  phpmyadmin:
-    container_name: '${APP_NAME}-phpmyadmin'
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      PMA_HOST: ${DB_HOSTDB}
-      PMA_PORT: ${DB_PORT}
-      PMA_ARBITRARY: 1
-    ports:
-      - '8080:80'
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+  # phpmyadmin:
+  #   container_name: '${APP_NAME}-phpmyadmin'
+  #   image: phpmyadmin/phpmyadmin
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     PMA_HOST: ${DB_HOSTDB}
+  #     PMA_PORT: ${DB_PORT}
+  #     PMA_ARBITRARY: 1
+  #   ports:
+  #     - '8080:80'
 
 

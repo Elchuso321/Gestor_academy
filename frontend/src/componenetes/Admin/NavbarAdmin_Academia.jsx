@@ -201,7 +201,7 @@ export const NavbarAdminAcademia = () => {
   const academia = localStorage.getItem("academia") || "No se donde estas";
   const { setAuthTokens, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const usuario = localStorage.getItem('usuario') || 'Invitado';
+  const usuario = JSON.parse(localStorage.getItem('usuario')) || 'Invitado';
   
   const logoutUser = () => {
     setAuthTokens(null);

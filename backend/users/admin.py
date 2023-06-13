@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from users.models import User
+from users.models import User,Message
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -9,8 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
-
-
+admin.site.register(Message)
 
 
 

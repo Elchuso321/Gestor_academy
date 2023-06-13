@@ -3,55 +3,80 @@ import CarouselComponent from '../Generico/Carrousel'
 import { NavbarAlumnos } from './NavbarAlumno'
 import { Tabla } from '../Generico/Tabla'
 import { LogOut } from '../conexion/logout/logout'
-// import { DatosAlumno } from '../conexion/datos/AlumnoDatos'
-// import { MiCalendario } from '../Generico/CalendarioMuestra'
 import jwt_decode from "jwt-decode";
-import React, { useEffect,useContext } from 'react';
-import {useNavigate} from 'react-router-dom'
+import React, { useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'
 import AuthContext from '../Ultimo/AuthContext';
 import { MostrarAlumnos } from '../Datos/MostrarAlumnos'
+import { ChatComponent } from '../Chat/ComponenteChat'
+import { ComponenteChanel1 } from '../Chat2/ComponenteChat2'
+import { MostrarCursosCaja } from '../Datos/MostrarCursosCajas'
+import { PerfilUsuario } from '../Datos/PerfilUsuario'
+import { HorarioTable } from '../Datos/TablaHorarios'
 
 
-export const HomeAlumno=()=>{
 
-
+const URL_API = import.meta.env.VITE_API_URL
+export const HomeAlumno = () => {
+  
+  const id=JSON.parse(localStorage.getItem('id'))
   const navigate = useNavigate()
-    let {authTokens} = useContext(AuthContext)
-    useEffect(() => {
-    
-    
-    if(authTokens){
-      console.log("authTokens_HomeAlumno:",authTokens)
+  let { authTokens } = useContext(AuthContext)
+  
+  useEffect(() => {
+
+
+    if (authTokens) {
+      console.log("authTokens_HomeAlumno:", authTokens)
       let decodedToken = jwt_decode(authTokens.access)
-        if (decodedToken.group !== 'Alumnos') {
-          navigate("/")
-        }
-    }else{
+      if (decodedToken.group !== 'Alumnos') {
         navigate("/")
-   
+      }
+    } else {
+      navigate("/")
+
     }
-        
-	},[authTokens])
-   
-    return(
-        <>
 
-        <div>
-          <NavbarAlumnos/>
+  }, [authTokens])
+
+
+  return (
+  //   <>
+  //   <NavbarAlumnos />
+
+  //   <div className="d-flex flex-wrap">
+  //     <div className="flex-grow-1">
+  //       <PerfilUsuario />
+  //     </div>
+  //     <div className="w-100 mt-3 mt-md-0 ml-md-3">
+  //       <MostrarCursosCaja />
+  //     </div>
+  //   </div>
+  // </>
+    <>
+    
+      <div>
+        <NavbarAlumnos />
+      </div>
+
+      {/* <div style={{ display: 'flex' }}>
+      <div style={{ flex: '1 0 50%' }}>
+        <PerfilUsuario/>
+
+       </div> */}
+      <div style={{ width: '15%' }} className="ml-10">
+        <div className="">
+          <MostrarCursosCaja />
         </div>
-        <div>
-        <h4>ALUMNO</h4>
-        <MostrarAlumnos/>
-        {/* <DatosAlumno/> */}
-        {/* <Tabla props={diccionario}/> */}
-        {/* <MiCalendario/> */}
-        </div>
-        {/* <LogOut/> */}
-
-
-        </>
-    )
+      </div>
+     
+      
+    </>
+  )
 }
+
+
+
 
 
 // const diccionario = [

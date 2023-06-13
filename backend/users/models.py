@@ -8,11 +8,16 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
+from academia.models import Academia
+import uuid
 
 
     # nombre,primer_apellido,segundo_apellido
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None,nombre=None,primer_apellido=None,segundo_apellido=None ):
+    def generar_tawkto_visitor_id(self):
+        return str(uuid.uuid4())
+
+    def create_user(self, username, email, password=None,nombre=None,primer_apellido=None,segundo_apellido=None,academia=None ):
         # ,groups=None
         # print("\n\n\n" ,groups," \n\n\n")
         # group = Group.objects.get(id=groups[0])
@@ -26,7 +31,9 @@ class UserManager(BaseUserManager):
             raise TypeError('primer_apellido should have a primer_apellido')
         if segundo_apellido is None:
             raise TypeError('segundo_apellido should have a segundo_apellido')
-        user = self.model(username=username, email=self.normalize_email(email),nombre=nombre,primer_apellido=primer_apellido,segundo_apellido=segundo_apellido)
+        user = self.model(username=username, email=self.normalize_email(email),nombre=nombre,primer_apellido=primer_apellido,segundo_apellido=segundo_apellido,academia=academia)
+        tawkto_visitor_id = self.generar_tawkto_visitor_id()
+        user.tawkto_visitor_id = tawkto_visitor_id
         # ,groups=groups
         # user.groups.add(groups)
         user.set_password(password)
@@ -36,8 +43,9 @@ class UserManager(BaseUserManager):
     def create_superuser(self, username, email, password):
         if password is None:
             raise TypeError('Password should not be none')
-
         user = self.create_user(username, email, password,nombre="super",primer_apellido="apellido_super",segundo_apellido="apellido2_super")
+        # tawkto_visitor_id = self.generar_tawkto_visitor_id()
+        # user.tawkto_visitor_id = tawkto_visitor_id
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -59,9 +67,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    tawkto_visitor_id = models.CharField(max_length=255, blank=True, null=True)
     auth_provider = models.CharField(
         max_length=255, blank=False,
         null=False, default=AUTH_PROVIDERS.get('email'))
+    academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='profesores')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -77,3 +87,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+class Message(models.Model):
+    username = models.CharField(max_length=255)
+    content = models.TextField()
+    clase=models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)

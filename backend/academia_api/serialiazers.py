@@ -8,17 +8,9 @@ from users.models import User
 
 # para crear un profesor
 
-class UserSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
 
 
-class DetalleProfesorSerializer(serializers.ModelSerializer):
-    usuario = UserSerializer(read_only=True)
-    class Meta:
-        model = Profesor
-        fields = '__all__'  # Ajusta los campos según tus necesidades
+
 class EventoPropioSerializer(ModelSerializer):
     
     evento=serializers.SerializerMethodField()
@@ -39,6 +31,11 @@ class AcademiaSerializer(ModelSerializer):
         model = Academia
         fields = '__all__'
 
+class UserSerializer(ModelSerializer):
+    academia=AcademiaSerializer(read_only=True)
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class CursoSerializer(ModelSerializer):
     class Meta:
@@ -47,9 +44,47 @@ class CursoSerializer(ModelSerializer):
 
 
 class EventoSerializer(ModelSerializer):
+    
     class Meta:
         model = Evento
         fields = '__all__'
+
+class EventoSerializerGet(ModelSerializer):
+    curso=CursoSerializer(read_only=True)
+    class Meta:
+        model = Evento
+        fields = '__all__'
+    
+    
+class DetalleAlumnoSerializer(serializers.ModelSerializer):
+    usuario = UserSerializer(read_only=True)
+    curso=EventoSerializer(read_only=True, many=True)
+    class Meta:
+        model = Alumno
+        fields = '__all__'  # Ajusta los campos según tus necesidades
+        
+class DetalleProfesorSerializer(serializers.ModelSerializer):
+    usuario = UserSerializer(read_only=True)
+    class Meta:
+        model = Profesor
+        fields = '__all__'  # Ajusta los campos según tus necesidades
+
+class DetalleProfesorSerializer1(serializers.ModelSerializer):
+    usuario = UserSerializer(read_only=True)
+    class Meta:
+        model = Profesor
+        fields = '__all__'  # Ajusta los campos según tus necesidades
+class DetalleCursoSerializer(serializers.ModelSerializer):
+    academia=AcademiaSerializer(read_only=True)
+    class Meta:
+        model = Curso
+        fields = '__all__'  # Ajusta los campos según tus necesidades
+
+class DetalleEventoSerializer(serializers.ModelSerializer):
+    academia=AcademiaSerializer(read_only=True)
+    class Meta:
+        model = Evento
+        fields = '__all__'  # Ajusta los campos según tus necesidades
 
 class ProfesorSerializer(serializers.ModelSerializer):
     usuario = UserSerializer(read_only=True)
@@ -65,6 +100,12 @@ class ProfesorSerializerCrear(serializers.ModelSerializer):
         model = Profesor
         fields = '__all__'
 
+class ProfesorSerializerCrear1(serializers.ModelSerializer):
+    usuario = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    class Meta:
+        model = Profesor
+        fields = '__all__'
 
 class AlumnoSerializer(ModelSerializer):
     usuario = UserSerializer(read_only=True)
@@ -77,7 +118,8 @@ class AlumnoSerializer(ModelSerializer):
 
 class AlumnoSerializerCrear(ModelSerializer):
     usuario = serializers.CharField(source='usuario.username')
-    curso = serializers.CharField()
+    curso = serializers.ListField(child=serializers.CharField())
+    # serializers.CharField()
    
     class Meta:
         model = Alumno
@@ -149,3 +191,28 @@ class CursoSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Profesor
 #         fields = ['usuario']
+
+class ProfesorSerializerModificar(serializers.ModelSerializer):
+    class Meta:
+        model = Profesor
+        fields = ['descripcion', 'telefono']
+
+class CursoSerializerModificar(serializers.ModelSerializer):
+    academia=serializers.CharField(source='academia')
+    class Meta:
+        model = Curso
+        fields = ['nombre', 'descripcion','academia','precio','ingles']
+
+class AlumnoSerializerModificar(serializers.ModelSerializer):
+    curso = serializers.ListField(child=serializers.CharField())
+    class Meta:
+        model = Alumno
+        fields = ["nombre_padre","nombre_madre","descripcion","telefono_padre","telefono_madre","fecha_nacimiento","curso"]
+    # def update(self, instance, validated_data):
+    #     cursos_data = validated_data.pop('cursos', None)  # Elimina los datos de 'cursos' del diccionario validated_data
+    #     instance = super().update(instance, validated_data)  # Actualiza los datos del alumno
+
+    #     if cursos_data is not None:
+    #         instance.cursos.set(Curso.objects.filter(id__in=[curso['id'] for curso in cursos_data]))
+
+    #     return instance

@@ -7,8 +7,9 @@ import { Form, Button } from 'react-bootstrap';
 
 
 
+const URL_API = import.meta.env.VITE_API_URL
 
-export const RegisterFormAlumno = ({ mostrar }) => {
+export const RegisterFormAlumno1 = ({ mostrar }) => {
     const { authTokens, logoutUser } = useContext(AuthContext);
     const [cursosAll, setCursosAll] = useState([]);
     const [eventosAll, setEventosAll] = useState([]);
@@ -19,7 +20,7 @@ export const RegisterFormAlumno = ({ mostrar }) => {
 
     const fetchCursos = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/cursos/', {
+            const response = await fetch(`${URL_API}/api/cursos/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ export const RegisterFormAlumno = ({ mostrar }) => {
 
 const fetchEventos = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/eventos/', {
+        const response = await fetch(`${URL_API}/api/eventos/`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',

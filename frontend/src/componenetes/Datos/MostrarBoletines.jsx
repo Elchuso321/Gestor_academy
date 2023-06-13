@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react'
 import AuthContext from '../Ultimo/AuthContext'
+const URL_API = import.meta.env.VITE_API_URL
 
 export const MostrarBoletines=()=>{
     let [notes, setNotes] = useState([])
     let {authTokens, logoutUser} = useContext(AuthContext)
 
     let getNotes = async() =>{
-        let response = await fetch('http://127.0.0.1:8000/api/boletines/', {
+        let response = await fetch(`${URL_API}/api/boletines/`, {
             method:'GET',
             headers:{
                 'Content-Type':'application/json',

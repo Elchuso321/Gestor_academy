@@ -1,7 +1,8 @@
 import axios from "axios"
+const URL_API = import.meta.env.VITE_API_URL
 
 export function getProfesor(){
-    return axios.get('http://127.0.0.1:8000/api/alumnos/')
+    return axios.get(`${URL_API}/api/alumnos/`)
     .then(res=>{
        return res.data
     })
@@ -9,7 +10,7 @@ export function getProfesor(){
 
 export function addProfesor(profesor){
     console.log(profesor.nombre.value,profesor.apellidos.value)
-    return axios.post('http://127.0.0.1:8000/profesor/',
+    return axios.post(`${URL_API}/profesor/`,
     {
         nombre:profesor.nombre.value,
         apellidos:profesor.apellidos.value

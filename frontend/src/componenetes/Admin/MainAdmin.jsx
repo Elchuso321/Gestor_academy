@@ -10,6 +10,9 @@ import { AdminPagos } from '../Gestion/AdminPagos';
 import { AdminClases } from '../Gestion/AdminClases';
 import { AdminAulas } from '../Gestion/AdminAulas';
 import { AdminEventos } from '../Gestion/AdminEventos';
+import { VistaDetalleClase } from '../Datos/VistaDetalleClase';
+import { DetalleProfesor } from '../Datos/VistaDetalleProfesor';
+import { DetalleAlumno } from '../Datos/VistaDetalleAlumno';
 export const MainAdmin=()=> {
   return (
     <div className="App">
@@ -28,6 +31,9 @@ export const MainAdmin=()=> {
             <Route element={< AdminProfesores/>} path="/academia/profesores"/>
             <Route element={< AdminAulas/>} path="/academia/aulas"/>
             <Route element={< AdminEventos/>} path="/academia/eventos"/>
+            <Route  element={<VistaDetalleClase/>} path="/academia/clases/:numId"/>
+            <Route  element={<DetalleProfesor/>} path="/academia/profesor/:numId"/>
+            <Route  element={<DetalleAlumno/>} path="/academia/alumno/:numId"/>
             
             
             {/* <Route element={< />} path="/login"/>

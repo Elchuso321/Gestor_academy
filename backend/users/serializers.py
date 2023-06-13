@@ -10,29 +10,6 @@ from academia_api.serialiazers import ProfesorSerializer
 from rest_framework.serializers import ModelSerializer
 from .models import User
 from academia.models import Profesor
-
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        max_length=68, min_length=6, write_only=True)
-
-    default_error_messages = {
-        'username': 'The username should only contain alphanumeric characters'}
-
-    class Meta:
-        model = User
-        fields = ['email', 'username', 'password']
-
-    def validate(self, attrs):
-        email = attrs.get('email', '')
-        username = attrs.get('username', '')
-        
-        if not username.isalnum():
-            raise serializers.ValidationError(
-                self.default_error_messages)
-        return attrs
-
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
     
 # class UserSerializer(ModelSerializer):
 #     class Meta:
@@ -95,6 +72,29 @@ class RegisterSerializer(serializers.ModelSerializer):
     
 
 class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        max_length=68, min_length=6, write_only=True)
+
+    default_error_messages = {
+        'username': 'The username should only contain alphanumeric characters'}
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'password']
+
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+        username = attrs.get('username', '')
+        
+        if not username.isalnum():
+            raise serializers.ValidationError(
+                self.default_error_messages)
+        return attrs
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
+class RegisterSerializer1(serializers.ModelSerializer):
     # password = serializers.CharField(
     #     max_length=68, min_length=6, write_only=True)
     
@@ -103,7 +103,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'username' , 'password', 'nombre', 'primer_apellido', 'segundo_apellido','groups']
+        fields = ['email', 'username' , 'password', 'nombre', 'primer_apellido', 'segundo_apellido','groups','academia']
+        # 
         # fields = ['email', 'username', 'password']
 
     def validate(self, attrs):
@@ -126,6 +127,23 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
         # return User.objects.create_user(**validated_data)
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        instance.username = validated_data.get('username', instance.username)
+        instance.nombre = validated_data.get('nombre', instance.nombre)
+        instance.primer_apellido = validated_data.get('primer_apellido', instance.primer_apellido)
+        instance.segundo_apellido = validated_data.get('segundo_apellido', instance.segundo_apellido)
+        instance.academia = validated_data.get('academia', instance.academia)
+        password = validated_data.get('password')
+        if password:
+            instance.set_password(password)
+
+        groups_data = validated_data.get('groups')
+        if groups_data:
+            instance.groups.set(groups_data)
+
+        instance.save()
+        return instance
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
@@ -277,3 +295,9 @@ class LogoutSerializer(serializers.Serializer):
 #             # group = Group.objects.get(name=group_name)
 #             user.groups.add(group_name)
 #         return user
+from .models import Message
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'

@@ -4,8 +4,10 @@ import jwt_decode from "jwt-decode";
 import React, { useState,useEffect,useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 
+const URL_API = import.meta.env.VITE_API_URL
 
 export const LoginBotonBasic = () => {
+  const enlace=URL_API; 
   const navigate = useNavigate()
   let {setAuthTokens,setUser} = useContext(AuthContext)
   const [showModal, setShowModal] = useState(false); 
@@ -15,9 +17,10 @@ export const LoginBotonBasic = () => {
     console.log("Me meto en la funcion handleShow")
     let authTokensStorage=JSON.parse(localStorage.getItem('authTokens'))
     if(authTokensStorage){
-        console.log("authToken_Login:",authTokensStorage)
+        // console.log("authToken_Login:",authTokensStorage)
         let decodedToken = jwt_decode(authTokensStorage.access)
-        console.log(decodedToken.group)
+        // console.log(decodedToken.group)
+        
         if (decodedToken.group === 'Alumnos') {
           navigate("/alumno/")
               
@@ -43,8 +46,8 @@ export const LoginBotonBasic = () => {
 
   let loginUser = async (e)=> {
     e.preventDefault()
-    let response = await fetch('http://127.0.0.1:8000/api/token/', {
-    // let response = await fetch('http://127.0.0.1:8000/api/user/login/', {
+    let response = await fetch(`${URL_API}/api/token/`, {
+    
       method:'POST',
       headers:{
           'Content-Type':'application/json'
@@ -59,7 +62,8 @@ export const LoginBotonBasic = () => {
         localStorage.setItem('authTokens', JSON.stringify(data))
         let decodedToken = jwt_decode(data.access)
         setShowModal(false);
-
+        localStorage.setItem('usuario', JSON.stringify(decodedToken.nombre))
+        localStorage.setItem('id', JSON.stringify(decodedToken.id))
         if (decodedToken.group === 'Alumnos') { 
           // console.log(decodedToken.username)
           navigate("/alumno/")

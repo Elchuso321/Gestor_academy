@@ -1,12 +1,15 @@
 import React, {useState, useEffect, useContext} from 'react'
 import AuthContext from '../Ultimo/AuthContext'
+import { HorarioTable } from './TablaHorarios'
+import { VistaDetalleEvento } from './VistaDetalleEvento'
+const URL_API = import.meta.env.VITE_API_URL
 
 export const MostrarEventos=()=>{
     let [notes, setNotes] = useState([])
     let {authTokens, logoutUser} = useContext(AuthContext)
-
+    const [eventoMostrar, setEventoMostrar] = useState("")
     let getNotes = async() =>{
-        let response = await fetch('http://127.0.0.1:8000/api/eventos/', {
+        let response = await fetch(`${URL_API}/api/eventos/`, {
             method:'GET',
             headers:{
                 'Content-Type':'application/json',
@@ -35,11 +38,17 @@ export const MostrarEventos=()=>{
         <div>
             <br /><br /><br /><br /><br /><br /><br /><br />
             <h3>Eventos</h3>
+            <br /><br /><br /><br /><br />
+            <HorarioTable eventos={notes}/>
+            <br /><br /><br />
             <ul>
                 {notes.map(note => (
-                    <li key={note.id} >{note.nombre}</li>
+                    // <button onClick={()=>{setEventoMostrar(note.id)}} >{note.nombre}</button>
+                    <li key={note.id} onClick={()=>{setEventoMostrar(note.id)}}>{note.nombre} {note.hora_inicio} {note.hora_fin}</li>
                 ))}
             </ul>
+            {eventoMostrar}
+            <VistaDetalleEvento id={eventoMostrar}/>
         </div>
     )
 }

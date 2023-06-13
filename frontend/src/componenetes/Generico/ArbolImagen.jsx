@@ -4,20 +4,20 @@ import { Card, Row, Col } from "react-bootstrap";
 export const ArbolDeFotos = () => {
   const imagenes = [
     {
-      nombre: "Imagen 1",
+      nombre: "",
       url: "https://via.placeholder.com/150",
     },
     {
       nombre: "Imagen 2",
-      url: "https://via.placeholder.com/150",
+      url: "https://oxford-academy.es/wp-content/uploads/2022/03/WhatsApp-Image-2022-03-27-at-4.02.37-PM.jpeg",
     },
     {
       nombre: "Imagen 3",
-      url: "https://via.placeholder.com/150",
+      url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-6.jpg",
     },
     {
       nombre: "Imagen 4",
-      url: "https://via.placeholder.com/150",
+      url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-7.jpg",
     },
     {
       nombre: "Imagen 5",
@@ -60,6 +60,7 @@ export const ArbolDeFotos = () => {
 
   return (
     <div className="container py-5">
+      <br /><br />
       {filas.map((fila, index) => (
         <Row key={index}>
           {fila.map((imagen) => (

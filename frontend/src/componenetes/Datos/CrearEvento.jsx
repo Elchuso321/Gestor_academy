@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../Ultimo/AuthContext';
 
+const URL_API = import.meta.env.VITE_API_URL
+
 export const CrearEvento = () => {
   const { authTokens, logoutUser } = useContext(AuthContext);
   const [diaSemana, setDiaSemana] = useState('');
@@ -18,7 +20,7 @@ export const CrearEvento = () => {
   useEffect(() => {
     
             
-    fetch('http://127.0.0.1:8000/api/cursos/', {
+    fetch(`${URL_API}/api/cursos/`, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + String(authTokens.access),
@@ -29,7 +31,7 @@ export const CrearEvento = () => {
       .catch(error => console.error('Error al obtener las opciones de curso:', error));
     // console.log("profe",profesorOptions)
     // Obtener opciones de profesores
-    fetch('http://127.0.0.1:8000/api/profesores/', {
+    fetch(`${URL_API}0/api/profesores/`, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + String(authTokens.access),
@@ -40,7 +42,7 @@ export const CrearEvento = () => {
       .catch(error => console.error('Error al obtener las opciones de profesor:', error));
       
     // Obtener opciones de aulas
-    fetch('http://127.0.0.1:8000/api/aulas/', {
+    fetch(`${URL_API}/api/aulas/`, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + String(authTokens.access),
@@ -74,21 +76,10 @@ export const CrearEvento = () => {
     };
 
     console.log(data)
-  //   {
-  //     "id": 1,
-  //     "dia_semana": "X",
-  //     "nombre": "miercoles",
-  //     "descripcion": "asdf123",
-  //     "hora_inicio": "11:00:00",
-  //     "hora_fin": "12:00:00",
-  //     "curso": 1,
-  //     "profesor": 10,
-  //     "aula": 1
-  // }
   
     // console.log(diaSemana,nombre,descripcion,horaInicio,horaFin,curso,profesor,aula)
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/eventos/', {
+      const response = await fetch(`${URL_API}/api/eventos/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -178,115 +169,3 @@ export const CrearEvento = () => {
     
   );
 };  
-
-
-// import React, { useState, useContext } from 'react';
-// import AuthContext from '../Ultimo/AuthContext';
-
-// export const CrearEvento = () => {
-//   const { authTokens, logoutUser } = useContext(AuthContext);
-//   const [diaSemana, setDiaSemana] = useState('');
-//   const [nombre, setNombre] = useState('');
-//   const [descripcion, setDescripcion] = useState('');
-//   const [horaInicio, setHoraInicio] = useState('');
-//   const [horaFin, setHoraFin] = useState('');
-//   const [curso, setCurso] = useState(null);
-//   const [profesor, setProfesor] = useState(null);
-//   const [aula, setAula] = useState(null);
-
-//   const handleDiaSemanaChange = (event) => setDiaSemana(event.target.value);
-//   const handleNombreChange = (event) => setNombre(event.target.value);
-//   const handleDescripcionChange = (event) => setDescripcion(event.target.value);
-//   const handleHoraInicioChange = (event) => setHoraInicio(event.target.value);
-//   const handleHoraFinChange = (event) => setHoraFin(event.target.value);
-//   const handleCursoChange = (event) => setCurso(event.target.value);
-//   const handleProfesorChange = (event) => setProfesor(event.target.value);
-//   const handleAulaChange = (event) => setAula(event.target.value);
-
-//   const crearEvento = async (e) => {
-//     e.preventDefault();
-//     const data = {
-//       dia_semana: diaSemana,
-//       nombre: nombre,
-//       descripcion: descripcion,
-//       hora_inicio: horaInicio,
-//       hora_fin: horaFin,
-//       curso: curso,
-//       profesor: profesor,
-//       aula: aula,
-//     };
-
-//     try {
-//       const response = await fetch('http://127.0.0.1:8000/api/eventos/', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: 'Bearer ' + String(authTokens.access),
-//         },
-//         body: JSON.stringify(data),
-//       });
-
-//       if (response.ok) {
-//         const responseData = await response.json();
-//         console.log('Evento creado:', responseData);
-//         // Realiza cualquier acción adicional que necesites con la respuesta de la API
-//       } else if (response.status === 401) {
-//         console.log('No autorizado');
-//         logoutUser();
-//       } else {
-//         console.log('Error al crear el evento:', response.status);
-//       }
-//     } catch (error) {
-//       console.error('Error en la solicitud:', error);
-//     }
-//   };
-//   return (
-//     <div className="form-container">
-//       <h2>Nuevo Evento</h2>
-//       <form onSubmit={crearEvento}>
-//         <div className="form-group">
-//           <label htmlFor="diaSemana">Día de la semana:</label>
-//           <select id="diaSemana" className="form-control" value={diaSemana} onChange={handleDiaSemanaChange}>
-//             <option value="">Seleccione un día de la semana</option>
-//             <option value="L">Lunes</option>
-//             <option value="M">Martes</option>
-//             <option value="X">Miércoles</option>
-//             <option value="J">Jueves</option>
-//             <option value="V">Viernes</option>
-//             <option value="S">Sábado</option>
-//             <option value="D">Domingo</option>
-//           </select>
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="nombre">Nombre:</label>
-//           <input type="text" id="nombre" className="form-control" value={nombre} onChange={handleNombreChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="descripcion">Descripción:</label>
-//           <textarea id="descripcion" className="form-control" value={descripcion} onChange={handleDescripcionChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="horaInicio">Hora de inicio:</label>
-//           <input type="time" id="horaInicio" className="form-control" value={horaInicio} onChange={handleHoraInicioChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="horaFin">Hora de fin:</label>
-//           <input type="time" id="horaFin" className="form-control" value={horaFin} onChange={handleHoraFinChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="curso">Curso:</label>
-//           <input type="text" id="curso" className="form-control" value={curso} onChange={handleCursoChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="profesor">Profesor:</label>
-//           <input type="text" id="profesor" className="form-control" value={profesor} onChange={handleProfesorChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="aula">Aula:</label>
-//           <input type="text" id="aula" className="form-control" value={aula} onChange={handleAulaChange} />
-//         </div>
-//         <button type="submit" className="btn btn-primary">Crear Evento</button>
-//       </form>
-//     </div>
-// );
-// };

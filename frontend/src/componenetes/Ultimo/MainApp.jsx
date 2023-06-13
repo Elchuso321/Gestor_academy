@@ -11,7 +11,7 @@ import { Nosotros } from '../Basico/Nosotros';
 import { Contacto } from '../Basico/Contacto';
 import { MainAdmin } from '../Admin/MainAdmin';
 import { MainProfesor } from '../Profesor/MainProfesor';
-
+import "../estilos/estilosGenericos.css"
 export const App=()=> {
   return (
     <div className="App">

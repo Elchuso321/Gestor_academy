@@ -6,6 +6,7 @@ import { Home } from './Home'
 import { HomeAlumno } from '../Alumno/HomeAlumno'
 import { HomeProfesor } from '../Profesor/HomeProfesor'
 import { HomeAdmin } from '../Admin/HomeAdmin'
+import { LoginConfirmation } from './ConfirmacionUser'
 
 export const InicioRoute=()=>{
     return(
@@ -15,6 +16,8 @@ export const InicioRoute=()=>{
             <Route path="/alumnos" element={<HomeAlumno/>}/>
             <Route path="/profesores" element={<HomeProfesor/>}/>
             <Route path="/admin" element={<HomeAdmin/>}/>
+            <Route path="/confirmacion/cuenta/:token" element={<LoginConfirmation/>}/>
+            
             {/* <Route path="/login" element={<LoginPage/>}/>
             <Route path="/about" element={<AboutPage/>}/>
             <Route path="/*" element={<Navigate to="/about"/>}/> */}

@@ -1,4 +1,5 @@
 .env
+.env.local
 makefile.example
 makeffile.example
 data
@@ -9,3 +10,4 @@ comandos
 frontend/node_modules
 backend bueno antiguo
 .backend antiguo
+

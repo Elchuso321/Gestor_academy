@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../Ultimo/AuthContext';
 import "./estilos/ModalCrearAcademia.css";
+const URL_API = import.meta.env.VITE_API_URL
 
 export const BotonCrearAcademia = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +20,7 @@ export const BotonCrearAcademia = () => {
     e.preventDefault()
     const data = { nombre: academiaNombre };
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/academias/', {
+      const response = await fetch(`${URL_API}/api/academias/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,51 +72,6 @@ export const BotonCrearAcademia = () => {
     </div>
   );
 };
-
-
-
-// import React, {useState, useEffect, useContext} from 'react'
-// import AuthContext from '../Ultimo/AuthContext'
-
-// export const BotonCrearAcademia=()=>{
-//     let [notes, setNotes] = useState([])
-//     let {authTokens, logoutUser} = useContext(AuthContext)
-
-
-//     const crearAcademia = async () => {
-//         const data = { nombre: "Perro" }; // Reemplaza "Nombre de la academia" con el valor deseado
-//         try {
-//         const response = await fetch('http://127.0.0.1:8000/api/academias/', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': 'Bearer ' + String(authTokens.access)
-//             },
-//             body: JSON.stringify(data),
-//         });
-        
-//         if (response.ok) {
-//             const responseData = await response.json();
-//             console.log('Academia creada:', responseData);
-//             // Realiza cualquier acción adicional que necesites con la respuesta de la API
-//         } else {
-//             console.log('Error al crear la academia:', response.status);
-//             // Maneja el error de acuerdo a tus necesidades
-//         }
-//         } catch (error) {
-//         console.error('Error en la solicitud:', error);
-//         // Maneja el error de acuerdo a tus necesidades
-//         }
-//     }   
-    
-
-
-//     return (
-//         <div>
-//          <button onClick={crearAcademia} >CREAR ACADEMIA</button>
-//         </div>
-//     )
-// }
 
 
 

@@ -5,7 +5,7 @@ import React, { useState,useEffect,useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import  {NavbarAdminAcademia} from "../Admin/NavbarAdmin_Academia"
 import { MostrarAulas } from '../Datos/MostrarAula';
-import { CrearCurso } from '../Datos/CrearGrupo';
+import { CrearCurso } from '../Datos/CrearCurso';
 import { MostrarCursos } from '../Datos/MostrarCursos';
 import { MostrarEventos } from '../Datos/MostrarEventos';
 import { CrearEvento } from '../Datos/CrearEvento';

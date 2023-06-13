@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../Ultimo/AuthContext';
 
+const URL_API = import.meta.env.VITE_API_URL
+
 export const BotonCrearAula = () => {
   const [academias, setAcademias] = useState([]);
   const { authTokens, logoutUser } = useContext(AuthContext);
@@ -17,7 +19,7 @@ export const BotonCrearAula = () => {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/aulas/', {
+      const response = await fetch(`${URL_API}/api/aulas/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +46,7 @@ export const BotonCrearAula = () => {
   useEffect(() => {
     const getAcademias = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/academias/', {
+        const response = await fetch(`${URL_API}/api/academias/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -99,97 +101,3 @@ export const BotonCrearAula = () => {
     </div>
   );
 };
-
-// import React, { useState, useEffect, useContext } from 'react';
-// import AuthContext from '../Ultimo/AuthContext';
-
-// export const BotonCrearAula = () => {
-//   const [notes, setNotes] = useState([]);
-  
-//   const [mostrarAcademia, setMostrarAcademia] = useState([]);
-//   const { authTokens, logoutUser } = useContext(AuthContext);
-//   const [nombre, setNombre] = useState('');
-//   const [academia, setAcademia] = useState('');
-
-//   const handleNombreChange = (event) => setNombre(event.target.value);
-//   const handleAcademiaChange = (event) => setAcademia(event.target.value);
-
-//   const crearAula = async () => {
-//     let getNotes = async() =>{
-//       let response = await fetch('http://127.0.0.1:8000/api/academias/', {
-//           method:'GET',
-//           headers:{
-//               'Content-Type':'application/json',
-//               'Authorization':'Bearer ' + String(authTokens.access)
-//           }
-//       })
-//       let data = await response.json()
-     
-//       if(response.status === 200){
-//           console.log("academias:",data)
-//           setNotes(data)
-          
-
-//       }else if(response.statusText === 'Unauthorized'){
-//           console.log("fallo")
-//           // logoutUser()
-//       }
-      
-//   }
-
-//   useEffect(()=> {
-//       let academia=localStorage.get('academia')
-//       getNotes()
-//   },[])
-    
-//     const data = {
-//       nombre: nombre,
-//       academia: 1, // Reemplaza 1 con el ID de la academia a la que pertenece el aula
-//     };
-
-//     try {
-//       const response = await fetch('http://127.0.0.1:8000/api/aulas/', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(data),
-//       });
-
-//       if (response.ok) {
-//         const responseData = await response.json();
-//         console.log('Aula creada:', responseData);
-//         // Realiza cualquier acción adicional que necesites con la respuesta de la API
-//       } else {
-//         console.log('Error al crear el aula:', response.status);
-//       }
-//     } catch (error) {
-//       console.error('Error en la solicitud:', error);
-      
-//     }
-//   };
-
- 
-
-
-//   return (
-//     <div>
-//       <div className="form-container">
-//       <h2>Nuevo Grupo</h2>
-//       <form onSubmit={handleSubmit}>
-//         <div className="form-group">
-//           <label htmlFor="nombre">Nombre de usuario:</label>
-//           <input type="text" id="nombre" className="form-control" value={username} onChange={handleUsernameChange} />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="academia">Academia:</label>
-//           <input type="selector" id="academia" className="form-control" value={academia} onChange={handleAcademiaChange} />
-//         </div>
-//         <button type="submit" className="btn btn-primary">Registrar</button>
-//       </form>
-     
-// </div>
-//       {/* <button onClick={crearAula}>CREAR</button> */}
-//     </div>
-//   );
-// };
