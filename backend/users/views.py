@@ -74,6 +74,10 @@ def update_user(request, pk):
         print("\n\n HOLA \n\n")
         if serializer.is_valid():
             serializer.save()
+            password=request.data.get('password')
+            user.set_password(password)
+            user.save()
+            
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except User.DoesNotExist:

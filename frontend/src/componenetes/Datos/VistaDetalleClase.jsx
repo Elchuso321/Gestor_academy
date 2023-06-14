@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../Ultimo/AuthContext';
-import { ComponenteChanel1 } from '../Chat2/ComponenteChat2';
+// import { ComponenteChanel1, ModalChat, ModalChat1 } from '../Chat2/ComponenteChat2';
 import { HorarioTable } from './TablaHorarios';
 import { useParams } from 'react-router-dom';
 import { NavbarAdminAcademia } from '../Admin/NavbarAdmin_Academia';
@@ -10,8 +10,12 @@ import styled from 'styled-components';
 import { Image } from 'react-bootstrap';
 import { CrearEvento } from './CrearEvento';
 import { UpdateFormClase } from '../conexion/update/UpdateClase';
+import { FaComments } from 'react-icons/fa';
+import {useNavigate} from 'react-router-dom'
+
+// import { ModalChatCustom } from '../Chat2/ComponenteChat2';
 const URL_API = import.meta.env.VITE_API_URL
-const enlace=URL_API
+const enlace = URL_API
 const ModalWrapper = styled.div`
   /* Estilos para el modal */
   position: fixed;
@@ -28,7 +32,11 @@ const ModalWrapper = styled.div`
 const ModalContent = styled.div`
   /* Estilos para el contenido del modal */
   background-color: white;
-  padding: 30px;
+    padding: 30px;
+    width: 800px; /* Establece el ancho máximo deseado */
+    height: 80vh; /* Establece la altura máxima en relación a la altura de la ventana */
+    overflow-y: auto; /* Habilita el desplazamiento vertical cuando se supere la altura máxima */
+
 `;
 
 const Modal = ({ isOpen, onClose, children }) => {
@@ -40,29 +48,56 @@ const Modal = ({ isOpen, onClose, children }) => {
     <ModalWrapper>
       <ModalContent>
         {children}
-        <button onClick={onClose}>Cerrar</button>
+        <button onClick={onClose} className ="btn btn-danger" style={{ float: 'right'}}>
+        Cerrar
+      </button>
       </ModalContent>
     </ModalWrapper>
   );
 };
 
+const buttonStyle = {
+  backgroundColor: '#4CAF50',
+  color: 'white',
+  border: 'none',
+  padding: '10px 20px',
+  textAlign: 'center',
+  display: 'inline-block',
+  fontSize: '16px',
+  transitionDuration: '0.4s',
+  cursor: 'pointer',
+  borderRadius: '12px'
+};
+
+const iconStyle = {
+  fontSize: '20px'
+};
 
 export const VistaDetalleClase = ({ id = 0 }) => {
   const { numId } = useParams();
   if (numId) {
     id = numId;
   }
+  const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleTextClickChat = (nombre) => {
+  localStorage.setItem('clase', JSON.stringify(nombre));
+  navigate(`/admin/academia/clase/chat/${nombre}`)
+
+  };
   const [profesores, setProfesores] = useState([]);
   const [eventosFiltrados, setEventosFiltrados] = useState([]);
   const [isModalOpenCrear, setIsModalOpenCrear] = useState(false);
   const [isModalOpenEditar, setIsModalOpenEditar] = useState(false);
-
+  const [isModalOpenChat, setIsModalOpenChat] = useState(false);
   const [alumnos, setAlumnos] = useState([]);
   const [profesor, setProfesor] = useState([]);
 
   const handleTextClick = () => {
     setIsModalOpenCrear(true);
   };
+
   const handleTextClickEditar = () => {
     setIsModalOpenEditar(true);
   };
@@ -70,7 +105,28 @@ export const VistaDetalleClase = ({ id = 0 }) => {
   const handleCloseModal = () => {
     setIsModalOpenCrear(false);
     setIsModalOpenEditar(false);
+    setIsModalOpenChat(false);
+    setIsChatOpen(false);
 
+  };
+    const ChatWindow = () => {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          width: "50%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 9999,
+        }}
+      >
+        {/* Aquí puedes agregar el componente de chat */}
+        {/* ... */}
+        <button onClick={() => setIsChatOpen(false)}>Cerrar</button>
+      </div>
+    );
   };
 
   // const handleCloseModalEditar = () => {
@@ -207,25 +263,56 @@ export const VistaDetalleClase = ({ id = 0 }) => {
           <div className="col-lg-8">
             {/* Primer div con el 70% de ancho */}
             {curso ? (
-              <div>
-                 <div className="d-flex justify-content-center align-items-center">
-                    <Image
-                      src={`${enlace}${curso.imagen}`}
-                      alt={`${enlace}${curso.imagen}`}
-                      className="img-fluid rounded-circle border border-3 border-primary"
-                      style={{ width: '250px', height: '250px' }}
-                    />
+
+              <div className="container">
+
+                <div className="row">
+                  <div className="col-sm-6" style={{ height: '290px' }}>
+                    <div className="profile-picture"> {/* Estilo para el cuadro de la foto de perfil */}
+
+                      <Image
+                        src={`${enlace}${curso.imagen}`}
+                        alt="Foto de perfil"
+                        className="img-fluid rounded-circle border border-3 border-secondary"
+                        style={{ width: '250px', height: '250px' }}
+                      />
+                    </div>
                   </div>
-                <h2>
-                  <h2>&#10060;</h2>
-                  
+                  <div className="col-sm-6">
+                    <div className="profile-details"> {/* Estilo para el cuadro del nombre y la biografía */}
+                      <span><strong className='h3'>{curso.nombre} </strong> </span>
+                      {/* Nombre en grande del niño */}
+                      <div className="bio"> {/* Estilo para el cuadro de la biografía */}
+                        <div className="border border-black p-4" style={{ height: '200px', overflowY: 'auto' }}>
+                          <h2 className="text-lg font-bold mb-4">Info</h2>
+                          <div>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae voluptates quas, molestias optio provident dolor excepturi nesciunt porro eveniet, tenetur amet voluptatibus aperiam quaerat atque nulla quibusdam mollitia totam et!{curso.descripcion}
+                          </div>
+                        </div>
 
+                      </div>
 
-                  nombre: {curso.nombre} apellido {curso.descripcion}
-                </h2>
-                <p>academia: {curso.academia.nombre}</p>
-                {/* <HorarioTable eventos={notes} /> */}
+<br />
+                      <button onClick={()=>handleTextClickChat(curso.nombre)} style={buttonStyle}>
+                        <span style={iconStyle}>&#128488;</span>
+                        <span style={{ marginLeft: '5px' }}> chat</span>
+                      </button>
+                                           
+                    </div>
+                  </div>
+                </div>
               </div>
+
+
+
+
+
+
+
+
+
+
+
             ) : (
               <p>Cargando información del curso...</p>
             )}
@@ -233,19 +320,18 @@ export const VistaDetalleClase = ({ id = 0 }) => {
           <div className="col-lg-4 mt-4 mt-lg-0">
             <div className="d-flex justify-content-center">
               <button className="btn btn-primary btn-floating" onClick={handleTextClickEditar}>
-                Editar
+                Editar Curso
               </button>
               <Modal isOpen={isModalOpenEditar} onClose={handleCloseModal}>
-                hola
-                <UpdateFormClase  id={curso.id}/>
+                <UpdateFormClase id={curso.id} />
 
               </Modal>
               <p className='invisible'>-----  -</p>
               <button className="custom-button" onClick={handleTextClick}>
-                Crear
+                Crear evento
               </button>
               <Modal isOpen={isModalOpenCrear} onClose={handleCloseModal}>
-               
+
                 <CrearEvento />
               </Modal>
             </div>
@@ -272,12 +358,12 @@ export const VistaDetalleClase = ({ id = 0 }) => {
                     {/* Rectángulo más grande */}
 
                     {alumnos.map((note) => (
-                    <p key={note.id}>{note.usuario.nombre}</p>
-                  ))}
+                      <p key={note.id}>{note.usuario.nombre}</p>
+                    ))}
                   </div>
                 </div>
               </div>
-             </div>
+            </div>
           </div>
         </div>
         <div className="row mt-4">

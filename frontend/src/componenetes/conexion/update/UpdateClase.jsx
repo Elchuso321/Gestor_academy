@@ -24,7 +24,8 @@ export const UpdateFormClase = ({ id = 1 }) => {
     const handleImagenChange = (event) => setImagen(event.target.files[0]);
 
 
-    const updateProfesor = async (userId) => {
+    const updateProfesor = async (userId,e) => {
+        event.preventDefault();
         try {
             const data = {
                 nombre: nombre,
@@ -34,7 +35,8 @@ export const UpdateFormClase = ({ id = 1 }) => {
                 ingles: ingles,
                 // imagen: imagen,
             };
-            const response = await fetch(`${URL_API}/api/clase/update/${userId}/`, {
+            console.log('userID:', userId)
+            const response = await fetch(`${URL_API}/api/clase/update/${id}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,14 +45,16 @@ export const UpdateFormClase = ({ id = 1 }) => {
                 body: JSON.stringify(data),
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || 'Error al actualizar el usuario');
-            }
-
-            const updatedUser = await response.json();
-            // Realiza las acciones necesarias con el usuario actualizado
-            console.log('Profesor actualizado:', updatedUser);
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Evento creado:', responseData);
+                // Realiza cualquier acción adicional que necesites con la respuesta de la API
+              } else if (response.status === 401) {
+                console.log('No autorizado');
+                // logoutUser();
+              } else {
+                console.log('Error al crear el evento:', response.status);
+              }
         } catch (error) {
             console.error(error);
             // Realiza el manejo de errores adecuado
@@ -168,7 +172,7 @@ export const UpdateFormClase = ({ id = 1 }) => {
                         <label htmlFor="imagen">Imagen:</label>
                         <input type="file" id="imagen" className="form-control-file" onChange={handleImagenChange} />
                     </div> */}
-                    <button type="submit" className="btn btn-primary">Crear Curso</button>
+                    <button type="submit" className="btn btn-primary">Modificar Curso</button>
                 </form>
             </div>
 

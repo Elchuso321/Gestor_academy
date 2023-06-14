@@ -13,7 +13,8 @@ import { ComponenteChanel1 } from '../Chat2/ComponenteChat2'
 import { MostrarCursosCaja } from '../Datos/MostrarCursosCajas'
 import { PerfilUsuario } from '../Datos/PerfilUsuario'
 import { HorarioTable } from '../Datos/TablaHorarios'
-
+import { DetalleAlumno } from './DatosAlum.jsx/DetalleAlumno'
+import { useParams } from 'react-router-dom';
 
 
 const URL_API = import.meta.env.VITE_API_URL
@@ -22,7 +23,7 @@ export const HomeAlumno = () => {
   const id=JSON.parse(localStorage.getItem('id'))
   const navigate = useNavigate()
   let { authTokens } = useContext(AuthContext)
-  
+  const usuario=JSON.parse(localStorage.getItem('usuario'))
   useEffect(() => {
 
 
@@ -59,17 +60,18 @@ export const HomeAlumno = () => {
         <NavbarAlumnos />
       </div>
 
+      <DetalleAlumno id={id}/>
       {/* <div style={{ display: 'flex' }}>
       <div style={{ flex: '1 0 50%' }}>
         <PerfilUsuario/>
 
        </div> */}
-      <div style={{ width: '15%' }} className="ml-10">
+      {/* <div style={{ width: '15%' }} className="ml-10">
         <div className="">
           <MostrarCursosCaja />
         </div>
       </div>
-     
+      */}
       
     </>
   )

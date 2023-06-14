@@ -43,7 +43,7 @@ export const MostrarCursosCaja=()=>{
 
     return notes.map((button, index) => (
         
-        <ColorSquareComponent key={index} color="#5CB3FC" handleClick={()=>handleClickCurso(button.nombre)} texto={button.nombre} disposicion="10" />
+        <ColorSquareComponent key={index} color="#5CB3FC" handleClick={()=>handleClickCurso(button.nombre)} texto={button.nombre} disposicion="12" />
     
     ));
 }

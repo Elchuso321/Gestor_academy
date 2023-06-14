@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './estilos/estiloFormCrearProfesor.css';
+// import './estilos/estiloFormCrearProfesor.css';
 import AuthContext from '../../Ultimo/AuthContext';
 const URL_API = import.meta.env.VITE_API_URL
 
-export const UpdateFormEvento = ({ id }) => {
+export const UpdateFormEvento1 = ({ id }) => {
     const { authTokens, logoutUser } = useContext(AuthContext);
     const [diaSemana, setDiaSemana] = useState('');
     const [nombre, setNombre] = useState('');

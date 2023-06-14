@@ -4,7 +4,6 @@ import moment from 'moment';
 import "../estilos/boton.css"
 import styled from 'styled-components';
 import { UpdateFormEvento } from '../conexion/update/updateEvento';
-// import { UpdateFormEvento1 } from './ModificarEvento';
 
 const ModalWrapper = styled.div`
   /* Estilos para el modal */
@@ -42,7 +41,7 @@ const Modal = ({ isOpen, onClose, children }) => {
   );
 };
 
-export const HorarioTable = ({eventos=[]}) => {
+export const HorarioTableNoModificaciones = ({eventos=[]}) => {
     // let [eventos, setEventos] = useState([])
     let {authTokens, logoutUser} = useContext(AuthContext)
     console.log("eventos2:",eventos)
@@ -59,17 +58,12 @@ export const HorarioTable = ({eventos=[]}) => {
   //   }));
   // };
     const handleTextClicDetalle = (id) => {
-      setSelectedEventId(id);
-      console.log("id:",id)
-      // setInterval(mostrarIntervalo, 1000);
-      setIsModalOpenDetalle(true);
-    };
-    // const mostrarIntervalo=()=>{
-    //   if (!isModalOpenDetalle) {
+      if (!isModalOpenDetalle) {
+        setIsModalOpenDetalle(true);
         
-    //   }
-    // }
-
+      }
+      setSelectedEventId(eventos.id);
+    };
 
     // const handleCloseModal = (id) => {
     //   setModalStates((prevState) => ({
@@ -129,7 +123,7 @@ export const HorarioTable = ({eventos=[]}) => {
               const horaReduccionTextoFin = horaParseadaFin.format('HH:mm');
               if (dia === evento.dia_semana && hora >= horaReduccionTextoInicio && hora <= horaReduccionTextoFin) {
                 return <div className="" key={key}>
-                  <p onClick={() => handleTextClicDetalle(evento.id)}>{evento.curso.nombre} - Aula:{evento.aula}</p>
+                  <p >{evento.nombre} - Aula:{evento.aula}</p>
                   
                 </div>;
                 
@@ -142,10 +136,7 @@ export const HorarioTable = ({eventos=[]}) => {
     ))}
   </tbody>
 </table>
-                  <Modal isOpen={isModalOpenDetalle} onClose={handleCloseModal}>
-                  {/* <CrearCurso/> */}
-                  <UpdateFormEvento id={selectedEventId} />
-                  </Modal>
+                 
 </div>
     );
     };

@@ -49,6 +49,8 @@ export const MostrarEventos=()=>{
             </ul>
             {eventoMostrar}
             <VistaDetalleEvento id={eventoMostrar}/>
+                    
+            
         </div>
     )
 }

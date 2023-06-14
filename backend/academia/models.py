@@ -36,7 +36,7 @@ class Profesor(models.Model):
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     descripcion = models.TextField(null=True,)
     telefono = models.CharField(max_length=9,null=True)
-    foto_perfil=models.ImageField(upload_to='profesores/',default='profesores/profesor.jpeg' ,null=True, blank=True)
+    foto_perfil=models.ImageField(upload_to='profesores/',default='profesores/ProfesorBien.jpg' ,null=True, blank=True)
 
     def __str__(self):
         return f'{self.usuario.nombre} {self.usuario.primer_apellido}'

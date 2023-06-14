@@ -5,44 +5,41 @@ export const ArbolDeFotos = () => {
   const imagenes = [
     {
       nombre: "",
-      url: "https://via.placeholder.com/150",
+      url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-12.jpg",
     },
     {
-      nombre: "Imagen 2",
+      nombre: "",
       url: "https://oxford-academy.es/wp-content/uploads/2022/03/WhatsApp-Image-2022-03-27-at-4.02.37-PM.jpeg",
     },
     {
-      nombre: "Imagen 3",
+      nombre: "",
       url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-6.jpg",
     },
     {
-      nombre: "Imagen 4",
-      url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-7.jpg",
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-49.jpg",
     },
     {
-      nombre: "Imagen 5",
-      url: "https://via.placeholder.com/150",
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/52536858_1224099554438406_8222240328665530368_n.jpg",
     },
     {
-      nombre: "Imagen 6",
-      url: "https://via.placeholder.com/150",
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/47687309_1176541439194218_8740292931652419584_n.jpg",
     },
     {
-      nombre: "Imagen 7",
-      url: "https://via.placeholder.com/150",
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/45180255_1146456375536058_8123112895790710784_n.jpg",
     },
     {
-      nombre: "Imagen 8",
-      url: "https://via.placeholder.com/150",
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/45213287_1147099498805079_138399239439908864_n.jpg",
     },
     {
-      nombre: "Imagen 9",
-      url: "https://via.placeholder.com/150",
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/45180255_1146456375536058_8123112895790710784_n.jpg",
     },
-    {
-      nombre: "Imagen 10",
-      url: "https://via.placeholder.com/150",
-    },
+   
   ];
 
   const filas = [];

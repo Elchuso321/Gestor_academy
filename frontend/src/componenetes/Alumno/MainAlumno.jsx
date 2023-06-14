@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Route,Routes } from 'react-router-dom'
 import { HomeAlumno } from './HomeAlumno';
-import { AuthProvider } from '../Ultimo/AuthContext';
+
 import { Muestra } from './Muestra';
 import { DetalleClase } from './DetalleClase';
+import { AuthProvider } from '../Ultimo/AuthContext';
 
- 
+import { useParams } from 'react-router-dom';
 
 
 export const MainAlumno=()=> {
@@ -18,7 +19,8 @@ export const MainAlumno=()=> {
             <Route element={<HomeAlumno/>} path="/"/>
             <Route element={<DetalleClase/>} path="/clase"/>
             
-            <Route element={<Muestra/>} path="/muestra"/>
+            {/* <Route element={<Muestra/>} path="/muestra"/> */}
+            
             {/* <Route element={< HomeAlumno/>} path="/"/> */}
             {/* <Route element={< />} path="/login"/>
             <Route element={</>} path="/register"/> */}

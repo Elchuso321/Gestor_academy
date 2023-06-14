@@ -6,7 +6,13 @@ import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
 export const NavbarBasic = () => {
   const [showSubMenu, setShowSubMenu] = useState(false);
-
+  
+  const logoutUser = () => {
+    setAuthTokens(null);
+    setUser(null);
+    localStorage.removeItem('authTokens');
+    navigate('/');
+  };
   const handleSubMenu = () => {
     setShowSubMenu(!showSubMenu);
   };
@@ -24,14 +30,20 @@ export const NavbarBasic = () => {
     <div className="container-fluid" style={style}>
       <div className="container py-3">
         <Navbar expand="md" variant="light" className="px-0">
-          <Navbar.Brand href="#">
-            <img
-              src=""
-              alt="Academy"
-              id="logo"
-              className="navbar-brand"
-              style={{ maxHeight: '100%', margin: '0px 15px', padding: '0px' }}
-            />
+          <Navbar.Brand href="/">
+          <img
+            src="https://oxford-academy.es/wp-content/uploads/2018/05/oxford.jpg"
+            alt="Academy"
+            id="logo"
+            className="navbar-brand"
+            style={{
+              maxWidth: '100%',
+              height: 'auto',
+              margin: '0px 15px',
+              padding: '0px',
+            }}
+          />
+
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">

@@ -75,7 +75,7 @@ export const BotonCrearAula = () => {
   return (
     <div>
       <div className="form-container">
-        <h2>Nuevo Grupo</h2>
+        <h2>Nueva Aula</h2>
         <form onSubmit={crearAula}>
           <div className="form-group">
             <label htmlFor="nombre">Nombre:</label>

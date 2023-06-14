@@ -203,6 +203,12 @@ class CursoSerializerModificar(serializers.ModelSerializer):
         model = Curso
         fields = ['nombre', 'descripcion','academia','precio','ingles']
 
+
+class EventoSerializerModificar(serializers.ModelSerializer):
+    class Meta:
+        model = Evento
+        fields ="__all__"
+
 class AlumnoSerializerModificar(serializers.ModelSerializer):
     curso = serializers.ListField(child=serializers.CharField())
     class Meta:

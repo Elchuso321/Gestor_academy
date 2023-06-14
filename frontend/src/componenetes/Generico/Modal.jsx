@@ -29,7 +29,9 @@ const Modal = ({ isOpen, onClose, children }) => {
     <ModalWrapper>
       <ModalContent>
         {children}
-        <button onClick={onClose}>Cerrar</button>
+        <button onClick={onClose} className ="btn btn-danger" style={{ float: 'right'}}>
+        Cerrar
+      </button>
       </ModalContent>
     </ModalWrapper>
   );

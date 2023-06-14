@@ -45,8 +45,9 @@ export const BotonCrearAcademia = () => {
 
   return (
     <div>
-      <button onClick={toggleModal}>CREAR ACADEMIA</button>
-
+     <button className="btn btn-primary" onClick={toggleModal} >
+  CREAR ACADEMIA
+</button>
       {showModal && (
         <div className="modal">
           <div className="modal-content">

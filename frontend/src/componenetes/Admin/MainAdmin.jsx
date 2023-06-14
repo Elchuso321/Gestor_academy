@@ -13,6 +13,8 @@ import { AdminEventos } from '../Gestion/AdminEventos';
 import { VistaDetalleClase } from '../Datos/VistaDetalleClase';
 import { DetalleProfesor } from '../Datos/VistaDetalleProfesor';
 import { DetalleAlumno } from '../Datos/VistaDetalleAlumno';
+import { ComponenteChanel1 } from '../Chat2/ComponenteChat2';
+import { ConversacionesAdmin } from './ConversacionAdmin';
 export const MainAdmin=()=> {
   return (
     <div className="App">
@@ -34,6 +36,7 @@ export const MainAdmin=()=> {
             <Route  element={<VistaDetalleClase/>} path="/academia/clases/:numId"/>
             <Route  element={<DetalleProfesor/>} path="/academia/profesor/:numId"/>
             <Route  element={<DetalleAlumno/>} path="/academia/alumno/:numId"/>
+            <Route  element={<ConversacionesAdmin/>} path="/academia/clase/chat/:numId"/>
             
             
             {/* <Route element={< />} path="/login"/>

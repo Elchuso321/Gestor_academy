@@ -42,7 +42,11 @@ const Modal = ({ isOpen, onClose, children }) => {
     <ModalWrapper>
       <ModalContent>
         {children}
-        <button onClick={onClose}>Cerrar</button>
+        <button onClick={onClose} className ="btn btn-danger" style={{ float: 'right'}}>
+        <button onClick={onClose} className ="btn btn-danger" style={{ float: 'right'}}>
+        Cerrar
+      </button>
+      </button>
       </ModalContent>
     </ModalWrapper>
   );
@@ -64,6 +68,7 @@ export const AdminClases = () => {
   
     const handleCloseModal = () => {
       setIsModalOpen(false);
+      
     };
     useEffect(()=> {
         let getNotes = async() =>{

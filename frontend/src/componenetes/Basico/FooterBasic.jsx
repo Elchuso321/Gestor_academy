@@ -12,7 +12,7 @@ export const Footer = () => {
       <div className="container py-5">
         <footer className="text-center" style={style}>
           <div className="container">
-            <hr className="my-5" />
+           
 
             {/* <section className="mb-5">
               <div className="row d-flex justify-content-center">
@@ -88,7 +88,7 @@ export const Footer = () => {
               </div>
             </section>
 
-            <hr className="my-5" />
+            
 
             <div className="text-center text-md-start">
               <p>

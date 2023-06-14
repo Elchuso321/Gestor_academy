@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from academia_api.views import CustomTokenObtainPairView
 from academia_api.views import CursoImagenView
-from .views import ProfesorCreateView,AlumnoCreateView,ProfesorUpdateView,update_profesor,update_clase
+from .views import ProfesorCreateView,AlumnoCreateView,ProfesorUpdateView,update_profesor,update_clase,update_evento,update_alumno
 from rest_framework_simplejwt.views import (
     TokenRefreshView
 )
@@ -17,7 +17,7 @@ urlpatterns = [
     
     path('academias/', views.getAcademias),
     path('cursos/', views.getCurso),
-    path('eventos/', views.getEvento),
+    path('eventos/', views.crearEvento),
     path('alumnos/', views.getAlumno),
     path('profesores/', views.getProfesor),
     path('boletines/', views.getBoletin),
@@ -36,8 +36,9 @@ urlpatterns = [
     # path('users/update/<int:pk>/', update_user, name='user-update'),
     path('profesores/update/<int:pk>/', update_profesor, name='profesor-update'),
 
-    path('alumnos/update/<int:pk>/', update_profesor, name='profesor-update'),
-    path('clase/update/<int:pk>/', update_clase, name='profesor-update'),
+    path('alumnos/update/<int:pk>/', update_alumno, name='alumno-update'),
+    path('clase/update/<int:pk>/', update_clase, name='clase-update'),
+    path('evento/update/<int:pk>/', update_evento, name='evento-update'),
 
     # path('profesores/update/<int:pk>/', ProfesorUpdateView.as_view(), name='profesor-update'),
 

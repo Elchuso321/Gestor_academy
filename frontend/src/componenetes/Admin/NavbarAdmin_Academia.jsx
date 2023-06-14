@@ -198,7 +198,7 @@ export const NavbarAdminAcademia = () => {
     zIndex: 9999,
   };
   
-  const academia = localStorage.getItem("academia") || "No se donde estas";
+  const academia = localStorage.getItem("academia") || "Desconocida";
   const { setAuthTokens, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem('usuario')) || 'Invitado';

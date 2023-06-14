@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AuthContext from '../Ultimo/AuthContext';
-import { ModificarProfesor } from './ModificarProfesor';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
-import { NavbarAdminAcademia } from '../Admin/NavbarAdmin_Academia';
 import { Image } from 'react-bootstrap';
-import { UpdateFormProfe } from '../conexion/update/UpdateComponenteProfe';
-import "./estilos/PerfilUsuarios.css"
-import "../estilos/boton.css"
+import { HorarioTableNoModificaciones } from '../../Datos/TablaHorariosNoModificaciones';
+import AuthContext from '../../Ultimo/AuthContext';
 import styled from 'styled-components';
-import { UpdateFormAlumnos } from '../conexion/update/UpdateComponenteAlumno';
-import { HorarioTable } from './TablaHorarios';
-import { HorarioTableCrear } from './TablaDatosCrear';
-import { HorarioTableNoModificaciones } from './TablaHorariosNoModificaciones';
+import { useParams } from 'react-router-dom';
+import { MostrarCursosCaja } from '../../Datos/MostrarCursosCajas';
+
 const URL_API = import.meta.env.VITE_API_URL
 
 const ModalWrapper = styled.div`
@@ -184,7 +177,7 @@ export const DetalleAlumno = ({ id = 1 }) => {
 
   return (
     <div>
-      <NavbarAdminAcademia />
+      {/* <NavbarAl/ /> */}
       <br /><br /><br /><br /><br /><br />
       {profesor ? (
         
@@ -204,13 +197,8 @@ export const DetalleAlumno = ({ id = 1 }) => {
             </div>
             <div className="col-sm-6">
               <div className="profile-details"> {/* Estilo para el cuadro del nombre y la biografía */}
-                <span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong>  <button className="btn btn-primary btn-floating" onClick={handleTextClickEditar}>
-                    Editar
-                  </button>
-                  <Modal isOpen={isModalOpenEditar} onClose={handleCloseModal}>
-                    {/* <CrearCurso/> */}
-                    <UpdateFormAlumnos id={profesor.id} />
-                  </Modal></span> 
+                <span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong> </span>
+                <br />     
                 {/* Nombre en grande del niño */}
                 <div className="bio"> {/* Estilo para el cuadro de la biografía */}
                   <div className="border border-black p-4" style={{ height: '200px', overflowY: 'auto' }}>
@@ -226,60 +214,16 @@ export const DetalleAlumno = ({ id = 1 }) => {
           </div>
           <div className="row">
             <div className="col-sm-3">
-              <div className="column"> {/* Estilo para la primera columna debajo */}
-                <div className="border border-black p-4">
-                  <div className="border-b-2 border-black mb-4">
-                    <h2 className="text-xl font-bold">Contacto</h2>
-                    <hr />
-                  </div>
-                  <div>
-                    <p className="mb-2">
-                      <p><strong>Correo:</strong><p>{profesor.usuario.email}</p></p>
-                      <p><strong>Padre:</strong></p>
-                      {profesor.nombre_padre || profesor.telefono_padre ? (
-                        <>
-                          <p>{profesor.nombre_padre}, {profesor.telefono_padre}</p>
-                        </>
-                      ) : (
-                        <p>No hay datos</p>
-                      )}
-                    </p>
-                    <br />
-                    <p><strong>Madre:</strong></p>
-                    <p>
-
-                      {profesor.nombre_madre || profesor.telefono_madre ? (
-                        <>
-                          <p>{profesor.nombre_madre},  {profesor.telefono_madre}</p>
-                        </>
-                      ) : (
-                        <p>No hay datos</p>
-                      )}
-                    </p>
-                  </div>
-
-                </div>
-              </div>
-<br /><br />
+              
+<br />
               <div className="border border-black p-4">
                   <div className="border-b-2 border-black mb-4">
-                    <h2 className="text-xl font-bold">Conexion</h2>
+                    <h2 className="text-xl font-bold">Clases</h2>
                     <hr />
                   </div>
                   <div>
                     <p className="mb-2">
-                      <strong>Estado:</strong>
-                      {profesor.usuario.is_active ? <span className="text-success">Activo</span> : <span className="text-danger">Inactivo</span>}
-                    </p>
-                    <p><strong>Verificado:</strong>
-                    {profesor.usuario.is_verified ? <span className="text-success">Verificado</span> : <span className="text-danger">No verificado</span>}
-                    </p>
-                    <p><strong>Ultima conexion:</strong> <br />
-                    {fechaFormateada ? (
-                    <p>{fechaFormateada}</p>
-                  ) : (
-                    <span className="text-danger">Nunca conectado</span>
-                  )}
+                    <MostrarCursosCaja />
                     </p>
                   </div>
 

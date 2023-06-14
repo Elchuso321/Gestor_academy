@@ -31,7 +31,7 @@ export const CrearEvento = () => {
       .catch(error => console.error('Error al obtener las opciones de curso:', error));
     // console.log("profe",profesorOptions)
     // Obtener opciones de profesores
-    fetch(`${URL_API}0/api/profesores/`, {
+    fetch(`${URL_API}/api/profesores/`, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + String(authTokens.access),
@@ -70,12 +70,12 @@ export const CrearEvento = () => {
       descripcion: descripcion,
       hora_inicio: horaInicio,
       hora_fin: horaFin,
-      curso: curso,
-      profesor: profesor,
-      aula: aula
+      // curso: curso,
+      // profesor: profesor,
+      // aula: aula
     };
 
-    console.log(data)
+    console.log("DATAA41231",data)
   
     // console.log(diaSemana,nombre,descripcion,horaInicio,horaFin,curso,profesor,aula)
     try {
@@ -102,6 +102,7 @@ export const CrearEvento = () => {
       console.error('Error en la solicitud:', error);
     }
   };
+  
   return (
     <div className="form-container">
       <h2>Nuevo Evento</h2>

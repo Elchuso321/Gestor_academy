@@ -229,11 +229,18 @@ useEffect(() => {
       }
   
     }
-    setReset(false);
   }, [alumno,reset]);
 
   useEffect(() => {
-    setReset(!reset);
+    const llamar = () => {
+      setReset(!reset)
+    };
+  
+  // Establecer el tiempo de espera de 2 segundos (2000 milisegundos)
+  var tiempoEspera = 1000;
+  
+  // Configurar el evento para que se active después de 2 segundos
+  setTimeout(llamar, tiempoEspera);
   }, []);
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -379,15 +386,7 @@ const handleSeleccion2 = (event) => {
       console.log("seleccionados",seleccionados1)
       // setMostrarTercerSelector(true)
     };
-    const llamar = () => {
-      setReset(!reset)
-    };
-  
-  // Establecer el tiempo de espera de 2 segundos (2000 milisegundos)
-  var tiempoEspera = 1000;
-  
-  // Configurar el evento para que se active después de 2 segundos
-  setTimeout(llamar, tiempoEspera);
+   
     return(
       <>
       <div>
@@ -538,7 +537,7 @@ const handleSeleccion2 = (event) => {
         <Button type="submit" className='m-2' variant="primary">Modificar</Button>
 
         
-        <Button onClick={()=>{setReset(!reset)}} variant="primary" className='m-2' >Reset</Button>
+        <Button onClick={()=>{setReset(!reset)}} variant="secondary" className='m-2' >Reset</Button>
 
         </div>
       </Form>

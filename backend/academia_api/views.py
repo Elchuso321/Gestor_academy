@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from academia_api.serialiazers import AcademiaSerializer,CursoSerializer,EventoSerializer,AlumnoSerializer,ProfesorSerializer,BoletinSerializer,GroupSerializer,DetalleProfesorSerializer,UserSerializer,ProfesorSerializerCrear,AlumnoSerializerCrear,DetalleAlumnoSerializer,DetalleCursoSerializer,ProfesorSerializerCrear,ProfesorSerializerCrear1,ProfesorSerializerModificar,AlumnoSerializerModificar,DetalleEventoSerializer,EventoSerializerGet,DetalleProfesorSerializer1,CursoSerializerModificar
+from academia_api.serialiazers import AcademiaSerializer,CursoSerializer,EventoSerializer,AlumnoSerializer,ProfesorSerializer,BoletinSerializer,GroupSerializer,DetalleProfesorSerializer,UserSerializer,ProfesorSerializerCrear,AlumnoSerializerCrear,DetalleAlumnoSerializer,DetalleCursoSerializer,ProfesorSerializerCrear,ProfesorSerializerCrear1,ProfesorSerializerModificar,AlumnoSerializerModificar,DetalleEventoSerializer,EventoSerializerGet,DetalleProfesorSerializer1,CursoSerializerModificar,EventoSerializerModificar
 from academia.models import Academia,Curso,Evento,Alumno,Profesor,Boletin,Aula
 from users.models import User
 from django.contrib.auth import authenticate
@@ -358,9 +358,10 @@ def getCurso(request):
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def getEvento(request):
+def crearEvento(request):
     if request.method == 'POST':
         serializer = EventoSerializer(data=request.data)
+        print("\n\n\n HASTA AQUI LLEGO \n\n\n",serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -595,6 +596,19 @@ def update_clase(request, pk):
     except Profesor.DoesNotExist:
         return Response({'error': 'Curso not found'}, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['PUT'])
+def update_evento(request, pk):
+    try:
+        evento = Evento.objects.get(pk=pk)
+        serializer = EventoSerializerModificar(evento, data=request.data)
+        if serializer.is_valid():
+            print("\n\n\n HASTA AQUI LLEGO \n\n\n",serializer)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Evento.DoesNotExist:
+        return Response({'error': 'Curso not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['PUT'])
 def update_alumno(request, pk):
@@ -608,6 +622,7 @@ def update_alumno(request, pk):
             telefono_padre = serializer.validated_data['telefono_padre']
             telefono_madre = serializer.validated_data['telefono_madre']
             fecha_nacimiento = serializer.validated_data['fecha_nacimiento']
+            # password = serializer.validated_data['password']
             alumno.nombre_padre = nombre_padre
             alumno.nombre_madre = nombre_madre
             alumno.descripcion = descripcion
