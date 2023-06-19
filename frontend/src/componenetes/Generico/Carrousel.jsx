@@ -5,17 +5,17 @@ import { Carousel } from "react-bootstrap";
 export const CarouselComponent = () => {
   const images = [
     {
-      src: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-40.jpg",
-      alt: " ",
-      title: "  ",
-      description: "",
-    },
-    {
       src: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-10.jpg",
       alt: "",
       title: "",
       description: "",
     },
+    // {
+    //   src: "https://www.andrewidiomas.com/images/cabecera/slidemobile/timeline-facebook-adultos-19-20-1.png",
+    //   alt: " ",
+    //   title: "  ",
+    //   description: "",
+    // },
     {
       src: "https://oxford-academy.es/wp-content/uploads/2022/03/WhatsApp-Image-2022-03-27-at-4.02.37-PM.jpeg",
       alt: "",

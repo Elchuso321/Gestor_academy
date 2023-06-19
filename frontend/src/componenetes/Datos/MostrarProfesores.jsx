@@ -104,8 +104,11 @@ export const MostrarProfesores = ({ mostrar }) => {
 
         if (response.ok) {
           const data = await response.json();
-          setNotes(data);
-          setNotesFilter(data);
+          console.log("DATA",data);
+          const dataFiltrado= data.filter((item) => item.usuario.academia.id == JSON.parse(localStorage.getItem('academia')));
+          console.log("DATA FILTRADOS ACADEMIA",dataFiltrado);
+          setNotes(dataFiltrado);
+          setNotesFilter(dataFiltrado);
         } else if (response.statusText === 'Unauthorized') {
           console.log('Fallo');
         }
@@ -152,6 +155,7 @@ const filteredNotes = currentNotes.filter((note) =>
 
   return (
     <div className="container-fluid">
+      
       <div className="row">
         <div className="col-md-8">
           <h1>Lista de Profesores</h1>
@@ -228,27 +232,29 @@ const filteredNotes = currentNotes.filter((note) =>
 
       {!mostrearDetalle && (
         <div className="table-responsive">
-          <table className="table table-striped table-hover mt-4 custom-table">
-            <thead className="thead-dark">
-              <tr>
-                <th>Nombre completo</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Academia</th>
+        <table className="table table-striped table-hover mt-4 custom-table rounded">
+          <thead className="thead-dark">
+            <tr>
+              <th>Nombre completo</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Academia</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredNotes.map((note) => (
+              <tr key={note.usuario.id} onClick={() => handleClickProfesor(note.id)} className="table-row">
+                <td>{`${note.usuario.nombre} ${note.usuario.primer_apellido} ${note.usuario.segundo_apellido}`}</td>
+                <td>{note.usuario.email}</td>
+                <td>{note.telefono}</td>
+                <td>{note.usuario.academia === null ? '' : note.usuario.academia.nombre}</td>
               </tr>
-            </thead>
-            <tbody>
-              {filteredNotes.map((note) => (
-                <tr key={note.usuario.id} onClick={() => handleClickProfesor(note.id)}>
-                  <td>{`${note.usuario.nombre} ${note.usuario.primer_apellido} ${note.usuario.segundo_apellido}`}</td>
-                  <td>{note.usuario.email}</td>
-                  <td>{note.telefono}</td>
-                  <td>{note.usuario.academia === null ? '' : note.usuario.academia.nombre}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      
       )}
 
       <div style={{ position: 'relative' }} >

@@ -94,6 +94,7 @@ export const DetalleAlumno = ({ id = 1 }) => {
         if (response.ok) {
           const data = await response.json();
           console.log("data:", data);
+
           setProfesor(data);
           const foto = enlace + `${data.foto_perfil}`
           console.log("foto:", foto);
@@ -180,31 +181,32 @@ export const DetalleAlumno = ({ id = 1 }) => {
       {/* <NavbarAl/ /> */}
       <br /><br /><br /><br /><br /><br />
       {profesor ? (
-        
+
         <div className="container">
-        
+
           <div className="row">
-            <div className="col-sm-6" style={{ height: '290px'}}>
+            <div className="col-sm-6" style={{ height: '290px' }}>
               <div className="profile-picture"> {/* Estilo para el cuadro de la foto de perfil */}
 
-              <Image
-          src={`${enlace}${profesor.foto_perfil}`}
-          alt="Foto de perfil"
-          className="img-fluid rounded-circle border border-3 border-secondary"
-          style={{ width: '250px', height: '250px' }}
-        />
+                <Image
+                  src={`${enlace}${profesor.foto_perfil}`}
+                  alt="Foto de perfil"
+                  className="img-fluid rounded-circle border border-3 border-secondary"
+                  style={{ width: '250px', height: '250px' }}
+                />
               </div>
             </div>
             <div className="col-sm-6">
               <div className="profile-details"> {/* Estilo para el cuadro del nombre y la biografía */}
                 <span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong> </span>
-                <br />     
+                <br />
                 {/* Nombre en grande del niño */}
-                <div className="bio"> {/* Estilo para el cuadro de la biografía */}
-                  <div className="border border-black p-4" style={{ height: '200px', overflowY: 'auto' }}>
+                <div className="rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+                  <div className="" style={{ height: '200px', overflowY: 'auto' }}>
                     <h2 className="text-lg font-bold mb-4">Info</h2>
+                    <hr />
                     <div>
-                     {profesor.descripcion}
+                      {profesor.descripcion}
                     </div>
                   </div>
 
@@ -214,21 +216,27 @@ export const DetalleAlumno = ({ id = 1 }) => {
           </div>
           <div className="row">
             <div className="col-sm-3">
-              
-<br />
-              <div className="border border-black p-4">
-                  <div className="border-b-2 border-black mb-4">
-                    <h2 className="text-xl font-bold">Clases</h2>
-                    <hr />
-                  </div>
-                  <div>
-                    <p className="mb-2">
-                    <MostrarCursosCaja />
-                    </p>
-                  </div>
 
+              <br />
+              <div className="">
+                <div className="border-b-2 border-black mb-4">
+                  <h2 className="text-xl font-bold">Clases</h2>
+                  <hr />
+                  
+                  <p className="">
+                    <MostrarCursosCaja />
+                  </p>
+                <div className='col'>
+                  <div className='col-2'></div>
+                  <div className='col-8'>
+                  </div>
+                  <div className='col-2'></div>
+                  
                 </div>
-              
+                </div>
+
+              </div>
+
             </div>
             <div className="col-sm-9">
               <div className="column"> {/* Estilo para la segunda columna debajo */}
@@ -240,9 +248,9 @@ export const DetalleAlumno = ({ id = 1 }) => {
 
 
 
-) : (
-  <p>Cargando información del profesor...</p>
-  )}
+      ) : (
+        <p>Cargando información del profesor...</p>
+      )}
     </div>
   );
 };
@@ -294,11 +302,11 @@ export const DetalleAlumno = ({ id = 1 }) => {
         //           </p>
         //         )}
         //           <p className="mb-2">
-        //             <strong>Estado:</strong> 
+        //             <strong>Estado:</strong>
         //             {profesor.usuario.is_active ? <span className="text-success">Activo</span> : <span className="text-danger">Inactivo</span>}
         //           </p> <br />
         //           <p className="mb-2">
-        //             <strong>Verificado:</strong> 
+        //             <strong>Verificado:</strong>
         //             {profesor.usuario.is_verified ? <span className="text-success">Verificado</span> : <span className="text-danger">No verificado</span>}
         //           </p>
 

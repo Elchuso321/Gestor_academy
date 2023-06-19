@@ -1,132 +1,3 @@
-// import { fallDown as SlideMenu } from 'react-burger-menu';
-// import React, { useState, useContext } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import AuthContext from '../Ultimo/AuthContext';
-// import { Link } from "react-router-dom";
-// import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
-// import ColorSquareComponent from './componentes/BotonesAcademiaSelect';
-
-// export const NavbarAdminAcademia = () => {
-//   const menuStyles = {
-//     bmBurgerButton: {
-//       position: 'fixed',
-//       width: '36px',
-//       height: '30px',
-//       left: '20px',
-//       top: '20px',
-//     },
-//     bmBurgerBars: {
-//       background: '#373a47',
-//     },
-//     bmBurgerBarsHover: {
-//       background: 'red',
-//     },
-//     bmCrossButton: {
-//       height: '24px',
-//       width: '24px',
-//     },
-//     bmCross: {
-//       background: 'rgb(92, 179, 252',
-//     },
-//     bmMenuWrap: {
-//       position: 'fixed',
-//       height: '100%',
-//       zIndex: 10000,
-//     },
-//     bmMenu: {
-//       top:0,
-//       position: "fixed",
-//       background: 'rgb(92, 179, 252)',
-//       padding: '2.5em 1.5em 0',
-//       fontSize: '1.15em',
-//     },
-//     bmMorphShape: {
-//       fill: '#373a47',
-//     },
-//     bmItemList: {
-//       color: '#b8b7ad',
-//       padding: '0.8em',
-//     },
-//     bmItem: {
-//       display: 'inline-block',
-//     },
-//     bmOverlay: {
-//       top:0,
-//       position: "fixed",
-//       background: 'rgba(0, 0, 0, 0.3)',
-//     },
-//   };
-//   const navbarStyles = {
-//     position: 'fixed',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     height: '60px',
-//     zIndex: 9999,
-//   };
-//   const academia = localStorage.getItem("academia") || "No se donde estas"
-//   const { setAuthTokens, setUser } = useContext(AuthContext)
-//   const navigate = useNavigate()
-//   const usuario = localStorage.getItem('usuario') || 'Invitado';
-
-//   const logoutUser = () => {
-//     setAuthTokens(null)
-//     setUser(null)
-//     localStorage.removeItem('authTokens')
-//     navigate('/')
-//   };
-
-//   const changeAcademia = () => {
-//     console.log('Cambio de academia');
-//     navigate("/admin")
-//   };
-
-//   const [showSubMenu, setShowSubMenu] = useState(false);
-
-//   const handleSubMenu = () => {
-//     setShowSubMenu(!showSubMenu);
-//   };
-
-//   return (
-//     <Navbar expand="lg" variant="light" className="bg-white shadow-sm" style={navbarStyles}>
-//       <Navbar.Brand>
-//         <SlideMenu styles={menuStyles}>
-//           <div className="d-flex flex-column justify-content-center align-items-center">
-//             <ColorSquareComponent color="red" texto="Profesores" />
-//             <ColorSquareComponent color="green" texto="Alumnos" />
-//             <ColorSquareComponent color="blue" texto="Clases" />
-//             <ColorSquareComponent color="purple" texto="Boletines" />
-//             <ColorSquareComponent color="orange" texto="Pagos" />
-//             <Button variant="link" className="text-white" onClick={logoutUser}>
-//               Cerrar sesión
-//             </Button>
-//           </div>
-//         </SlideMenu>
-//       </Navbar.Brand>
-//       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-//         <Nav>
-//           <NavDropdown title="Productos" id="basic-nav-dropdown" onClick={handleSubMenu} show={showSubMenu}>
-//             <NavDropdown.Item href="/productos/producto-1">Producto 1</NavDropdown.Item>
-//             <NavDropdown.Item href="/productos/producto-2">Producto 2</NavDropdown.Item>
-//             <NavDropdown.Item href="/productos/producto-3">Producto 3</NavDropdown.Item>
-//           </NavDropdown>
-//           <Nav.Link href="/nosotros">Nosotros</Nav.Link>
-//           <Nav.Link href="/contacto">Contacto</Nav.Link>
-//         </Nav>
-//         <div className="d-flex align-items-center ml-3">
-//           <p className="m-0 mr-3">Bienvenido {usuario}</p>
-//           <Button variant="outline-primary" onClick={changeAcademia}>
-//             Cambiar academia
-//           </Button>
-//           <Button variant="outline-secondary" className="ml-3" onClick={logoutUser}>
-//             Cerrar sesión
-//           </Button>
-//         </div>
-//       </Navbar.Collapse>
-//     </Navbar>
-//   );
-// };
 import { fallDown as SlideMenu } from 'react-burger-menu';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -148,7 +19,7 @@ export const NavbarAdminAcademia = () => {
       top: '20px',
     },
     bmBurgerBars: {
-      background: '#373a47',
+      background: 'linear-gradient(to right, #FDF0D5, #FADCB1)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' ,
     },
     bmBurgerBarsHover: {
       background: 'red',
@@ -168,7 +39,7 @@ export const NavbarAdminAcademia = () => {
     bmMenu: {
       top:0,
       position: "fixed",
-      background: '#dfdfdf',
+      background: 'linear-gradient(to right, #FDF0D5, #FADCB1)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' ,
       padding: '2.5em 1.5em 0',
       fontSize: '1.15em',
     },
@@ -196,19 +67,29 @@ export const NavbarAdminAcademia = () => {
     right: 0,
     height: '60px',
     zIndex: 9999,
+    background:'linear-gradient(to right, #FFFFFF, #F2F2F2, #EDEDED)'
   };
-  
+
   const academia = localStorage.getItem("academia") || "Desconocida";
   const { setAuthTokens, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem('usuario')) || 'Invitado';
-  
+    // let {setAuthTokens,setUser} = useContext(AuthContext)
   const logoutUser = () => {
-    setAuthTokens(null);
-    setUser(null);
-    localStorage.removeItem('authTokens');
-    navigate('/');
+      setAuthTokens(null)
+      setUser(null)
+      localStorage.removeItem('authTokens')
+      localStorage.clear()
+      // esto para redirigir en caso de que no este logeado
+      navigate('/')
   };
+
+  // const logoutUser = () => {
+  //   setAuthTokens(null);
+  //   setUser(null);
+  //   localStorage.removeItem('authTokens');
+  //   navigate('/');
+  // };
 
   const changeAcademia = () => {
     console.log('Cambio de academia');
@@ -222,7 +103,7 @@ export const NavbarAdminAcademia = () => {
   };
 
   return (
-    <Navbar expand="lg" variant="light" className="" bg="white" style={navbarStyles}>
+    <Navbar expand="lg" variant="light" className="mb-5" bg="white" style={navbarStyles} >
       <Navbar.Brand>
         <SlideMenu styles={menuStyles}>
           <div className="container py-5">
@@ -242,7 +123,19 @@ export const NavbarAdminAcademia = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-        <div className="d-flex align-items-center ml-3">
+      <div className="d-flex align-items-center ml-3">
+      <NavDropdown className="mx-3" title={`Bienvenido ${usuario}`} id="basic-nav-dropdown" onClick={handleSubMenu} show={showSubMenu}>
+                <NavDropdown.Item onClick={changeAcademia} href="">Cambiar academia</NavDropdown.Item>
+                <NavDropdown.Item onClick={logoutUser} href="">Cerrar sesion</NavDropdown.Item>
+                {/* <NavDropdown.Item href="/productos/producto-3">Producto 3</NavDropdown.Item> */}
+              </NavDropdown>
+           {/* <p className="m-3 mr-4" >Bienvenido {usuario}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+           
+           <Button variant="outline-secondary" className="ml-3" onClick={logoutUser}>
+             Cerrar sesión
+           </Button> */}
+         </div>
+        {/* <div className="d-flex align-items-center ml-3">
           <p className="m-3 mr-4">Bienvenido {usuario} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
           <Button variant="outline-primary" onClick={changeAcademia}>
             Cambiar academia
@@ -250,7 +143,7 @@ export const NavbarAdminAcademia = () => {
           <Button variant="outline-secondary" className="ml-3" onClick={logoutUser}>
             Cerrar sesión
           </Button>
-        </div>
+        </div> */}
       </Navbar.Collapse>
     </Navbar>
   );

@@ -17,18 +17,6 @@ export const ArbolDeFotos = () => {
     },
     {
       nombre: "",
-      url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-49.jpg",
-    },
-    {
-      nombre: "",
-      url: "https://oxford-academy.es/wp-content/uploads/2019/02/52536858_1224099554438406_8222240328665530368_n.jpg",
-    },
-    {
-      nombre: "",
-      url: "https://oxford-academy.es/wp-content/uploads/2019/02/47687309_1176541439194218_8740292931652419584_n.jpg",
-    },
-    {
-      nombre: "",
       url: "https://oxford-academy.es/wp-content/uploads/2019/02/45180255_1146456375536058_8123112895790710784_n.jpg",
     },
     {
@@ -38,6 +26,18 @@ export const ArbolDeFotos = () => {
     {
       nombre: "",
       url: "https://oxford-academy.es/wp-content/uploads/2019/02/45180255_1146456375536058_8123112895790710784_n.jpg",
+    },
+    // {
+    //   nombre: "",
+    //   url: "https://oxford-academy.es/wp-content/uploads/2018/05/galeria-oxford-49.jpg",
+    // },
+    {
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/52536858_1224099554438406_8222240328665530368_n.jpg",
+    },
+    {
+      nombre: "",
+      url: "https://oxford-academy.es/wp-content/uploads/2019/02/47687309_1176541439194218_8740292931652419584_n.jpg",
     },
    
   ];
@@ -56,7 +56,7 @@ export const ArbolDeFotos = () => {
   filas.push(fila);
 
   return (
-    <div className="container py-5">
+    <div className="mt-5 container py-5">
       <br /><br />
       {filas.map((fila, index) => (
         <Row key={index}>

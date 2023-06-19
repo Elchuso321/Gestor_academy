@@ -122,7 +122,7 @@ export const HorarioTableNoModificaciones = ({eventos=[]}) => {
               const horaParseadaFin = moment(evento.hora_fin, 'HH:mm');
               const horaReduccionTextoFin = horaParseadaFin.format('HH:mm');
               if (dia === evento.dia_semana && hora >= horaReduccionTextoInicio && hora <= horaReduccionTextoFin) {
-                return <div className="" key={key}>
+                return <div className="col" key={key}>
                   <p >{evento.nombre} - Aula:{evento.aula}</p>
                   
                 </div>;

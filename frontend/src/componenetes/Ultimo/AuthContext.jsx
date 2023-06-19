@@ -24,7 +24,7 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem("authTokens",JSON.stringify(authTokens))
         }else{
                 // localStorage.setItem("authTokens",null)
-            localStorage.removeItem('authTokens')
+            // localStorage.removeItem('authTokens')
 
             // navigate("/")
         }
@@ -35,8 +35,10 @@ export const AuthProvider = ({children}) => {
     const navigate = useNavigate()
     
     let logoutUser = () => {
-        setAuthTokens(null)
-        setUser(null)
+        window.location.reload()
+
+        // setAuthTokens(null)
+        // setUser(null)
         // localStorage.removeItem('authTokens')
         // esto para redirigir en caso de que no este logeado
         // navigate('/')
@@ -63,6 +65,7 @@ export const AuthProvider = ({children}) => {
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
         }else{
+            
              logoutUser()
         }
 

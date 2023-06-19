@@ -3,14 +3,14 @@ import AuthContext from '../Ultimo/AuthContext'
 // import { VistaDetalleClase } from './VistaDetalleClase'
 // import { useHistory } from 'react-router-dom';
 const URL_API = import.meta.env.VITE_API_URL
-
+import {useNavigate} from 'react-router-dom'
 
 
 export const MostrarCursos=({cursoPasado=false})=>{
     console.log("curso pasado",cursoPasado)
     
     // const history = useHistory();
-
+    const navigate = useNavigate()
     let [notes, setNotes] = useState([])
     let {authTokens, logoutUser} = useContext(AuthContext)
     const [curso, setCurso] = useState("");
@@ -30,10 +30,15 @@ export const MostrarCursos=({cursoPasado=false})=>{
           
           if(response.status === 200){
               console.log("eventos:",data)
-            // filtrar eventos por aquellos que tengan el id del curso
+            const academ = JSON.parse(localStorage.getItem('academia'))
+            console.log("academia",academ)
+            const eventosFiltrados=data.filter((evento)=>evento.curso.academia==academ)
+            console.log("eventos filtrados:",eventosFiltrados)
+              // filtrar eventos por aquellos que tengan el id del curso
             //   const eventosFiltrados=data.filter((evento)=>evento.curso==curso.id)
             //   console.log("eventos filtrados:",eventosFiltrados)
-              setEventos(data)
+
+              setEventos(eventosFiltrados)
               
     
           }else if(response.statusText === 'Unauthorized'){
@@ -44,7 +49,11 @@ export const MostrarCursos=({cursoPasado=false})=>{
         getNotes()
       },[])
     
-    
+    const handleTextClick = (id) => {
+        setCurso(id)
+        navigate(`/admin/academia/clases/${id}`)
+
+    };
     
     
     let getNotes = async() =>{
@@ -59,7 +68,12 @@ export const MostrarCursos=({cursoPasado=false})=>{
         
         if(response.status === 200){
             console.log("cursos",data)
-            setNotes(data)
+            const academ = JSON.parse(localStorage.getItem('academia'))
+            console.log("academia",academ)
+            const cursosFiltrados=data.filter((curso)=>curso.academia==academ)
+            console.log("cursos filtrados:",cursosFiltrados)
+
+            setNotes(cursosFiltrados)
            
 
         }else if(response.statusText === 'Unauthorized'){
@@ -82,7 +96,7 @@ export const MostrarCursos=({cursoPasado=false})=>{
         <div>
             
                 {notes.map(note => (
-                    <p key={note.id} onClick={()=>{setCurso(note.id)}}>{note.nombre}</p>
+                    <p key={note.id} onClick={()=>handleTextClick(note.id)}>{note.nombre}</p>
                 ))}
 
            

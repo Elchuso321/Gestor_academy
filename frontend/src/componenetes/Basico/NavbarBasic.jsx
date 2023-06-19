@@ -52,17 +52,17 @@ export const NavbarBasic = () => {
               <Nav.Link as={Link} to="/" className="mx-3">
                 Inicio
               </Nav.Link>
-              <Nav.Link as={Link} to="/nosotros" className="mx-3">
-                Nosotros
-              </Nav.Link>
               <Nav.Link as={Link} to="/contacto" className="mx-3">
-                Contacto
+                Servicios
               </Nav.Link>
-              <NavDropdown className="mx-3" title="Productos" id="basic-nav-dropdown" onClick={handleSubMenu} show={showSubMenu}>
+              <Nav.Link as={Link} to="/nosotros" className="mx-3">
+                Galeria
+              </Nav.Link>
+              {/* <NavDropdown className="mx-3" title="Productos" id="basic-nav-dropdown" onClick={handleSubMenu} show={showSubMenu}>
                 <NavDropdown.Item href="/productos/producto-1">Producto 1</NavDropdown.Item>
                 <NavDropdown.Item href="/productos/producto-2">Producto 2</NavDropdown.Item>
                 <NavDropdown.Item href="/productos/producto-3">Producto 3</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
             <Nav className="align-items-center">
               {/* <div className="d-flex justify-content-center align-items-center mx-3">
@@ -82,7 +82,7 @@ export const NavbarBasic = () => {
   );
 };
 
-
+export default NavbarBasic;
 // import React from 'react';
 // import { Link } from 'react-router-dom';
 

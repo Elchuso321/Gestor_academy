@@ -10,6 +10,7 @@ import { UpdateFormProfe } from '../conexion/update/UpdateComponenteProfe';
 import "../estilos/boton.css"
 import styled from 'styled-components';
 import { HorarioTableNoModificaciones } from './TablaHorariosNoModificaciones';
+import { EmailForm } from '../conexion/EnviarCorreo';
   const URL_API = import.meta.env.VITE_API_URL
 
   const ModalWrapper = styled.div`
@@ -54,12 +55,19 @@ export const DetalleProfesor = ({ id = 1 }) => {
     id = numId;
   }
   console.log("id:", id);
-
+  const [eventos, setEventos] = useState([]);
   const [isModalOpenEditar, setIsModalOpenEditar] = useState(false);
   const [isModalOpenCrear, setIsModalOpenCrear] = useState(false);
+  
   const handleTextClick = () => {
     setIsModalOpenCrear(true);
   };
+  const [isModalOpenEmail, setIsModalOpenEmail] = useState(false);
+
+  const handleTextClickEmail = () => {
+    setIsModalOpenEmail(true);
+  };
+
   const handleTextClickEditar = () => {
     setIsModalOpenEditar(true);
   };
@@ -67,6 +75,7 @@ export const DetalleProfesor = ({ id = 1 }) => {
   const handleCloseModal = () => {
     setIsModalOpenCrear(false);
     setIsModalOpenEditar(false);
+    setIsModalOpenEmail(false);
 
   };
   const [profesor, setProfesor] = useState("");
@@ -105,6 +114,38 @@ export const DetalleProfesor = ({ id = 1 }) => {
     obtenerDetalleProfesor();
 
   }, [id]);
+
+
+  useEffect(() => {
+    console.log("profesor:", profesor);
+    let getNotes = async () => {
+      let response = await fetch(`${URL_API}/api/eventos/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + String(authTokens.access)
+        }
+      })
+      let data = await response.json()
+
+      if (response.status === 200) {
+        console.log("eventos1:", data)
+        // console.log("curso1:", curso)
+        // filtrar eventos por aquellos que tengan el id del curso
+        const eventosFiltrados = data.filter((evento) => evento.profesor == profesor.id)
+        console.log("eventos filtrados:", eventosFiltrados)
+        // setNotes(eventosFiltrados)
+        setEventos(eventosFiltrados)
+
+      } else if (response.statusText === 'Unauthorized') {
+        console.log("fallo")
+        logoutUser()
+      }
+    }
+    getNotes()
+  }, [profesor])
+
+
   return (
     <div>
       <NavbarAdminAcademia />
@@ -115,7 +156,7 @@ export const DetalleProfesor = ({ id = 1 }) => {
         
           <div className="row">
             <div className="col-sm-6" style={{ height: '290px'}}>
-              <div className="profile-picture"> {/* Estilo para el cuadro de la foto de perfil */}
+              <div className="profile-picture"> 
 
               <Image
           src={`${enlace}${profesor.foto_perfil}`}
@@ -126,18 +167,39 @@ export const DetalleProfesor = ({ id = 1 }) => {
               </div>
             </div>
             <div className="col-sm-6">
-              <div className="profile-details"> {/* Estilo para el cuadro del nombre y la biografía */}
-                <span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong>  <button className="btn btn-primary btn-floating" onClick={handleTextClickEditar}>
+              <div className="profile-details"> 
+                <div className='row'>
+                <div className='col-6'>
+                <span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong>  </span> 
+                </div>
+                <div className='col-3'>
+                <button className="btn btn-primary btn-floating" onClick={handleTextClickEditar}>
                     Editar
                   </button>
                   <Modal isOpen={isModalOpenEditar} onClose={handleCloseModal}>
                     {/* <CrearCurso/> */}
                     <UpdateFormProfe id={profesor.id} />
-                  </Modal></span> 
+                  </Modal>
+                  </div>
+                  <div className='col-3'>
+                <button className="btn btn-primary btn-floating" onClick={handleTextClickEmail}>
+                ✉
+                  </button>
+                  <Modal isOpen={isModalOpenEmail} onClose={handleCloseModal}>
+                    {/* <CrearCurso/> */}
+                    <EmailForm idUser={profesor.usuario.id} />
+                  </Modal>
+                  </div>
+                  
+                  </div>
+
+                  
+
                 {/* Nombre en grande del niño */}
-                <div className="bio"> {/* Estilo para el cuadro de la biografía */}
-                  <div className="border border-black p-4" style={{ height: '200px', overflowY: 'auto' }}>
+                <div className="m-2 rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} > {/* Estilo para el cuadro de la biografía */}
+                  <div  style={{ height: '200px', overflowY: 'auto' }}>
                     <h2 className="text-lg font-bold mb-4">Info</h2>
+                    <hr />
                     <div>
                      {profesor.descripcion}
                     </div>
@@ -150,7 +212,7 @@ export const DetalleProfesor = ({ id = 1 }) => {
           <div className="row">
             <div className="col-sm-3">
               <div className="column"> {/* Estilo para la primera columna debajo */}
-                <div className="border border-black p-4">
+              <div className="rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
                   <div className="border-b-2 border-black mb-4">
                     <h2 className="text-xl font-bold">Contacto</h2>
                     <hr />
@@ -171,7 +233,7 @@ export const DetalleProfesor = ({ id = 1 }) => {
                 </div>
               </div>
 <br />
-              <div className="border border-black p-4">
+<div className="rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
                   <div className="border-b-2 border-black mb-4">
                     <h2 className="text-xl font-bold">Conexion</h2>
                     <hr />
@@ -186,13 +248,11 @@ export const DetalleProfesor = ({ id = 1 }) => {
                     </p>
                    
                   </div>
-
                 </div>
-              
             </div>
             <div className="col-sm-9">
               <div className="column"> {/* Estilo para la segunda columna debajo */}
-                <HorarioTableNoModificaciones eventos={profesor.curso} />
+                <HorarioTableNoModificaciones eventos={eventos} />
               </div>
             </div>
           </div>

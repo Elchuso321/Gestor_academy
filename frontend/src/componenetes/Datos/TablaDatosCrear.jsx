@@ -87,41 +87,81 @@ export const HorarioTableCrear = ({eventos=[]}) => {
   };
   return (
     <div className="table-responsive">
-    <table className="table table-bordered shadow">
-  <thead className="thead-dark">
-    <tr>
-      <th className="text-center">Hora</th>
-      {diasSemana.map((dia,index) => (
-        <th key={index} className="text-center bg-primary text-white">{dia}</th>
-      ))}
-    </tr>
-  </thead>
-  <tbody>
-    {horasDia.map((hora, index) => (
-      <tr key={index}>
-        <td className="text-center table-active " >{hora}</td>
-        {diasSemana.map((dia, diaIndex) => (
-          <td key={diaIndex} style={{ backgroundColor: '#f2f2f2' }} className="text-center  col-2">
-            {eventos.map((evento) => {
-              const horaParseadaInicio = moment(evento.hora_inicio, 'HH:mm');
-              const horaReduccionTextoInicio = horaParseadaInicio.format('HH:mm');
-  
-              const horaParseadaFin = moment(evento.hora_fin, 'HH:mm');
-              const horaReduccionTextoFin = horaParseadaFin.format('HH:mm');
-  
-              if (dia === evento.dia_semana && hora >= horaReduccionTextoInicio && hora <= horaReduccionTextoFin) {
-               return <p className="" onClick={() => handleTextClick(evento)}>{evento.curso.nombre} <br/></p>
-
-              }
-              return null;
-            })}
-          </td>
+  <table className="table table-bordered shadow custom-table">
+    <thead className="thead-dark">
+      <tr>
+        <th className="text-center">Hora</th>
+        {diasSemana.map((dia, index) => (
+          <th key={index} className="text-center bg-primary text-white">{dia}</th>
         ))}
       </tr>
-    ))}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {horasDia.map((hora, index) => (
+        <tr key={index}>
+          <td className="text-center table-active">{hora}</td>
+          {diasSemana.map((dia, diaIndex) => (
+            <td key={diaIndex} className="text-center col-2">
+              {eventos.map((evento) => {
+                const horaParseadaInicio = moment(evento.hora_inicio, 'HH:mm');
+                const horaReduccionTextoInicio = horaParseadaInicio.format('HH:mm');
+
+                const horaParseadaFin = moment(evento.hora_fin, 'HH:mm');
+                const horaReduccionTextoFin = horaParseadaFin.format('HH:mm');
+
+                if (dia === evento.dia_semana && hora >= horaReduccionTextoInicio && hora <= horaReduccionTextoFin) {
+                  return (
+                    <p className="evento" onClick={() => handleTextClick(evento)}>
+                      {evento.curso.nombre} <br />
+                    </p>
+                  );
+                }
+                return null;
+              })}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
 </div>
+
+//     <div className="table-responsive">
+//     <table className="table table-bordered shadow">
+//   <thead className="thead-dark">
+//     <tr>
+//       <th className="text-center">Hora</th>
+//       {diasSemana.map((dia,index) => (
+//         <th key={index} className="text-center bg-primary text-white">{dia}</th>
+//       ))}
+//     </tr>
+//   </thead>
+//   <tbody>
+//     {horasDia.map((hora, index) => (
+//       <tr key={index}>
+//         <td className="text-center table-active " >{hora}</td>
+//         {diasSemana.map((dia, diaIndex) => (
+//           <td key={diaIndex} style={{ backgroundColor: '#f2f2f2' }} className="text-center  col-2">
+//             {eventos.map((evento) => {
+//               const horaParseadaInicio = moment(evento.hora_inicio, 'HH:mm');
+//               const horaReduccionTextoInicio = horaParseadaInicio.format('HH:mm');
+  
+//               const horaParseadaFin = moment(evento.hora_fin, 'HH:mm');
+//               const horaReduccionTextoFin = horaParseadaFin.format('HH:mm');
+  
+//               if (dia === evento.dia_semana && hora >= horaReduccionTextoInicio && hora <= horaReduccionTextoFin) {
+//                return <p className="" onClick={() => handleTextClick(evento)}>{evento.curso.nombre} <br/></p>
+
+//               }
+//               return null;
+//             })}
+//           </td>
+//         ))}
+//       </tr>
+//     ))}
+//   </tbody>
+// </table>
+// </div>
 
     );  
 }

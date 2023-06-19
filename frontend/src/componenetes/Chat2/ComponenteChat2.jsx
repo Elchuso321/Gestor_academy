@@ -8,36 +8,6 @@ const URL_API = import.meta.env.VITE_API_URL;
 
 export const ComponenteChanel1 = () => {
 
-// const { numId } = useParams();
-// const [username, setUsername] = useState('');
-// const [messages, setMessages] = useState([]);
-// const [message, setMessage] = useState('');
-// const [notes, setNotes] = useState([]);
-// const { authTokens, logoutUser } = useContext(AuthContext);
-// const clase = numId || JSON.parse(localStorage.getItem('clase')) || 'Todo';
-// const usuario = JSON.parse(localStorage.getItem('usuario'));
-
-// const forumPostsRef = useRef(null);
-
-// useEffect(() => {
-//   Pusher.logToConsole = true;
-//   setUsername(usuario);
-
-//   const pusher = new Pusher('0bd6d501111469b84b7c', {
-//     cluster: 'mt1'
-//   });
-
-//   const channel = pusher.subscribe(clase);
-//   channel.bind('message', function (data) {
-//     setMessages((prevMessages) => [...prevMessages, data]);
-//   });
-//   allMessagesSacar();
-
-//   // Desplazar al fondo cuando se cargue inicialmente
-//   if (forumPostsRef.current) {
-//     forumPostsRef.current.scrollTop = forumPostsRef.current.scrollHeight - forumPostsRef.current.clientHeight;
-//   }
-// }, []);
 const { numId } = useParams();
 const [username, setUsername] = useState('');
 const [messages, setMessages] = useState([]);
@@ -48,7 +18,7 @@ const clase = numId || JSON.parse(localStorage.getItem('clase')) || 'Todo';
 const usuario = JSON.parse(localStorage.getItem('usuario'));
 
 const forumPostsRef = useRef(null);
-
+const divRef = useRef(null);
 useEffect(() => {
   Pusher.logToConsole = true;
   setUsername(usuario);
@@ -68,13 +38,19 @@ useEffect(() => {
 
   fetchMessages();
 }, []);
-
 useEffect(() => {
-  // Desplazar al fondo cuando se carguen los mensajes
-  if (forumPostsRef.current) {
-    forumPostsRef.current.scrollTop = forumPostsRef.current.scrollHeight;
+  // Cuando el componente se monte y la referencia esté disponible
+  if (divRef.current) {
+    // Hacer scroll al final del div
+    divRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }
-}, [messages, notes]);
+}, [notes, messages]);
+// useEffect(() => {
+//   // Desplazar al fondo cuando se carguen los mensajes
+  
+//     forumPostsRef.current.scrollTop = forumPostsRef.current.scrollHeight;
+  
+// }, [notes, messages]);
 
   const allMessagesSacar = async () => {
     try {
@@ -118,85 +94,56 @@ useEffect(() => {
   return (
     <>
    {/* <NavbarAdminAcademia /> */}
-      <br /><br /><br />
-      <div className="forum-header sticky-header pt-4 ">Foro de clase {clase}</div>
-      <div className="forum-container pt-5" style={{ height: '750px', overflow: 'auto' }}>
-        <div className="forum-posts" ref={forumPostsRef}>
-          {notes.map((message) => (
-            <div
-              className={`forum-post ${message.username === username ? 'current-user' : 'other-user'}`}
-              key={message.id}
-            >
-              <div className="forum-post-author">{message.username}</div>
-              <div className="forum-post-content">{message.content}</div>
-            </div>
-          ))}
-          {messages.map((message) => (
-            <div
-              className={`forum-form ${message.username === username ? 'current-user' : 'other-user'}`}
-              key={message.id}
-            >
-              <div className="forum-post-author">{message.username}</div>
-              <div className="forum-post-content">{message.message}</div>
-            </div>
-          ))}
-        </div>
+   
+    <div className="centeredDiv">
 
-        <div className="forum-form">
-          <form onSubmit={handleSubmit}>
-            <input
-              className="form-control shadow"
-              type="text"
-              placeholder="Write a message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button type="submit">Publicar</button>
-          </form>
+        <div className="forum-header sticky-header pt-4 ">Foro de clase {clase}</div>
+          <div className="forum-container pt-5" style={{ height: '600px', overflowY: 'scroll' }}>
+            <div ref={divRef} onLoad={() => divRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })}>
+              {notes.map((message) => (
+              <div
+                className={`forum-post ${message.username === username ? 'current-user' : 'other-user'}`}
+                key={message.id}
+              >
+                  <div className="forum-post-author">{message.username}</div>
+                  <div className="forum-post-content">{message.content}</div>
+              </div>
+              ))}
+              {messages.map((message) => (
+              <div
+                className={`forum-form ${message.username === username ? 'current-user' : 'other-user'}`}
+                key={message.id}
+              >
+                <div className="forum-post-author">{message.username}</div>
+                <div className="forum-post-content">{message.message}</div>
+              </div>
+              ))}
+              .
+            </div>
+
+        </div>
+        <div className="forum-container">
+      <div className="forum-form">
+        <form onSubmit={handleSubmit}>
+          <input
+            className="form-control shadow"
+            type="text"
+            placeholder="Write a message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button type="submit">Publicar</button>
+        </form>
         </div>
       </div>
-    {/* <NavbarAdminAcademia />
-      <br /><br /><br />
-      <div className="forum-header sticky-header pt-4 ">Foro de clase {clase}</div>
-      <div className="forum-container pt-5" style={{ height: '750px', overflow: 'auto' }}>
-        <div className="forum-posts" ref={forumPostsRef}>
-          {notes.map((message) => (
-            <div
-              className={`forum-post ${message.username === username ? 'current-user' : 'other-user'}`}
-              key={message.id}
-            >
-              <div className="forum-post-author">{message.username}</div>
-              <div className="forum-post-content">{message.content}</div>
-            </div>
-          ))}
-          {messages.map((message) => (
-            <div
-              className={`forum-form ${message.username === username ? 'current-user' : 'other-user'}`}
-              key={message.id}
-            >
-              <div className="forum-post-author">{message.username}</div>
-              <div className="forum-post-content">{message.message}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="forum-form">
-          <form onSubmit={handleSubmit}>
-            <input
-              className="form-control shadow"
-              type="text"
-              placeholder="Write a message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button type="submit">Publicar</button>
-          </form>
-        </div>
-      </div> */}
-    </>
+    </div>
+      
+        
+        </>
   );
 };
 
+  
 
 // import Pusher from 'pusher-js';
 // import React, { useEffect, useState, useContext } from 'react';

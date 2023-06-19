@@ -13,6 +13,7 @@ import { UpdateFormAlumnos } from '../conexion/update/UpdateComponenteAlumno';
 import { HorarioTable } from './TablaHorarios';
 import { HorarioTableCrear } from './TablaDatosCrear';
 import { HorarioTableNoModificaciones } from './TablaHorariosNoModificaciones';
+import { EmailForm } from '../conexion/EnviarCorreo';
 const URL_API = import.meta.env.VITE_API_URL
 
 const ModalWrapper = styled.div`
@@ -34,8 +35,8 @@ const ModalContent = styled.div`
     /* Estilos para el contenido del modal */
     background-color: white;
     padding: 30px;
-    width: 600px; /* Establece el ancho máximo deseado */
-    height: 80vh; /* Establece la altura máxima en relación a la altura de la ventana */
+    max-width: 600px; /* Establece el ancho máximo deseado */
+    max-height: 80vh; /* Establece la altura máxima en relación a la altura de la ventana */
     overflow-y: auto; /* Habilita el desplazamiento vertical cuando se supere la altura máxima */
     `;
 
@@ -68,6 +69,11 @@ export const DetalleAlumno = ({ id = 1 }) => {
   const [fechaFormateada, setFechaFormateada] = useState("");
   const [isModalOpenEditar, setIsModalOpenEditar] = useState(false);
   const [isModalOpenCrear, setIsModalOpenCrear] = useState(false);
+  const [isModalOpenEmail, setIsModalOpenEmail] = useState(false);
+  const handleTextClickEmail = () => {
+    setIsModalOpenEmail(true);
+  };
+
   const handleTextClick = () => {
     setIsModalOpenCrear(true);
   };
@@ -78,6 +84,8 @@ export const DetalleAlumno = ({ id = 1 }) => {
   const handleCloseModal = () => {
     setIsModalOpenCrear(false);
     setIsModalOpenEditar(false);
+    setIsModalOpenEmail(false);
+
 
   };
   const [profesor, setProfesor] = useState("");
@@ -187,36 +195,52 @@ export const DetalleAlumno = ({ id = 1 }) => {
       <NavbarAdminAcademia />
       <br /><br /><br /><br /><br /><br />
       {profesor ? (
-        
+
         <div className="container">
-        
+
           <div className="row">
-            <div className="col-sm-6" style={{ height: '290px'}}>
+            <div className="col-sm-6" style={{ height: '290px' }}>
               <div className="profile-picture"> {/* Estilo para el cuadro de la foto de perfil */}
 
-              <Image
-          src={`${enlace}${profesor.foto_perfil}`}
-          alt="Foto de perfil"
-          className="img-fluid rounded-circle border border-3 border-secondary"
-          style={{ width: '250px', height: '250px' }}
-        />
+                <Image
+                  src={`${enlace}${profesor.foto_perfil}`}
+                  alt="Foto de perfil"
+                  className="img-fluid rounded-circle border border-3 border-secondary"
+                  style={{ width: '250px', height: '250px' }}
+                />
               </div>
             </div>
             <div className="col-sm-6">
               <div className="profile-details"> {/* Estilo para el cuadro del nombre y la biografía */}
-                <span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong>  <button className="btn btn-primary btn-floating" onClick={handleTextClickEditar}>
+                <div className='row'>                <div className='col-6'><span><strong className='h3'>{profesor.usuario.nombre} {profesor.usuario.primer_apellido} {profesor.usuario.segundo_apellido}</strong></span></div>
+
+                  <div className='col-2 '><button className="btn btn-primary btn-floating" onClick={handleTextClickEditar}>
                     Editar
                   </button>
-                  <Modal isOpen={isModalOpenEditar} onClose={handleCloseModal}>
-                    {/* <CrearCurso/> */}
-                    <UpdateFormAlumnos id={profesor.id} />
-                  </Modal></span> 
+                    <Modal isOpen={isModalOpenEditar} onClose={handleCloseModal}>
+                      {/* <CrearCurso/> */}
+                      <UpdateFormAlumnos id={profesor.id} />
+                    </Modal>
+                  </div>
+                  <div className='col-1'></div>
+                  <div className='col-2 '>
+                    <button className="btn btn-primary btn-floating" onClick={handleTextClickEmail}>
+                      ✉
+                    </button>
+                    <Modal isOpen={isModalOpenEmail} onClose={handleCloseModal}>
+                      {/* <CrearCurso/> */}
+                      <EmailForm idUser={profesor.usuario.id} />
+                    </Modal>
+                  </div>
+                </div>
+
                 {/* Nombre en grande del niño */}
-                <div className="bio"> {/* Estilo para el cuadro de la biografía */}
-                  <div className="border border-black p-4" style={{ height: '200px', overflowY: 'auto' }}>
+                <div className="m-2 rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} > {/* Estilo para el cuadro de la biografía */}
+                  <div style={{ height: '200px', overflowY: 'auto' }}>
                     <h2 className="text-lg font-bold mb-4">Info</h2>
+                    <hr />
                     <div>
-                     {profesor.descripcion}
+                      {profesor.descripcion}
                     </div>
                   </div>
 
@@ -227,8 +251,8 @@ export const DetalleAlumno = ({ id = 1 }) => {
           <div className="row">
             <div className="col-sm-3">
               <div className="column"> {/* Estilo para la primera columna debajo */}
-                <div className="border border-black p-4">
-                  <div className="border-b-2 border-black mb-4">
+                <div className="rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+                  <div className="border-b-2 border-black mb-4" >
                     <h2 className="text-xl font-bold">Contacto</h2>
                     <hr />
                   </div>
@@ -260,31 +284,31 @@ export const DetalleAlumno = ({ id = 1 }) => {
 
                 </div>
               </div>
-<br /><br />
-              <div className="border border-black p-4">
-                  <div className="border-b-2 border-black mb-4">
-                    <h2 className="text-xl font-bold">Conexion</h2>
-                    <hr />
-                  </div>
-                  <div>
-                    <p className="mb-2">
-                      <strong>Estado:</strong>
-                      {profesor.usuario.is_active ? <span className="text-success">Activo</span> : <span className="text-danger">Inactivo</span>}
-                    </p>
-                    <p><strong>Verificado:</strong>
-                    {profesor.usuario.is_verified ? <span className="text-success">Verificado</span> : <span className="text-danger">No verificado</span>}
-                    </p>
-                    <p><strong>Ultima conexion:</strong> <br />
-                    {fechaFormateada ? (
-                    <p>{fechaFormateada}</p>
-                  ) : (
-                    <span className="text-danger">Nunca conectado</span>
-                  )}
-                    </p>
-                  </div>
-
+              <br /><br />
+              <div className="rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+                <div className="border-b-2 border-black mb-4">
+                  <h2 className="text-xl font-bold">Conexion</h2>
+                  <hr />
                 </div>
-              
+                <div>
+                  <p className="mb-2">
+                    <strong>Estado:</strong>
+                    {profesor.usuario.is_active ? <span className="text-success">Activo</span> : <span className="text-danger">Inactivo</span>}
+                  </p>
+                  <p><strong>Verificado:</strong>
+                    {profesor.usuario.is_verified ? <span className="text-success">Verificado</span> : <span className="text-danger">No verificado</span>}
+                  </p>
+                  <p><strong>Ultima conexion:</strong> <br />
+                    {fechaFormateada ? (
+                      <p>{fechaFormateada}</p>
+                    ) : (
+                      <span className="text-danger">Nunca conectado</span>
+                    )}
+                  </p>
+                </div>
+
+              </div>
+
             </div>
             <div className="col-sm-9">
               <div className="column"> {/* Estilo para la segunda columna debajo */}
@@ -296,9 +320,9 @@ export const DetalleAlumno = ({ id = 1 }) => {
 
 
 
-) : (
-  <p>Cargando información del profesor...</p>
-  )}
+      ) : (
+        <p>Cargando información del profesor...</p>
+      )}
     </div>
   );
 };
@@ -350,11 +374,11 @@ export const DetalleAlumno = ({ id = 1 }) => {
         //           </p>
         //         )}
         //           <p className="mb-2">
-        //             <strong>Estado:</strong> 
+        //             <strong>Estado:</strong>
         //             {profesor.usuario.is_active ? <span className="text-success">Activo</span> : <span className="text-danger">Inactivo</span>}
         //           </p> <br />
         //           <p className="mb-2">
-        //             <strong>Verificado:</strong> 
+        //             <strong>Verificado:</strong>
         //             {profesor.usuario.is_verified ? <span className="text-success">Verificado</span> : <span className="text-danger">No verificado</span>}
         //           </p>
 

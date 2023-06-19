@@ -103,9 +103,15 @@ export const MostrarAlumnos=()=>{
         });
 
         if (response.ok) {
+          const academ=JSON.parse(localStorage.getItem('academia'))
           const data = await response.json();
-          setNotes(data);
-          setNotesFilter(data);
+          console.log(data)
+          console.log(academ)
+          const filtrados = data.filter((item) => item.usuario.academia.id === academ);
+          // dataReal=data.usuario.academiac
+          console.log(filtrados)
+          setNotes(filtrados);
+          setNotesFilter(filtrados);
         } else if (response.statusText === 'Unauthorized') {
           console.log('Fallo');
         }
@@ -132,6 +138,7 @@ useEffect(() => {
   (filtrarNombre && note.usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarApellido && note.usuario.primer_apellido.toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarApellido && note.usuario.segundo_apellido.toLowerCase().includes(searchTerm.toLowerCase())) ||
+  (filtrarTelefono && note.telefono_madre && note.telefono_padre.toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarTelefono && note.telefono_madre && String(note.telefono_madre).toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarEmail && note.usuario.email && String(note.usuario.email).toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarAcademia && note.usuario.academia && String(note.usuario.academia.nombre).toLowerCase().includes(searchTerm.toLowerCase()))
@@ -147,6 +154,7 @@ const filteredNotes = currentNotes.filter((note) =>
   (filtrarApellido && note.usuario.primer_apellido.toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarApellido && note.usuario.segundo_apellido.toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarTelefono && note.telefono_madre && note.telefono_madre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+  (filtrarTelefono && note.telefono_madre && note.telefono_padre.toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarEmail && note.usuario.email && String(note.usuario.email).toLowerCase().includes(searchTerm.toLowerCase())) ||
   (filtrarAcademia && note.usuario.academia && String(note.usuario.academia.nombre).toLowerCase().includes(searchTerm.toLowerCase()))
 );
@@ -252,7 +260,7 @@ const filteredNotes = currentNotes.filter((note) =>
                 <tr key={note.usuario.id} onClick={() => handleClickProfesor(note.id)}>
                   <td>{`${note.usuario.nombre} ${note.usuario.primer_apellido} ${note.usuario.segundo_apellido}`}</td>
                   <td>{note.usuario.email}</td>
-                  <td>{note.telefono_madre}</td>
+                  <td>{note.telefono_madre} <br /> {note.telefono_padre}</td>
                   <td>{note.usuario.academia === null ? '' : note.usuario.academia.nombre}</td>
                 </tr>
               ))}
@@ -285,12 +293,7 @@ const filteredNotes = currentNotes.filter((note) =>
         </div>
       </div>
 
-      {mostrearDetalle && selectedProfesor && (
-        <div>
-          <RegisterFormAlumno />
-          <button onClick={handleVolver}>Volver</button>
-        </div>
-      )}
+      
     </div>
   );
 };

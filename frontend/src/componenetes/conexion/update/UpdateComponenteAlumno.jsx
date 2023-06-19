@@ -54,7 +54,10 @@ const fetchCursos = async () => {
       if (response.status === 200) {
           const data = await response.json();
           console.log("cursos", data);
-          setCursosAll(data);
+          const academ=JSON.parse(localStorage.getItem('academia'));
+          const filtrados = data.filter((item) => item.academia === academ);
+          setCursosAll(filtrados);
+          // setCursosAll(data);
 
       } else if (response.statusText === 'Unauthorized') {
         console.log("fallo");
@@ -130,6 +133,89 @@ const handleTelefonoMadreChange = (event) => setTelefonoMadre(event.target.value
 const handleTelefonoPadreChange = (event) => setTelefonoPadre(event.target.value);
 const handleFechaNacimientoChange = (event) => setFechaNacimiento(event.target.value);
 const [datosAgrupados1, setDatosAgrupados1] = useState([]);
+const [errores, setErrores] = useState({});
+function validarFormatoContraseña(contraseña) {
+  var expresionRegular = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  return expresionRegular.test(contraseña);
+}
+function validarFormatoCorreo(texto) {
+  var expresionRegular = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return expresionRegular.test(texto);
+}
+const validarNumero = (numero) => {
+  var expresionRegular = /^[0-9]+$/;
+  return expresionRegular.test(numero);
+}
+function validarFormulario() {
+  const errores = {};
+
+  if (username.trim() === '') {
+    errores.username = 'El nombre de usuario es requerido.';
+  }
+
+  if (email.trim() === '') {
+    errores.email = 'El email es requerido.';
+  }
+
+  if (password.trim() === '') {
+    errores.password = 'La contraseña es requerida.';
+  }
+
+  if (primerApellido.trim() === '') {
+    errores.primerApellido = 'El primer apellido es requerido.';
+  }
+
+  if (segundoApellido.trim() === '') {
+    errores.segundoApellido = 'El segundo apellido es requerido.';
+  }
+
+  if (descripcion.trim() === '') {
+    errores.descripcion = 'La descripción es requerida.';
+  }
+
+  if (nombrePadre.trim() === '') {
+    errores.nombrePadre = 'El nombre del padre es requerido.';
+  }
+
+  if (nombreMadre.trim() === '') {
+    errores.nombreMadre = 'El nombre de la madre es requerido.';
+  }
+  if (!validarFormatoCorreo(email)) {
+    errores.email = 'El correo no tiene un formato válido.';
+  }
+  if (!validarFormatoContraseña(password)) {
+    errores.password = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.';
+  }
+  if (!validarNumero(telefonoMadre)) {
+    errores.telefonoMadre = 'El teléfono de la madre debe ser un número.';
+  }
+  if (!validarNumero(telefonoPadre)) {
+    errores.telefonoPadre = 'El teléfono del padre debe ser un número.';
+  }
+  if(telefonoMadre.length !== 9){
+    errores.telefonoMadre = 'El teléfono de la madre debe tener 9 dígitos.';
+  }
+  if(telefonoPadre.length !== 9){
+    errores.telefonoPadre = 'El teléfono del padre debe tener 9 dígitos.';
+  }
+  
+
+  if (telefonoMadre.trim() === '') {
+    errores.telefonoMadre = 'El teléfono de la madre es requerido.';
+  }
+
+  if (telefonoPadre.trim() === '') {
+    errores.telefonoPadre = 'El teléfono del padre es requerido.';
+  }
+
+  if (fechaNacimiento.trim() === '') {
+    errores.fechaNacimiento = 'La fecha de nacimiento es requerida.';
+  }
+
+  setErrores(errores);
+
+  return Object.keys(errores).length === 0;
+}
 useEffect(() => {
     const obtenerDetalleAlumno = async () => {
         console.log("id:",id)
@@ -163,7 +249,7 @@ useEffect(() => {
     console.log("CASI ME METI")
     if (alumno) {
       console.log("ME METI")
-      setUsername(alumno.usuario.username);
+      setUsername(alumno.usuario.nombre);
       setEmail(alumno.usuario.email);
       setPrimerApellido(alumno.usuario.primer_apellido);
       setSegundoApellido(alumno.usuario.segundo_apellido);
@@ -266,12 +352,16 @@ const handleSubmit = (e) => {
     
         if (!response.ok) {
           const errorData = await response.json();
+          errores.propio="Error al actualizar el usuario"
+          setErrores(errores);
           throw new Error(errorData.detail || 'Error al actualizar el usuario');
         }
     
         const updatedUser = await response.json();
         // Realiza las acciones necesarias con el usuario actualizado
         console.log('Usuario actualizado:', updatedUser);
+        updateProfesor(alumno.id);
+       
       } catch (error) {
         console.error(error);
         // Realiza el manejo de errores adecuado
@@ -279,6 +369,7 @@ const handleSubmit = (e) => {
       
     };
     const updateProfesor = async (userId) => {
+      
       try {
         const response = await fetch(`${URL_API}/api/alumnos/update/${userId}/`, {
           method: 'PUT',
@@ -300,20 +391,28 @@ const handleSubmit = (e) => {
     
         if (!response.ok) {
           const errorData = await response.json();
+          errores.propio="Error al actualizar el usuario"
+          setErrores(errores);
           throw new Error(errorData.detail || 'Error al actualizar el usuario');
         }
     
         const updatedUser = await response.json();
         // Realiza las acciones necesarias con el usuario actualizado
         console.log('Profesor actualizado:', updatedUser);
+        window.location.reload();
       } catch (error) {
         console.error(error);
         // Realiza el manejo de errores adecuado
       }
       
     };
+    const validarFormulario1 = validarFormulario()
+    if (validarFormulario1) {
     updateUser(alumno.usuario.id, );
-    updateProfesor(alumno.id);
+      
+    }else{
+      console.log("FORMULARIO INVALIDO")
+    }
     
 };
 
@@ -397,56 +496,67 @@ const handleSeleccion2 = (event) => {
         <Form.Group controlId="username">
           <Form.Label>Nombre de usuario:</Form.Label>
           <Form.Control type="text" value={username} onChange={handleUsernameChange} />
+          {errores.username && <Form.Text className="error">{errores.username}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="email">
           <Form.Label>Email:</Form.Label>
           <Form.Control type="email" value={email} onChange={handleEmailChange} />
+          {errores.email && <Form.Text className="error">{errores.email}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="password">
           <Form.Label>Contraseña:</Form.Label>
           <Form.Control type="password" value={password} onChange={handlePasswordChange} />
+          {errores.password && <Form.Text className="error">{errores.password}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="primerApellido">
           <Form.Label>Primer Apellido:</Form.Label>
           <Form.Control type="text" value={primerApellido} onChange={handlePrimerApellidoChange} />
+          {errores.primerApellido && <Form.Text className="error">{errores.primerApellido}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="segundoApellido">
           <Form.Label>Segundo Apellido:</Form.Label>
           <Form.Control type="text" value={segundoApellido} onChange={handleSegundoApellidoChange} />
+          {errores.segundoApellido && <Form.Text className="error">{errores.segundoApellido}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="Descripcion">
           <Form.Label>Descripcion:</Form.Label>
           <Form.Control type="text" value={descripcion} onChange={handleDescripcionChange} />
+          {errores.descripcion && <Form.Text className="error">{errores.descripcion}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="Nombre Padre">
           <Form.Label>Nombre Padre:</Form.Label>
           <Form.Control type="text" value={nombrePadre} onChange={handleNombrePadreChange} />
+          {errores.nombrePadre && <Form.Text className="error">{errores.nombrePadre}</Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="Nombre Madre">
           <Form.Label>Nombre Madre:</Form.Label>
           <Form.Control type="text" value={nombreMadre} onChange={handleNombreMadreChange} />
+          {errores.nombreMadre && <Form.Text className="error">{errores.nombreMadre}</Form.Text>}
         </Form.Group>
         
         <Form.Group controlId="Telefono Madre">
           <Form.Label>Telefono Madre:</Form.Label>
           <Form.Control type="text" value={telefonoMadre} onChange={handleTelefonoMadreChange} />
+          {errores.telefonoMadre && <Form.Text className="error">{errores.telefonoMadre} </Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="Telefono Padre">
           <Form.Label>Telefono Padre:</Form.Label>
           <Form.Control type="text" value={telefonoPadre} onChange={handleTelefonoPadreChange} />
+          {errores.telefonoPadre && <Form.Text className="error">{errores.telefonoPadre} </Form.Text>}
         </Form.Group>
 
         <Form.Group controlId="Fecha Nacimiento">
           <Form.Label>Fecha Nacimiento:</Form.Label>
           <Form.Control type="date" value={fechaNacimiento} onChange={handleFechaNacimientoChange} />
+          {errores.fechaNacimiento && <Form.Text className="error">{errores.fechaNacimiento} </Form.Text>}
         </Form.Group>
         
         <div className="container">
@@ -458,7 +568,7 @@ const handleSeleccion2 = (event) => {
                   <option value={null}>Selecciona un curso</option>
                   {cursosAll.map((curso) => (
                     <option key={curso.id} value={curso.id}>
-                      id: {curso.id} nombre: {curso.nombre}
+                      {curso.nombre}
                     </option>
                   ))}
                 </Form.Control>
@@ -475,7 +585,7 @@ const handleSeleccion2 = (event) => {
               </Form.Control>
             </div>
           </div>
-<br />
+          <br />
           {mostrarSegundoSelector && (
             <div className="row">
               <div className="col-md-6">
@@ -485,7 +595,7 @@ const handleSeleccion2 = (event) => {
                     <option value={null}>Selecciona un curso</option>
                     {cursosAll.map((curso) => (
                       <option key={curso.id} value={curso.id}>
-                        id: {curso.id} nombre: {curso.nombre}
+                        {curso.nombre}
                       </option>
                     ))}
                   </Form.Control>
@@ -513,7 +623,7 @@ const handleSeleccion2 = (event) => {
                     <option value={null}>Selecciona un curso</option>
                     {cursosAll.map((curso) => (
                       <option key={curso.id} value={curso.id}>
-                        id: {curso.id} nombre: {curso.nombre}
+                        {curso.nombre}
                       </option>
                     ))}
                   </Form.Control>
@@ -531,6 +641,7 @@ const handleSeleccion2 = (event) => {
               </div>
             </div>
           )}
+          {errores.propios && <Form.Text className="error">{errores.propios}</Form.Text>}
         </div>
 
         <div style={{display:"flex"}}>

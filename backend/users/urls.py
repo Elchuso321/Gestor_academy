@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegisterView, LogoutAPIView, SetNewPasswordAPIView, VerifyEmail, LoginAPIView, PasswordTokenCheckAPI, RequestPasswordResetEmail,MessageApiView,AllMessagesApiView
+from .views import RegisterView, LogoutAPIView, SetNewPasswordAPIView, VerifyEmail, LoginAPIView, PasswordTokenCheckAPI, RequestPasswordResetEmail,MessageApiView,AllMessagesApiView, EmailApiView
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
@@ -21,6 +21,8 @@ urlpatterns = [
          name='password-reset-complete'),
      path('messaege/', MessageApiView.as_view(), name="message"),
      path('messaege/sacar/', AllMessagesApiView.as_view(), name="message_sacar"),
+     path('email/', EmailApiView.as_view(), name="email"),
+     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

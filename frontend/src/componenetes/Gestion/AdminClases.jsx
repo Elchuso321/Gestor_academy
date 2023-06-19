@@ -1,9 +1,9 @@
 import { Button } from 'react-bootstrap';
 import AuthContext from '../Ultimo/AuthContext';
 import jwt_decode from "jwt-decode";
-import React, { useState,useEffect,useContext } from 'react';
-import {useNavigate} from 'react-router-dom'
-import  {NavbarAdminAcademia} from "../Admin/NavbarAdmin_Academia"
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { NavbarAdminAcademia } from "../Admin/NavbarAdmin_Academia"
 import { MostrarAulas } from '../Datos/MostrarAula';
 import { CrearCurso } from '../Datos/CrearCurso';
 import { MostrarCursos } from '../Datos/MostrarCursos';
@@ -42,11 +42,9 @@ const Modal = ({ isOpen, onClose, children }) => {
     <ModalWrapper>
       <ModalContent>
         {children}
-        <button onClick={onClose} className ="btn btn-danger" style={{ float: 'right'}}>
-        <button onClick={onClose} className ="btn btn-danger" style={{ float: 'right'}}>
-        Cerrar
-      </button>
-      </button>
+        <button onClick={onClose} className="btn btn-danger" style={{ float: 'right' }}>
+          Cerrar
+        </button>
       </ModalContent>
     </ModalWrapper>
   );
@@ -54,70 +52,75 @@ const Modal = ({ isOpen, onClose, children }) => {
 
 export const AdminClases = () => {
   let [notes, setNotes] = useState([])
-  let {authTokens, logoutUser} = useContext(AuthContext)
+  let { authTokens, logoutUser } = useContext(AuthContext)
   const [cursoFiltrado, setCursoFiltrado] = useState("");
   const [filtro, setFiltro] = useState("");
-  
-  const [eventos, setEventos] = useState("");
-    const [eventosFiltrados, setEventosFiltrados] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleTextClick = () => {
-      setIsModalOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setIsModalOpen(false);
-      
-    };
-    useEffect(()=> {
-        let getNotes = async() =>{
-          let response = await fetch(`${URL_API}/api/eventos/`, {
-              method:'GET',
-              headers:{
-                  'Content-Type':'application/json',
-                  'Authorization':'Bearer ' + String(authTokens.access)
-              }
-          })
-          let data = await response.json()
-          
-          if(response.status === 200){
-              console.log("eventos:",data)
-            // filtrar eventos por aquellos que tengan el id del curso
-            //   const eventosFiltrados=data.filter((evento)=>evento.curso==curso.id)
-            //   console.log("eventos filtrados:",eventosFiltrados)
-              setEventos(data)
-              setEventosFiltrados(data)
-              
-    
-          }else if(response.statusText === 'Unauthorized'){
-              console.log("fallo")
-              logoutUser()
-          }
-      }
-        getNotes()
-      },[])
-    
-  
-  let getNotes = async() =>{
-      let response = await fetch(`${URL_API}/api/cursos/`, {
-          method:'GET',
-          headers:{
-              'Content-Type':'application/json',
-              'Authorization':'Bearer ' + String(authTokens.access)
-          }
+  const [eventos, setEventos] = useState("");
+  const [eventosFiltrados, setEventosFiltrados] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleTextClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+
+  };
+  useEffect(() => {
+    let getNotes = async () => {
+      let response = await fetch(`${URL_API}/api/eventos/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + String(authTokens.access)
+        }
       })
       let data = await response.json()
-      
-      if(response.status === 200){
-          console.log("cursos",data)
-          setNotes(data)
-         
 
-      }else if(response.statusText === 'Unauthorized'){
-          console.log("fallo")
-          // logoutUser()
+      if (response.status === 200) {
+
+        // filtrar eventos por aquellos que tengan el id del curso
+        //   const eventosFiltrados=data.filter((evento)=>evento.curso==curso.id)
+        //   console.log("eventos filtrados:",eventosFiltrados)
+        console.log("eventosData:", data)
+        const academ = JSON.parse(localStorage.getItem('academia'))
+        console.log("academia", academ)
+        const eventosFiltrados = data.filter((evento) => evento.curso.academia == academ)
+        console.log("eventos filtrados:", eventosFiltrados)
+        setEventos(eventosFiltrados)
+        setEventosFiltrados(eventosFiltrados)
+
+
+      } else if (response.statusText === 'Unauthorized') {
+        console.log("fallo")
+        logoutUser()
       }
+    }
+    getNotes()
+  }, [])
+
+
+  let getNotes = async () => {
+    let response = await fetch(`${URL_API}/api/cursos/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + String(authTokens.access)
+      }
+    })
+    let data = await response.json()
+
+    if (response.status === 200) {
+      console.log("cursos", data)
+      setNotes(data)
+
+
+    } else if (response.statusText === 'Unauthorized') {
+      console.log("fallo")
+      // logoutUser()
+    }
   }
   const onChangeFiltro = (e) => {
     console.log("Cambio filtro")
@@ -125,17 +128,17 @@ export const AdminClases = () => {
   };
   const sumbitFiltroChange = (e) => {
     e.preventDefault();
-    setCursoFiltrado(notes.filter((note)=>note.nombre.toLowerCase().includes(filtro.toLowerCase())))
-    setEventosFiltrados(eventos.filter((evento)=>evento.curso.nombre.toLowerCase().includes(filtro.toLowerCase())))
-    console.log("eventos2",eventosFiltrados)
-    console.log("notes",notes)
-    console.log("sumbit",notes.filter((note)=>note.nombre.toLowerCase().includes(filtro.toLowerCase())))
+    setCursoFiltrado(notes.filter((note) => note.nombre.toLowerCase().includes(filtro.toLowerCase())))
+    setEventosFiltrados(eventos.filter((evento) => evento.curso.nombre.toLowerCase().includes(filtro.toLowerCase())))
+    console.log("eventos2", eventosFiltrados)
+    console.log("notes", notes)
+    console.log("sumbit", notes.filter((note) => note.nombre.toLowerCase().includes(filtro.toLowerCase())))
   };
-  useEffect(()=> {
-        
+  useEffect(() => {
+
     getNotes()
-       
-  },[])
+
+  }, [])
   // useEffect(()=> {
   //   // quiero filtrar los cursos por aquellos que tengan contenido los caracteres que se ingresen en filtro
   //   setNotes(notes.filter((note)=>note.nombre.toLowerCase().includes(filtro.toLowerCase())))
@@ -145,46 +148,52 @@ export const AdminClases = () => {
 
 
     <>
-  <NavbarAdminAcademia />
-  <div className="container mt-5 pt-5">
-    <div className="row">
-      <div className="col-lg-9">
-        {/* Primer div con el 70% de ancho */}
-        <HorarioTableCrear eventos={eventosFiltrados} />
-      </div>
-      <div className="col-lg-3 mt-4 mt-lg-0">
-        {/* Segundo div con el 30% de ancho */}
-        <div className="rectangle border border-dark text-center p-3">
-          {/* Rectángulo más pequeño */}
-          <h3>Clases</h3>
-          <hr />
-          <MostrarCursos cursoPasado={cursoFiltrado} />
-        </div>
-        <div className="mt-4">
-          <div className="d-flex justify-content-center">
-            <button className="custom-button" onClick={handleTextClick}>
-              Crear
-            </button>
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-              <CrearCurso />
-            </Modal>
+      <NavbarAdminAcademia />
+      <div className="container mt-5 pt-5">
+        <div className="row">
+          <div className="col-lg-9">
+            {/* Primer div con el 70% de ancho */}
+            <HorarioTableCrear eventos={eventosFiltrados} />
+          </div>
+          <div className="col-lg-3 mt-4 mt-lg-0">
+            {/* Segundo div con el 30% de ancho */}
+            <div className="mt-4">
+              <div className="d-flex justify-content-center">
+                <button className="custom-button" style={{ background: 'linear-gradient(to bottom, #003B6F, #005BAF, #007FFF)' }} onClick={handleTextClick}>
+                  Crear
+                </button>
+                <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                  <CrearCurso />
+                </Modal>
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="d-flex justify-content-center">
+                <form action="submit" onSubmit={sumbitFiltroChange}>
+                  <input
+                    type="text"
+                    placeholder="Buscar"
+                    value={filtro}
+                    onChange={onChangeFiltro}
+                  />
+                </form>
+              </div>
+            </div>
+
+
+            {/* style={{ background: 'linear-gradient(to right, #FDF0D5, #FADCB1)', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} */}
+            <div className="rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+              {/* Rectángulo más pequeño */}
+              <h3 style={{ color: '#333', fontWeight: 'bold', marginBottom: '10px' }}>Clases</h3>
+              <hr style={{ borderColor: '#333', opacity: '0.5' }} />
+              <MostrarCursos cursoPasado={cursoFiltrado} />
+            </div>
+
+
+
           </div>
         </div>
-        <div className="mt-4">
-          <div className="d-flex justify-content-center">
-            <form action="submit" onSubmit={sumbitFiltroChange}>
-              <input
-                type="text"
-                placeholder="Buscar"
-                value={filtro}
-                onChange={onChangeFiltro}
-              />
-            </form>
-          </div>
-        </div>
       </div>
-    </div>
-  </div>
-</>
+    </>
   );
 };

@@ -1,14 +1,17 @@
 import React, { useState,useEffect } from 'react';
 import { axiosInstance } from '../axios';
 import './estilos/estiloFormCrearProfesor.css';
+import {useNavigate} from 'react-router-dom'
 
 export const RegisterFormProfe = ({ mostrar=true }) => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [primerApellido, setPrimerApellido] = useState('');
   const [segundoApellido, setSegundoApellido] = useState('');
   const [academia, setAcademia] = useState("");
+  const [errores, setErrores] = useState({});
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
@@ -18,16 +21,62 @@ export const RegisterFormProfe = ({ mostrar=true }) => {
   useEffect(() => {
     setAcademia(localStorage.getItem("academia"));
   }, []);
+  function validarFormatoContraseña(contraseña) {
+    var expresionRegular = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    return expresionRegular.test(contraseña);
+  }
+  function validarFormatoCorreo(texto) {
+    var expresionRegular = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return expresionRegular.test(texto);
+  }
+  function validarFormulario() {
+    const errores = {};
+  
+    if (username.trim() === '') {
+      errores.username = 'El nombre de usuario es requerido.';
+    }
+    
+    if (!validarFormatoCorreo(email)) {
+      errores.email = 'El email no tiene un formato válido.';
+    }
+    if (email.trim() === '') {
+      errores.email = 'El email es requerido.';
+    }
+
+    if (!validarFormatoContraseña(password)) {
+      errores.password = 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.';
+    }
+    
+      if (password.trim() === '') {
+        errores.password = 'La contraseña es requerida.';
+      }
+  
+    if (primerApellido.trim() === '') {
+      errores.primerApellido = 'El primer apellido es requerido.';
+    }
+  
+    if (segundoApellido.trim() === '') {
+      errores.segundoApellido = 'El segundo apellido es requerido.';
+    }
+  
+    setErrores(errores);
+  
+    return Object.keys(errores).length === 0;
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
+    const esFormularioValido = validarFormulario();
     console.log("academia",academia);
+    if (esFormularioValido) {
+
     // 1-Admin
     // 2-Profesor
     // 3-Alumno
+    const usernameReal=username+""+primerApellido+""+segundoApellido;
     axiosInstance
       .post(`user/register/`, {
         email: email,
-        username: username,
+        username: usernameReal,
         password: password,
         nombre: username,
         primer_apellido: primerApellido,
@@ -41,14 +90,19 @@ export const RegisterFormProfe = ({ mostrar=true }) => {
 
         // Luego de crear el usuario, llamar a la función para crear el profesor
         createProfesor(res.data.username);
-        console.log("HOLA", res.data.nombre);
+        console.log("HOLA", res.data);
+        
         // asignoAcademia(res.data.id)
         
       })
       .catch((err) => {
         console.log(err.response.data);
+        const errorMal="Asegúrese de que el usuario y el correo electrónico no estén ya en uso."
+        errores.segundoApellido = errorMal;
+        setErrores(errores);
       });
   };
+}
 
   const createProfesor = (userId) => {
     console.log("user", userId);
@@ -59,6 +113,8 @@ export const RegisterFormProfe = ({ mostrar=true }) => {
       .then((res) => {
         console.log("Profesor creado");
         console.log(res.data);
+        navigate(`/admin/academia/profesor/${res.data.profesor_id}`)
+
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -74,6 +130,7 @@ export const RegisterFormProfe = ({ mostrar=true }) => {
           .then((res) => {
             console.log("Profesor creado");
             console.log(res.data);
+
           })
           .catch((err) => {
             console.log(err.response.data);
@@ -86,26 +143,32 @@ export const RegisterFormProfe = ({ mostrar=true }) => {
     <div className="form-container">
       <h2>Formulario de Registro</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Nombre de usuario:</label>
-          <input type="text" id="username" className="form-control" value={username} onChange={handleUsernameChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" className="form-control" value={email} onChange={handleEmailChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Contraseña:</label>
-          <input type="password" id="password" className="form-control" value={password} onChange={handlePasswordChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="primerApellido">Primer Apellido:</label>
-          <input type="text" id="primerApellido" className="form-control" value={primerApellido} onChange={handlePrimerApellidoChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="segundoApellido">Segundo Apellido:</label>
-          <input type="text" id="segundoApellido" className="form-control" value={segundoApellido} onChange={handleSegundoApellidoChange} />
-        </div>
+      <div className="form-group">
+  <label htmlFor="username">Nombre de usuario:</label>
+  <input type="text" id="username" className="form-control" value={username} onChange={handleUsernameChange} />
+  {errores.username && <span className="error">{errores.username}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="email">Email:</label>
+  <input type="email" id="email" className="form-control" value={email} onChange={handleEmailChange} />
+  {errores.email && <span className="error">{errores.email}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="password">Contraseña:</label>
+  <input type="password" id="password" className="form-control" value={password} onChange={handlePasswordChange} />
+  {errores.password && <span className="error">{errores.password}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="primerApellido">Primer Apellido:</label>
+  <input type="text" id="primerApellido" className="form-control" value={primerApellido} onChange={handlePrimerApellidoChange} />
+  {errores.primerApellido && <span className="error">{errores.primerApellido}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="segundoApellido">Segundo Apellido:</label>
+  <input type="text" id="segundoApellido" className="form-control" value={segundoApellido} onChange={handleSegundoApellidoChange} />
+  {errores.segundoApellido && <span className="error">{errores.segundoApellido}</span>}
+</div>
+
         <button type="submit" className="btn btn-primary">Registrar</button>
       </form>
    

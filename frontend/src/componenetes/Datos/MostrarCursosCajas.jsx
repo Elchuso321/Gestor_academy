@@ -40,10 +40,10 @@ export const MostrarCursosCaja=()=>{
     useEffect(()=> {
         getNotes()
     },[])
-
+    
     return notes.map((button, index) => (
         
-        <ColorSquareComponent key={index} color="#5CB3FC" handleClick={()=>handleClickCurso(button.nombre)} texto={button.nombre} disposicion="12" />
+        <ColorSquareComponent disposicion="8" height="100" key={index}  letra="10" color="#5CB3FC" handleClick={()=>handleClickCurso(button.nombre)} texto={button.nombre}  />
     
     ));
 }

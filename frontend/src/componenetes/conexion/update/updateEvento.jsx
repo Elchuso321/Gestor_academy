@@ -44,10 +44,51 @@ export const UpdateFormEvento = ( {id} ) => {
     const handleProfesorChange = event => setEventoProfesor(event.target.value);
     const handleAulaChange = event => setAula(event.target.value);
 
+  const [errores, setErrores] = useState({});
+  function validarFormulario() {
+    const errores = {};
+  
+    if (diaSemana === '') {
+      errores.diaSemana = 'Debe seleccionar un día de la semana.';
+    }
+  
+    if (nombre.trim() === '') {
+      errores.nombre = 'El nombre es requerido.';
+    }
+  
+    if (descripcion.trim() === '') {
+      errores.descripcion = 'La descripción es requerida.';
+    }
+  
+    if (horaInicio === '') {
+      errores.horaInicio = 'La hora de inicio es requerida.';
+    }
+  
+    if (horaFin === '') {
+      errores.horaFin = 'La hora de fin es requerida.';
+    }
+  
+    if (curso === '') {
+      errores.curso = 'Debe seleccionar un curso.';
+    }
+  
+    if (eventoProfesor === '') {
+      errores.profesor = 'Debe seleccionar un profesor.';
+    }
+  
+    if (aula === '') {
+      errores.aula = 'Debe seleccionar un aula.';
+    }
+  
+    setErrores(errores);
+    console.log("profesores",profesor)
+    console.log(errores)
+    return Object.keys(errores).length === 0;
+  }
     
     useEffect(() => {
     
-            
+        const academ=JSON.parse(localStorage.getItem('academia'));    
         fetch(`${URL_API}/api/cursos/`, {
           method: 'GET',
           headers: {
@@ -55,7 +96,7 @@ export const UpdateFormEvento = ( {id} ) => {
           },
         })
           .then(response => response.json())
-          .then(data => setCursoOptions(data))
+          .then(data => setCursoOptions(data.filter((item) => item.academia === academ)))
           .catch(error => console.error('Error al obtener las opciones de curso:', error));
         // console.log("profe",profesorOptions)
         // Obtener opciones de profesores
@@ -66,7 +107,7 @@ export const UpdateFormEvento = ( {id} ) => {
           },
         })
           .then(response => response.json())
-          .then(data => setProfesorOptions(data))
+          .then(data => setProfesorOptions(data.filter((item) => item.usuario.academia.id === academ)))
           .catch(error => console.error('Error al obtener las opciones de profesor:', error));
           
         // Obtener opciones de aulas
@@ -77,13 +118,16 @@ export const UpdateFormEvento = ( {id} ) => {
           },
         })
           .then(response => response.json())
-          .then(data => setAulaOptions(data))
+          .then(data => setAulaOptions(data.filter((item) => item.academia === academ)))
           .catch(error => console.error('Error al obtener las opciones de aula:', error));
+          data => setAulaOptions(data)
       }, [authTokens.access]);
 
 
     const updateEvento = async (e) => {
       e.preventDefault();
+      const isValid = validarFormulario();
+      if (isValid) {
         try {
             const data = {
                 dia_semana: diaSemana,
@@ -92,7 +136,7 @@ export const UpdateFormEvento = ( {id} ) => {
                 hora_inicio: horaInicio,
                 hora_fin: horaFin,
                 curso: curso,
-                profesor: profesor.id,
+                profesor: eventoProfesor,
                 aula: aula
             };
             console.log("data123:", data)
@@ -114,12 +158,13 @@ export const UpdateFormEvento = ( {id} ) => {
             const updatedUser = await response.json();
             // Realiza las acciones necesarias con el usuario actualizado
             console.log('Profesor actualizado:', updatedUser);
+            window.location.reload();
         } catch (error) {
-            console.error(error);
+            console.error("ERROR",error.error);
             // Realiza el manejo de errores adecuado
         }
 
-
+      }
     }
 
 
@@ -209,9 +254,83 @@ export const UpdateFormEvento = ( {id} ) => {
     return (
         <>
             <div className="form-container">
-      <h2>Nuevo Evento</h2>
-      <form onSubmit={updateEvento}>
-        <div className="form-group">
+            <form onSubmit={updateEvento}>
+      <div className="form-group">
+  <label htmlFor="diaSemana">Día de la semana:</label>
+  <select id="diaSemana" className="form-control" value={diaSemana} onChange={handleDiaSemanaChange}>
+    <option value="">Seleccione un día de la semana</option>
+    <option value="L">Lunes</option>
+    <option value="M">Martes</option>
+    <option value="X">Miércoles</option>
+    <option value="J">Jueves</option>
+    <option value="V">Viernes</option>
+    <option value="S">Sábado</option>
+    <option value="D">Domingo</option>
+  </select>
+  {errores.diaSemana && <span className="error" style={{color: "red"}}>{errores.diaSemana}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="nombre">Nombre:</label>
+  <input type="text" id="nombre" className="form-control" value={nombre} onChange={handleNombreChange} />
+  {errores.nombre && <span className="error" style={{color: "red"}}>{errores.nombre}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="descripcion">Descripción:</label>
+  <textarea id="descripcion" className="form-control" value={descripcion} onChange={handleDescripcionChange} />
+  {errores.descripcion && <span className="error" style={{color: "red"}}>{errores.descripcion}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="horaInicio">Hora de inicio:</label>
+  <input type="time" id="horaInicio" className="form-control" value={horaInicio} onChange={handleHoraInicioChange} />
+  {errores.horaInicio && <span className="error" style={{color: "red"}}>{errores.horaInicio}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="horaFin">Hora de fin:</label>
+  <input type="time" id="horaFin" className="form-control" value={horaFin} onChange={handleHoraFinChange} />
+  {errores.horaFin && <span className="error" style={{color: "red"}}>{errores.horaFin}</span>}
+</div>
+{/* <div className="form-group">
+  <label htmlFor="curso">Curso:</label>
+  <select id="curso" className="form-control" value={curso} onChange={handleCursoChange}>
+    <option value="">Seleccione un curso</option>
+    {cursoOptions.map(curso => (
+      <option key={curso.id} value={curso.id}>{curso.nombre}</option>
+    ))}
+  </select>
+  {errores.curso && <span className="error" style={{color: "red"}}>{errores.curso}</span>}
+</div> */}
+<div className="form-group">
+  <label htmlFor="profesor">Profesor:</label>
+  <select id="profesor" className="form-control" value={eventoProfesor} onChange={handleProfesorChange}>
+    <option value="">Seleccione un profesor</option>
+    {profesorOptions.map(profesor => (
+      <option key={profesor.id} value={profesor.id}>{profesor.usuario.nombre}</option>
+    ))}
+  </select>
+  
+  {errores.profesor && <span className="error" style={{color: "red"}}>{errores.profesor}</span>}
+</div>
+<div className="form-group">
+  <label htmlFor="aula">Aula:</label>
+  <select id="aula" className="form-control" value={aula} onChange={handleAulaChange}>
+    <option value="">Seleccione un aula</option>
+    {aulaOptions.map(aula => (
+      <option key={aula.id} value={aula.id}>{aula.nombre}</option>
+    ))}
+  </select>
+  {errores.aula && <span className="error" style={{color: "red"}}>{errores.aula}</span>}
+</div> 
+        <button type="submit" className="btn btn-primary">Crear Evento</button>
+      </form>
+    </div>
+</>
+);
+};
+
+      {/* <h2>Nuevo Evento</h2>
+      <form onSubmit={updateEvento}> */}
+
+        {/* <div className="form-group">
           <label htmlFor="diaSemana">Día de la semana:</label>
           <select id="diaSemana" className="form-control" value={diaSemana} onChange={handleDiaSemanaChange}>
             <option value="">Seleccione un día de la semana</option>
@@ -266,13 +385,9 @@ export const UpdateFormEvento = ( {id} ) => {
               <option key={aula.id} value={aula.id}>{aula.nombre}</option>
             ))}
           </select>
-        </div>
-        <button type="submit" className="btn btn-primary">Modificar Evento</button>
-      </form>
+        </div> */}
+        {/* <button type="submit" className="btn btn-primary">Modificar Evento</button>
+      </form> */}
       {/* {profesor.diaSemana} */}
     {/* <p>{diaSemana},{nombre},{descripcion},{horaInicio},{horaFin},{cursoOptions},{profesorOptions},{aulaOptions},{curso},{profesor},{aula}</p> */}
-    </div>
-
-        </>
-    );
-};
+    

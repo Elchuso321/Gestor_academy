@@ -13,9 +13,10 @@ export const BotonCrearAula = () => {
   const handleAcademiaChange = (event) => setAcademia(event.target.value);
 
   const crearAula = async () => {
+    const academ=JSON.parse(localStorage.getItem('academia'))
     const data = {
       nombre: nombre,
-      academia: academia, // Reemplaza academia con el ID de la academia a la que pertenece el aula
+      academia: academ, // Reemplaza academia con el ID de la academia a la que pertenece el aula
     };
 
     try {
@@ -81,7 +82,7 @@ export const BotonCrearAula = () => {
             <label htmlFor="nombre">Nombre:</label>
             <input type="text" id="nombre" className="form-control" value={nombre} onChange={handleNombreChange} />
           </div>
-          {( localStorage.getItem('academia') && localStorage.getItem('academia') != 'Todo') && (
+          {/* {( localStorage.getItem('academia') && localStorage.getItem('academia') != 'Todo') && (
             <div className="form-group">
               <label htmlFor="academia">Academia:</label>
               <select id="academia" className="form-control" value={academia} onChange={handleAcademiaChange}>
@@ -94,7 +95,7 @@ export const BotonCrearAula = () => {
               </select>
            
               </div>
-            )}
+            )} */}
           <button type="submit" className="btn btn-primary">Registrar</button>
         </form>
       </div>

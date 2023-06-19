@@ -3,21 +3,25 @@ import { slide as SlideMenu } from 'react-burger-menu';
 import React, { useState,useEffect,useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 import AuthContext from '../Ultimo/AuthContext';
-
+import { NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { Menu1 } from './MenuPrueba';
 
 export const NavbarAdminHome = () => {
+  const [showSubMenu, setShowSubMenu] = useState(false);
+  const handleSubMenu = () => {
+    setShowSubMenu(!showSubMenu);
+  };
+  const navigate=useNavigate()
+  const usuario = JSON.parse(localStorage.getItem('usuario')) || null;
   
   let {setAuthTokens,setUser} = useContext(AuthContext)
-  const navigate=useNavigate()
-  const usuario = localStorage.getItem('usuario') || 'desconocido';
-
   const logoutUser = () => {
       setAuthTokens(null)
       setUser(null)
       localStorage.removeItem('authTokens')
+      localStorage.clear()
       // esto para redirigir en caso de que no este logeado
       navigate('/')
   };
@@ -50,11 +54,16 @@ export const NavbarAdminHome = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
       <div className="d-flex align-items-center ml-3">
-           <p className="m-3 mr-4" >Bienvenido {usuario}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      <NavDropdown className="mx-3" title={`Bienvenido ${usuario}`} id="basic-nav-dropdown" onClick={handleSubMenu} show={showSubMenu}>
+                <NavDropdown.Item onClick={logoutUser} href="">Cerrar sesion</NavDropdown.Item>
+                {/* <NavDropdown.Item href="/productos/producto-2">Producto 2</NavDropdown.Item>
+                <NavDropdown.Item href="/productos/producto-3">Producto 3</NavDropdown.Item> */}
+              </NavDropdown>
+           {/* <p className="m-3 mr-4" >Bienvenido {usuario}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
            
            <Button variant="outline-secondary" className="ml-3" onClick={logoutUser}>
              Cerrar sesión
-           </Button>
+           </Button> */}
          </div>
        </Navbar.Collapse>
     </Navbar>

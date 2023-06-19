@@ -22,6 +22,8 @@ export const MostrarAulas=()=>{
        
         if(response.status === 200){
             console.log("academias:",data)
+            const academ=JSON.parse(localStorage.getItem('academia'));
+            data=data.filter((item) => item.academia === academ)
             setNotes(data)
             
 
@@ -37,14 +39,31 @@ export const MostrarAulas=()=>{
     },[])
 
     return (
-        <div>
-
-        <h3>Academias</h3>
-            <ul>
-                {notes.map(note => (
-                    <li key={note.id} >{note.nombre}</li>
-                ))}
-            </ul>
+        <div style={{ border: "1px solid #ccc", background: "#fff", padding: "1rem", maxHeight: "300px", overflowY: "auto" }}>
+        <h3 style={{ textAlign: "center" }}>Academias</h3>
+        <hr />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+          {notes.map((note) => (
+            <div
+              key={note.id}
+              style={{
+                cursor: "pointer",
+                padding: "0.5rem",
+                marginBottom: "0.5rem",
+                borderRadius: "4px",
+                transition: "background-color 0.3s",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#f5f5f5")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "transparent")}
+            >
+              {note.nombre}
+            </div>
+          ))}
         </div>
-    )
+      </div>
+      
+    )      
 }

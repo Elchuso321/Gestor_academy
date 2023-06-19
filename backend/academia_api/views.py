@@ -53,7 +53,7 @@ class ProfesorCreateView(generics.CreateAPIView):
         # Busca el usuario por su nombre
         try:
             print("\n\n HOLA:",usuario_nombre)
-            usuario = User.objects.get(nombre=usuario_nombre['username'])
+            usuario = User.objects.get(username=usuario_nombre['username'])
         except User.DoesNotExist:
             return Response(
                 {'message': 'El usuario no existe'},
@@ -108,9 +108,10 @@ class AlumnoCreateView(generics.CreateAPIView):
             )
 
         # Puedes devolver una respuesta personalizada si lo deseas
-        response_data = {
-            'message': 'Alumno creado exitosamente',
-        }
+        response_data =alumno.id
+        # {
+        #     'message': 'Alumno creado exitosamente',
+        # }
         return Response(response_data, status=status.HTTP_201_CREATED)
     
 
@@ -590,6 +591,7 @@ def update_clase(request, pk):
         curso = Curso.objects.get(pk=pk)
         serializer = CursoSerializerModificar(curso, data=request.data)
         if serializer.is_valid():
+            
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -601,8 +603,10 @@ def update_evento(request, pk):
     try:
         evento = Evento.objects.get(pk=pk)
         serializer = EventoSerializerModificar(evento, data=request.data)
+        print("\n\n\n HASTA AQUI LLEGO \n\n\n",serializer)
+        print("\n\n\n",evento)
         if serializer.is_valid():
-            print("\n\n\n HASTA AQUI LLEGO \n\n\n",serializer)
+
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

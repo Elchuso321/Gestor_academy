@@ -48,7 +48,7 @@ export const Footer = () => {
               </a>
             </section>
 
-            <section className="mb-5">
+            <section className="">
               <div className="row d-flex justify-content-center">
                 <div className="col-lg-3 col-md-6 mb-4">
                   <div className="card">
@@ -68,7 +68,7 @@ export const Footer = () => {
                   </div>
                 </div>
 
-                <div className="col-lg-3 col-md-6 mb-4">
+                <div className="col-lg-3 col-md-6 ">
                   <div className="card">
                     <div className="card-body">
                       <h5 className="card-title">Teléfono</h5>
@@ -90,18 +90,18 @@ export const Footer = () => {
 
             
 
-            <div className="text-center text-md-start">
+            {/* <div className="text-center text-md-start">
               <p>
                 © {new Date().getFullYear()}  Todos los derechos reservados.
               </p>
-            </div>
+            </div> */}
           </div>
         </footer>
       </div>
     </div>
   );
 };
-
+export default Footer;
 // import React from 'react';
 // import { FaWhatsapp, FaFacebookSquare, FaTiktok } from 'react-icons/fa';
 

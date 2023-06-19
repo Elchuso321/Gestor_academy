@@ -20,20 +20,14 @@ export const AdminAulas = () => {
     <>
       <NavbarAdminAcademia />
       <br /><br /><br /><br />
+      <div style={{ display: "flex" }}>
+      <div className="m-5" style={{ flex: "1", marginRight: "2rem" }}>
       <MostrarAulas/>
+      </div>
+      <div className="m-5" style={{ flex: "1" }}>
       <BotonCrearAula/>
-      {/* {mostrarLista ? (
-         
-          <h2>Lista</h2>
-          <MostrarProfesores mostrar={toggleMostrarLista}/>
-        </>
-      ) : (
-        <>
-        
-          <h2>Crear Profesor</h2>
-          <RegisterFormProfe mostrar={toggleMostrarLista}/> 
-        
-      )}*/}
+      </div>
+      </div>
     </>
   );
 };

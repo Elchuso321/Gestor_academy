@@ -33,11 +33,11 @@ const ModalContent = styled.div`
   /* Estilos para el contenido del modal */
   background-color: white;
     padding: 30px;
-    width: 800px; /* Establece el ancho máximo deseado */
-    height: 80vh; /* Establece la altura máxima en relación a la altura de la ventana */
-    overflow-y: auto; /* Habilita el desplazamiento vertical cuando se supere la altura máxima */
-
-`;
+    
+    `;
+    // width: 800px; /* Establece el ancho máximo deseado */
+    // height: 80vh; /* Establece la altura máxima en relación a la altura de la ventana */
+    // overflow-y: auto; /* Habilita el desplazamiento vertical cuando se supere la altura máxima */
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) {
@@ -150,7 +150,7 @@ export const VistaDetalleClase = ({ id = 0 }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log("data:", data)
+          console.log("clases:", data)
           setCurso(data);
           console.log("profe:", curso)
         } else {
@@ -215,7 +215,13 @@ export const VistaDetalleClase = ({ id = 0 }) => {
 
         if (response.ok) {
           const data = await response.json();
-          setProfesor(data);
+          console.log("profesores:", data)
+          const profesoresIDs = notes.map(evento => evento.profesor);
+          console.log("profesoresIDs:", profesoresIDs)
+          console.log("eventosNotes", notes)
+          const profesoresEnEventos = Object.values(data).filter(profesor => profesoresIDs.includes(profesor.id));
+          console.log("profesoresEnEventos:", profesoresEnEventos)
+          setProfesor(profesoresEnEventos);
         } else if (response.statusText === 'Unauthorized') {
           console.log('Fallo');
         }
@@ -225,7 +231,7 @@ export const VistaDetalleClase = ({ id = 0 }) => {
     };
 
     getNotes();
-  }, [])
+  }, [notes])
 
   useEffect(() => {
     const getNotes = async () => {
@@ -241,7 +247,11 @@ export const VistaDetalleClase = ({ id = 0 }) => {
         if (response.ok) {
           const data = await response.json();
           console.log("alumnos:", data)
-          setAlumnos(data);
+          const cursosIDs = notes.map(curso => curso.id);
+          console.log("cursosIDs:", cursosIDs)
+          const alumnosConCursos = data.filter(alumno => alumno.curso.some(curso => cursosIDs.includes(curso.id)));
+          console.log("alumnosConCursos:", alumnosConCursos)
+          setAlumnos(alumnosConCursos);
         } else if (response.statusText === 'Unauthorized') {
           console.log('Fallo');
         }
@@ -251,7 +261,7 @@ export const VistaDetalleClase = ({ id = 0 }) => {
     };
 
     getNotes();
-  }, [])
+  }, [notes])
 
 
 
@@ -263,9 +273,7 @@ export const VistaDetalleClase = ({ id = 0 }) => {
           <div className="col-lg-8">
             {/* Primer div con el 70% de ancho */}
             {curso ? (
-
               <div className="container">
-
                 <div className="row">
                   <div className="col-sm-6" style={{ height: '290px' }}>
                     <div className="profile-picture"> {/* Estilo para el cuadro de la foto de perfil */}
@@ -282,37 +290,25 @@ export const VistaDetalleClase = ({ id = 0 }) => {
                     <div className="profile-details"> {/* Estilo para el cuadro del nombre y la biografía */}
                       <span><strong className='h3'>{curso.nombre} </strong> </span>
                       {/* Nombre en grande del niño */}
-                      <div className="bio"> {/* Estilo para el cuadro de la biografía */}
-                        <div className="border border-black p-4" style={{ height: '200px', overflowY: 'auto' }}>
+                      <div className="m-2 rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+                        <div className="p-4" style={{ height: '200px', overflowY: 'auto' }}>
                           <h2 className="text-lg font-bold mb-4">Info</h2>
                           <div>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae voluptates quas, molestias optio provident dolor excepturi nesciunt porro eveniet, tenetur amet voluptatibus aperiam quaerat atque nulla quibusdam mollitia totam et!{curso.descripcion}
+                            {curso.descripcion}
                           </div>
                         </div>
-
                       </div>
-
-<br />
+                    <br />
+                    <div className="d-flex justify-content-center">
                       <button onClick={()=>handleTextClickChat(curso.nombre)} style={buttonStyle}>
                         <span style={iconStyle}>&#128488;</span>
                         <span style={{ marginLeft: '5px' }}> chat</span>
                       </button>
-                                           
+                      </div>                                      
                     </div>
                   </div>
                 </div>
               </div>
-
-
-
-
-
-
-
-
-
-
-
             ) : (
               <p>Cargando información del curso...</p>
             )}
@@ -332,18 +328,16 @@ export const VistaDetalleClase = ({ id = 0 }) => {
               </button>
               <Modal isOpen={isModalOpenCrear} onClose={handleCloseModal}>
 
-                <CrearEvento />
+                <CrearEvento idCurso={curso.id} />
               </Modal>
             </div>
             {/* Segundo div con el 30% de ancho */}
             <div className="row mt-4">
               <div className="col-md-6">
-                <div className="rectangle border border-dark text-center p-3 mb-4">
-                  <h3>Profesores</h3>
+              <div className="m-2 rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+                  <h4 >Profesores</h4>
                   <hr />
                   <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-                    {/* Rectángulo más grande */}
-
                     {profesor.map((note) => (
                       <p key={note.id}>{note.usuario.nombre}</p>
                     ))}
@@ -351,8 +345,8 @@ export const VistaDetalleClase = ({ id = 0 }) => {
                 </div>
               </div>
               <div className="col-md-6">
-                <div className="rectangle border border-dark text-center p-3 mb-4">
-                  <h3>Alumnos</h3>
+              <div className="m-2 rectangle border border-dark text-center p-3" style={{ background: 'white', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }} >
+                  <h4>Alumnos</h4>
                   <hr />
                   <div style={{ maxHeight: "200px", overflowY: "auto" }}>
                     {/* Rectángulo más grande */}

@@ -52,16 +52,17 @@ class RegisterView(generics.GenericAPIView):
         # current_site = get_current_site(request).domain
 
         # HARDCODED
-        # current_site='http://academygestor.vercel.app'+'/confirmacion/cuenta/'
-        current_site='http://localhost:8000'+'/confirmacion/cuenta/'
+        current_site='http://academygestor.vercel.app'+'/admin/academia/confirmacion/'
+        # current_site='http://localhost:5173'+'/admin/academia/confirmacion/'
         # relativeLink = reverse('email-verify')
         # relativeLink
         absurl = current_site+"?token="+str(token)
-        email_body = 'Hi '+user.username + \
-            ' HOLAAAAA \n' + absurl
+        email_body = 'Hi '+user.username + ' HOLAAAAA \n' + absurl
         data = {'email_body': email_body, 'to_email': user.email,
                 'email_subject': 'Verify your email'}
 
+
+        print("\n\nUSUAARIO\n\n",user.id)
         Util.send_email(data)
         return Response(user_data, status=status.HTTP_201_CREATED)
 
@@ -273,6 +274,21 @@ class MessageApiView(views.APIView):
                 data = {'email_body': email_body, 'to_email': usuario.email,
                         'email_subject': 'Mensaje recibido de la clase: '+clase}
                 Util.send_email(data)
+
+        return Response(status=status.HTTP_200_OK)
+    
+class EmailApiView(views.APIView):
+    def post(self, request):
+        username = request.data['username']
+        message_content = request.data['message']
+        subject=request.data['subject']
+        # saco al usuario que tiene esa id 
+        usuario = User.objects.get(id=username)
+        print(usuario.email)
+        
+        data = {'email_body': message_content, 'to_email': usuario.email,
+                'email_subject': subject}
+        Util.send_email(data)
 
         return Response(status=status.HTTP_200_OK)
     

@@ -12,6 +12,7 @@ export  const LogOut=()=> {
 		localStorage.removeItem('access_token');
 		localStorage.removeItem('refresh_token');
 		axiosInstance.defaults.headers['Authorization'] = null;
+		localStorage.removeItem('group');
 		// history.push('/login');
 	})
 	

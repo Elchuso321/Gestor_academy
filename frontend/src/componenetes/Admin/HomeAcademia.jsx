@@ -42,7 +42,7 @@ export const HomeAcademia=()=>{
         <ColorSquareComponent color="#5CB3FC" handleClick={handleClickBoletines} texto="Boletines" disposicion="4"/>
         <ColorSquareComponent color="#5CB3FC" handleClick={handleClickPagos} texto="Pagos" disposicion="4"/>
         <ColorSquareComponent color="#5CB3FC" handleClick={handleClickAulas} texto="Aulas" disposicion="4"/>
-        <ColorSquareComponent color="#5CB3FC" handleClick={handleClickEventos} texto="Eventos" disposicion="4"/>
+        {/* <ColorSquareComponent color="#5CB3FC" handleClick={handleClickEventos} texto="Eventos" disposicion="4"/> */}
       </div>
     </div>
   </div>

@@ -13,11 +13,11 @@ export const InicioRoute=()=>{
         <>
         <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="/confirmacion/:numId" element={<LoginConfirmation/>}/>
             <Route path="/alumnos" element={<HomeAlumno/>}/>
             <Route path="/profesores" element={<HomeProfesor/>}/>
             <Route path="/admin" element={<HomeAdmin/>}/>
-            <Route path="/confirmacion/cuenta/:token" element={<LoginConfirmation/>}/>
-            
+            {/* <Route  element={<ConversacionesAdmin/>} path="/academia/clase/chat/:numId"/> */}
             {/* <Route path="/login" element={<LoginPage/>}/>
             <Route path="/about" element={<AboutPage/>}/>
             <Route path="/*" element={<Navigate to="/about"/>}/> */}

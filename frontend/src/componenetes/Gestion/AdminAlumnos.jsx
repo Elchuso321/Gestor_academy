@@ -7,7 +7,7 @@ import  {NavbarAdminAcademia} from "../Admin/NavbarAdmin_Academia"
 import axios from 'axios';
 import { MostrarAlumnos } from '../Datos/MostrarAlumnos';
 import { RegisterFormAlumno } from '../conexion/register/RegisterComponenteAlumno';
-import { RegisterFormAlumno1 } from '../conexion/register/RegisterAlumnos';
+// import { RegisterFormAlumno1 } from '../conexion/register/RegisterAlumnos';
 
 export const AdminAlumnos = () => {
   

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 import datetime
+from django.core.exceptions import ValidationError
 
 class Academia(models.Model):
     nombre=models.CharField(max_length=50)
@@ -21,7 +22,7 @@ class Curso(models.Model):
     academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='cursos')
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     ingles=models.BooleanField(default=True,help_text="Marcar si la curso no es de apoyo")
-    imagen = models.ImageField(upload_to='cursos/', default='cursos/Libro-de-dibujo.jpg',null=True, blank=True)
+    imagen = models.ImageField(upload_to='cursos/', default='cursos/libro3.png',null=True, blank=True)
     
 
     def __str__(self):
@@ -62,9 +63,33 @@ class Evento(models.Model):
     aula=models.ForeignKey(Aula, null=True,on_delete=models.SET_NULL,related_name='eventos')
     def __str__(self):
         return f'{self.nombre}'
-    class Meta:
-        unique_together = ('dia_semana', 'hora_inicio', 'aula')
-
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+    def clean(self):
+        eventos_curso = Evento.objects.filter(
+            curso__academia=self.curso.academia,
+            profesor=self.profesor,
+            hora_inicio__lt=self.hora_fin,
+            hora_fin__gt=self.hora_inicio,
+            dia_semana=self.dia_semana,
+        )
+        if self.pk:
+            eventos_curso = eventos_curso.exclude(pk=self.pk) 
+        if eventos_curso.exists():
+            raise ValidationError("El curso ya tiene otro evento en el mismo horario con el mismo profesor.")
+        eventos_curso = Evento.objects.filter(
+            curso__academia=self.curso.academia,
+            aula=self.aula,
+            hora_inicio__lt=self.hora_fin,
+            hora_fin__gt=self.hora_inicio,
+            dia_semana=self.dia_semana,
+        )
+        if self.pk:
+            eventos_curso = eventos_curso.exclude(pk=self.pk)  
+        if eventos_curso.exists():
+            raise ValidationError("El curso ya tiene otro evento en el mismo horario en la misma aula.")
+        
 class Alumno(models.Model):
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     nombre_padre = models.CharField(max_length=50,null=True,blank=True)
@@ -73,7 +98,7 @@ class Alumno(models.Model):
     telefono_padre = models.CharField(max_length=9,null=True,blank=True)
     telefono_madre = models.CharField(max_length=9,null=True,blank=True)
     fecha_nacimiento = models.DateField(null=True)
-    foto_perfil=models.ImageField(upload_to='alumnos/', default='alumnos/alumno.jpeg',null=True, blank=True)
+    foto_perfil=models.ImageField(upload_to='alumnos/', default='alumnos/AlumnoBueno.jpg',null=True, blank=True)
     curso=models.ManyToManyField(Evento,related_name='eventos')
     # academia=models.ForeignKey(Academia, on_delete=models.SET_NULL,null=True,related_name='alumnos')
     def __str__(self):

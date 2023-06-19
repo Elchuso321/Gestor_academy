@@ -4,13 +4,7 @@ import React from 'react'
 export const Tabla=(props)=>{
  
   const { diccionario } = props;
-  
-  // Extraemos las keys del diccionario
-  // const keys = Object.keys(diccionario);
-
-  // Obtenemos la lista de elementos en todas las keys
-  // const elementos = [...new Set(keys.map((key) => Object.keys(diccionario[key])).flat())];
-
+ 
   return (
     <table>
       <thead>

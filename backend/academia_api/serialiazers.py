@@ -198,7 +198,7 @@ class ProfesorSerializerModificar(serializers.ModelSerializer):
         fields = ['descripcion', 'telefono']
 
 class CursoSerializerModificar(serializers.ModelSerializer):
-    academia=serializers.CharField(source='academia')
+    # academia=serializers.CharField()
     class Meta:
         model = Curso
         fields = ['nombre', 'descripcion','academia','precio','ingles']
@@ -207,7 +207,7 @@ class CursoSerializerModificar(serializers.ModelSerializer):
 class EventoSerializerModificar(serializers.ModelSerializer):
     class Meta:
         model = Evento
-        fields ="__all__"
+        fields =["nombre","descripcion","dia_semana","hora_inicio","hora_fin","curso","profesor","aula"]
 
 class AlumnoSerializerModificar(serializers.ModelSerializer):
     curso = serializers.ListField(child=serializers.CharField())
